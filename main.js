@@ -1,18 +1,16 @@
-define(["./requireModules/puppets/puppets",
+define(["./loader/libraries/puppets",
 		"requestAnimationFrame",
 		"stats",
-		"./requireModules/box2d",
-		"./requireModules/loadModules",
-		"./requireModules/loadGame"], function(Puppets, requestAnimationFrame, stats, Box2D, Modules, Game){
+		"box2d",
+		"./loader/loadModules",
+		"./loader/loadGame"], function(Puppets, requestAnimationFrame, stats, Box2D, Modules, Game){
 
 	var stats = new Stats();
 	stats.setMode(0);
-	
-	//align right 
-	stats.domElement.className = "fps";
 	document.body.appendChild( stats.domElement );
+
 	var init = function(){
-		console.log(Game.Level());
+		Game.init();
 	};
 	var update = function()
     {
