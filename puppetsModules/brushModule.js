@@ -12,14 +12,16 @@ define(["../loader/libraries/puppets"], function(Puppets){
 
 	Puppets.system("drawOnStencil", function(contextCanvas, contextStencil){
 		var cameraPosition = contextStencil.cameraPosition;
-		var lastCameraPosition = contextStencil.lastCameraPosition;
-		contextCanvas.context.translate(lastCameraPosition.x - cameraPosition.x, lastCameraPosition.y - cameraPosition.y);
+		var WIDTH = contextStencil.buffer.width;
+		var HEIGHT = contextStencil.buffer.height;
 
 		contextCanvas.context.globalCompositeOperation = 'destination-in';
-		contextCanvas.context.drawImage(contextStencil.buffer, -cameraPosition.x, -cameraPosition.y, contextStencil.buffer.width, contextStencil.buffer.height);
-		contextStencil.stencil.drawImage(contextCanvas.canvas, -cameraPosition.x, -cameraPosition.y, contextStencil.buffer.width, contextStencil.buffer.height);
+		contextCanvas.context.drawImage(contextStencil.buffer, cameraPosition.x, cameraPosition.y,
+										 WIDTH, HEIGHT,
+										 0, 0, WIDTH, HEIGHT);
 
-		lastCameraPosition.x = cameraPosition.x;
-		lastCameraPosition.y = cameraPosition.y;
+		contextStencil.stencil.drawImage(contextCanvas.canvas, 0, 0,
+										 WIDTH, HEIGHT);
+
 	}, {components : ["canvasContext", "contextStencil"]})
 });

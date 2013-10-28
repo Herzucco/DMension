@@ -1,12 +1,12 @@
 define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 	var getColorAt = function(position, width, data){
-		var index = (width * 4 * position.y ) + (position.x * 4);
+	var index = ((position.x | 0) + (position.y | 0) * width);
 
     	if (data === null || index < 0 || index >= data.length)
         	return null;
 
 
-    	return {index:index, r:data[index],g:data[index+1],b:data[index+2],a:data[index+3]};
+    	return {index:index, r:data[index] >> 24 ,g:data[index] >> 16,b:data[index] >> 8,a:data[index]};
 	};
 	var Level = function(config){
 		
@@ -26,6 +26,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 		var camera = Game.cameraController.components;
 		var cameraPosition = camera.position;
 
+		var PIXELS_ARRAY = Game.constants.PIXELS_ARRAY;
 		Puppets.createEntity("box", {
 			position : {
 				x : 0,
@@ -82,7 +83,15 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 											context : mainCanvas.canvasContext.context,
 											cameraPosition : cameraPosition
 										}}, "dynamics");
-		Puppets.addComponent(box, "colorColliderBox", {tag : "redBox", colorAccuracy : 5});
+		Puppets.addComponent(box, "colorColliderBox", {tag : "redBox", colorAccuracy : 5, onColorCollisionEnter : function(colors){
+			this.components.renderBox.color = "rgba("+colors.r+","+colors.b+","+colors.g+","+colors.a+")";
+		},
+		onColorCollisionExit : function(colors){
+			this.components.renderBox.color = "red";
+		},
+		testWidth : WIDTH,
+		data : PIXELS_ARRAY
+		});
 		Puppets.addComponent(box, "b2listener", {
 			world : world,
 			preSolve : function(contact, manifold){
@@ -92,10 +101,10 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 				var entities = [ contact.GetFixtureA().GetBody().GetUserData().entity, contact.GetFixtureB().GetBody().GetUserData().entity ];
 				var componentsA = Puppets.getComponents(entities[0])[0];
 				var componentsB = Puppets.getComponents(entities[1])[0];
-				if(!componentsA.hasOwnProperty("canvasContext") && !componentsB.hasOwnProperty("canvasContext"))
+				if(!componentsA.hasOwnProperty("colorColliderBox") && !componentsB.hasOwnProperty("colorColliderBox"))
 					return;
 				else{
-					if(componentsA.hasOwnProperty("canvasContext")){
+					if(componentsA.hasOwnProperty("colorColliderBox")){
 						var player = componentsA;
 						var other = componentsB;
 						var position = {x : t.m_points[1].x*SCALE >> 0, y : t.m_points[1].y*SCALE >> 0};
@@ -106,13 +115,14 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 						var position = {x : t.m_points[0].x*SCALE >>0, y : t.m_points[0].y*SCALE >> 0};
 					}
 
-					// var color = getColorAt(position, WIDTH, firstBufferCanvas.data.colorData);
-					if(!player.colorColliderBox.colorColliding)
+					var color = getColorAt(position, WIDTH, Game.constants.PIXELS_ARRAY);
+					if(player.colorColliderBox.colorColliding && (color !== null && (color.r || color.b || color.g)))
+						contact.SetEnabled( true );
+					else
 						contact.SetEnabled( false );
 				}
 			}
 		});
-		Puppets.addComponent(box, "canvasContext", firstBufferCanvas);
 		Puppets.createEntity("simpleBox2dBox", {b2polygon : {world : world,
 											x : 0,
 											y : (HEIGHT/SCALE)-1,

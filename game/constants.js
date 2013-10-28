@@ -1,7 +1,9 @@
-define([], function(){
+define(["./canvas/pixelsManager"], function(PIXELS_ARRAY){
 	return {
 		WIDTH : 600,
 		HEIGHT : 400,
-		SCALE : 30
+		SCALE : 30,
+		PIXELS_ARRAY : PIXELS_ARRAY.PIXELS_ARRAY,
+		isLittleEndian : PIXELS_ARRAY.isLittleEndian
 	}
 });

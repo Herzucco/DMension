@@ -17,8 +17,11 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 				onMouseUp : this.config.onMouseUp
 			}
 		});
-		Puppets.addComponent(mouse, "renderCircle", {canvas : canvas,
-													 context : drawPaint, color : this.config.color}, false);
+		Puppets.addComponent(mouse, "renderCircle", {	canvas : canvas,
+														context : drawPaint, color : this.config.color,
+														cameraPosition : Game.cameraController.components.position,
+														PIXELS_ARRAY : Game.constants.PIXELS_ARRAY, isLittleEndian : Game.constants.isLittleEndian
+													},  false);
 		// else
 					// 	Puppets.addComponent(this.id, "renderCircle", {canvas : mainCanvas, context : contextBuffer, clip : true})
 

@@ -31,9 +31,8 @@ function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, 
 			},
 			buffer : firstDrawPaint.components.canvasContext,
 			stencil : mainCanvas.components.canvasContext,
-			cameraPosition : Game.cameraController.components.position
+			cameraPosition : Game.cameraController.components.position,
 		});
-
 		firstDimension.drawPaint = firstDrawPaint;
 
 		this.mainCanvas = mainCanvas;
