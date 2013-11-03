@@ -18,12 +18,43 @@ function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, 
 			}
 		});
 
-		var firstDrawPaint = CanvasCreator({
+		var firstDrawDimension = CanvasCreator({
 			collection : "canvas",
 			canvas : this.configFirstDimension.canvas
 		});
+		var firstDrawPaint = CanvasCreator({
+			collection : "canvas",
+			canvas : document.getElementById("buffer1")
+		});
+
+		var secondDrawPaint = CanvasCreator({
+			collection : "canvas",
+			canvas : document.getElementById("buffer2")
+		});
+
+		var thirdDrawPaint = CanvasCreator({
+			collection : "canvas",
+			canvas : document.getElementById("buffer3")
+		});
+
+		var fourthDrawPaint = CanvasCreator({
+			collection : "canvas",
+			canvas : document.createElement("canvas")
+		});
 
 		firstDimension = CanvasDimensionCreator({
+			collection : "canvas",
+			size : {
+				width : Game.constants.WIDTH,
+				height : Game.constants.HEIGHT,
+			},
+			buffer : firstDrawDimension.components.canvasContext,
+			stencil : mainCanvas.components.canvasContext,
+			cameraPosition : Game.cameraController.components.position,
+		});
+		firstDimension.drawPaint = firstDrawDimension;
+
+		firstColor = CanvasDimensionCreator({
 			collection : "canvas",
 			size : {
 				width : Game.constants.WIDTH,
@@ -33,10 +64,51 @@ function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, 
 			stencil : mainCanvas.components.canvasContext,
 			cameraPosition : Game.cameraController.components.position,
 		});
-		firstDimension.drawPaint = firstDrawPaint;
+		firstColor.drawPaint = firstDrawPaint;
+
+		secondColor = CanvasDimensionCreator({
+			collection : "canvas",
+			size : {
+				width : Game.constants.WIDTH,
+				height : Game.constants.HEIGHT,
+			},
+			buffer : secondDrawPaint.components.canvasContext,
+			stencil : mainCanvas.components.canvasContext,
+			cameraPosition : Game.cameraController.components.position,
+		});
+		secondColor.drawPaint = secondDrawPaint;
+
+		thirdColor = CanvasDimensionCreator({
+			collection : "canvas",
+			size : {
+				width : Game.constants.WIDTH,
+				height : Game.constants.HEIGHT,
+			},
+			buffer : thirdDrawPaint.components.canvasContext,
+			stencil : mainCanvas.components.canvasContext,
+			cameraPosition : Game.cameraController.components.position,
+		});
+		thirdColor.drawPaint = thirdDrawPaint;
+
+		fourthColor = CanvasDimensionCreator({
+			collection : "canvas",
+			size : {
+				width : Game.constants.WIDTH,
+				height : Game.constants.HEIGHT,
+			},
+			buffer : fourthDrawPaint.components.canvasContext,
+			stencil : mainCanvas.components.canvasContext,
+			cameraPosition : Game.cameraController.components.position,
+		});
+		fourthColor.drawPaint = fourthDrawPaint;
 
 		this.mainCanvas = mainCanvas;
 		this.firstDimension = firstDimension;
+		this.firstColor = firstColor;
+		this.secondColor = secondColor;
+		this.thirdColor = thirdColor;
+		this.fourthColor = fourthColor;
+
 	};
 
 	return new CanvasController(configMainCanvas, configFirstDimension);

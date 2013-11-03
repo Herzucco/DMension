@@ -1,5 +1,6 @@
 define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 	Puppets.component("target", function(data, entity){
+		console.log(data);
 		return {
 			position : data.position || {
 				x : 0,
@@ -9,6 +10,10 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 			maxRelativeY : data.maxRelativeY || 0,
 			minRelativeX : data.minRelativeX || 0,
 			minRelativeY : data.minRelativeY || 0,
+			minX : data.minX,
+			minY : data.minY,
+			maxX : data.maxX,
+			maxY : data.maxY
 		}
 	});
 
@@ -45,6 +50,15 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 		else if(offset.y > 0 && offset.y >= target.maxRelativeY)
 			position.y += offset.y - target.maxRelativeY;
 			
+		if(target.minX !== undefined && target.minX > position.x)
+			position.x = target.minX;
+		else if(target.maxX !== undefined && target.maxX < position.x)
+			position.x = target.maxX;
+
+		if(target.minY !== undefined && target.minY > position.y)
+			position.y = target.minY;
+		else if(target.maxY !== undefined && target.maxY < position.y)
+			position.y = target.maxY;
 
 	}, {components : ["position", "target", "size"]});
 });

@@ -6,6 +6,29 @@ define(["../loader/libraries/puppets", "./box2dPuppet", "./boxRendering"], funct
 			"rotation",
 			"renderBox"
 		]});
+	Puppets.component("b2reverseGravity", function(data, entity){
+		return {};
+	});
+	Puppets.component("b2accelerate", function(data, entity){
+		return {
+			speed : data.speed || 0
+		};
+	});
+	Puppets.system("reverseGravity", function(b2reverseGravity,b2polygon){
+		var body = b2polygon.body;
+
+		var antiGravity = {x : 0.0, y : -30*body.GetMass()};
+        body.ApplyForce(antiGravity,body.GetWorldCenter());
+	}, {components : ["b2reverseGravity", "b2polygon"]});
+
+
+	Puppets.system("accelerateBody", function(b2accelerate,b2polygon){
+		var body = b2polygon.body;
+		var velocity = body.GetLinearVelocity();
+
+		var boost = {x : b2accelerate.speed, y : 0.0};
+        body.ApplyForce(boost,body.GetWorldCenter());
+	}, {components : ["b2accelerate", "b2polygon"]});
 	Puppets.system("adaptBox", function(size, position, rotation, b2polygon){
 		var body = b2polygon.body;
 		var b2position = body.GetPosition();

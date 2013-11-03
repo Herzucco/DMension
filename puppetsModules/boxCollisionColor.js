@@ -3,6 +3,7 @@ define(["../loader/libraries/puppets", "./DOMmodule"], function(Puppets){
 		var component =  {
 			tag : data.tag || "",
 			layers : data.layers || [],
+			currentColor : {},
 			onColorCollisionEnter: data.onColorCollisionEnter || function(colorInformations){
 
 			},
@@ -50,6 +51,7 @@ define(["../loader/libraries/puppets", "./DOMmodule"], function(Puppets){
 				var color = this.getColorAt({x : i , y : o}, testWidth, data);
 				if(color !== null && (color.r || color.g || color.b)){
 					colorColliderBox.colorColliding = true;
+					colorColliderBox.currentColor = color;
 					colorColliderBox.onColorCollisionEnter.apply({ components : components, id : entity}, [color]);
 					return;
 				}
@@ -57,7 +59,7 @@ define(["../loader/libraries/puppets", "./DOMmodule"], function(Puppets){
 		};
 		if(colorColliderBox.colorColliding){
 			colorColliderBox.colorColliding = false;
-			colorColliderBox.onColorCollisionExit.apply({ components : Puppets.getComponents(entity)[0], id : entity});
+			colorColliderBox.onColorCollisionExit.apply({ components : Puppets.getComponents(entity)[0], id : entity}, [colorColliderBox.currentColor]);
 		}
 	}, {
 		components : ["colorColliderBox"], 

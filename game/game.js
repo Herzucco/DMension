@@ -1,4 +1,4 @@
-define(["./constants", "../loader/libraries/puppets"], function(constants, Puppets){
+define(["./constants", "../loader/libraries/puppets", "./event"], function(constants, Puppets, EventController){
 	var Game = function(){
 		this.cameraController   = {};
 		this.canvasController   = {};
@@ -14,12 +14,12 @@ define(["./constants", "../loader/libraries/puppets"], function(constants, Puppe
 	Game.prototype.init = function(){
 		Puppets.collection(["backgrounds", "world", "canvas", "dynamics"]);
 
+		this.observer = new EventController();
 		this.cameraController.init();
 		this.canvasController.init();
 		this.worldController.init();
 		this.mouseController.init();
 		this.levelController.init();
 	}
-
 	return new Game;
 });

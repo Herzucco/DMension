@@ -42,8 +42,8 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 				{
 					var colors = this.getColors('rgba(0,0,0,0)');
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
-								colors[0], colors[1], colors[2], colors[3], renderCircle.canvas.width,
-								renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian);
+						colors[0], colors[1], colors[2], colors[3], 
+						2000, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian);
 				}
 			}
 			else{
@@ -54,7 +54,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					var colors = this.getColors(color);
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
 						colors[0], colors[1], colors[2], colors[3],
-						renderCircle.canvas.width, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian);
+						2000, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian);
 				}
 			}
 			context.restore();
@@ -75,7 +75,8 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 		},
 
 		setPixel : function(x, y, red, green, blue, alpha, width, data, littleEndian) {
-				data[((x | 0) + (y | 0) * width)] = red << 24 | green << 16 | blue << 8 | alpha;
+			data[((x | 0) + (y | 0) * width)] = red << 24 | green << 16 | blue << 8 | alpha;
+			Game.observer.trigger("pixelsChanged", [data[((x | 0) + (y | 0) * width)]]);
 		},
 
 		circle : function(x0, y0, red, green, blue,  alpha, width, data, radius, littleEndian) {

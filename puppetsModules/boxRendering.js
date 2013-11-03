@@ -27,8 +27,10 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 				context.rotate(rotation.angle);
 				context.fillRect(-size.width/2, -size.height/2, size.width, size.height);	
 			}
-			else
+			else{
+				context.clearRect(position.x - cameraPosition.x, position.y - cameraPosition.y, size.width, size.height);
 				context.fillRect(position.x - cameraPosition.x, position.y - cameraPosition.y, size.width, size.height);
+			}
 			context.restore();
 		}
 	},{components : ["size", "position", "renderBox"]});

@@ -24,6 +24,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 							bodyDef : new Box2D.Dynamics.b2BodyDef(),
 							polygonShape : new Box2D.Collision.Shapes.b2PolygonShape(),
 							priorityOnPosition : true,
+							fixedRotate : data.fixedRotate || false,
 							world : data.world || null
 						};
 		if(data.priorityOnPosition === false)
@@ -42,9 +43,14 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 		component.fixtureDef.shape.SetAsBox(data.width || 0,data.height || 0);
 		component.body = data.world.CreateBody( component.bodyDef );
 		component.body.CreateFixture( component.fixtureDef );
+
+		if(component.fixedRotate)
+			component.body.SetFixedRotation(true);
+
 		component.body.SetUserData({width : data.width || 0,
 									height : data.height || 0,
 									entity : entity});
+
 		return component;
 	});
 	Puppets.component("b2listener", function(data, entity){
@@ -67,8 +73,8 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 		world = world.world;
 		world.Step(
              1 / 60   //frame-rate
-          ,  10       //velocity iterations
-          ,  10       //position iterations
+          ,  1       //velocity iterations
+          ,  1       //position iterations
       	);
         //world.DrawDebugData();
         world.ClearForces();

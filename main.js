@@ -17,8 +17,8 @@ define(["./loader/libraries/puppets",
 	var update = function()
     {
     	stats.begin();
-        Puppets.run();
         requestAnimFrame(update);
+        Puppets.run();
         stats.end();
     };
     init();

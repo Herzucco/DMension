@@ -15,10 +15,14 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 				maxRelativeX : this.config.maxRelativeX,
 				maxRelativeY : this.config.maxRelativeY,
 				minRelativeX : this.config.minRelativeX,
-				minRelativeY : this.config.minRelativeY
+				minRelativeY : this.config.minRelativeY,
+				minX : this.config.minX,
+				minY : this.config.minY,
+				maxX : this.config.maxX,
+				maxY : this.config.maxY
 			},
 			size : {
-				width : WIDTH,
+				width : 600,
 				height : HEIGHT
 			}
 		});
