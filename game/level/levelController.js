@@ -21,6 +21,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 		var firstColorCanvas = canvasController.firstColor.components;
 		var secondColorCanvas = canvasController.secondColor.components;
 		var thirdColorCanvas = canvasController.thirdColor.components;
+		var fourthColorCanvas = canvasController.fourthColor.components;
 		
 
 		var world = Game.worldController.world;
@@ -111,6 +112,21 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 				height : HEIGHT*2
 			},
 			renderBox : {
+				color : "rgba(255,0,255,0.5)",
+				context : fourthColorCanvas.canvasContext.context,
+				cameraPosition : cameraPosition
+			}
+		}, "backgrounds");
+		Puppets.createEntity("box", {
+			position : {
+				x : 0,
+				y : 0
+			},
+			size : {
+				width : WIDTH,
+				height : HEIGHT*2
+			},
+			renderBox : {
 				color : "white",
 				context : firstDimensionCanvas.canvasContext.context,
 				cameraPosition : cameraPosition
@@ -187,15 +203,18 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 											cameraPosition : cameraPosition
 										}}, "dynamics");
 		Puppets.addComponent(box, "colorColliderBox", {tag : "redBox", colorAccuracy : 5, onColorCollisionEnter : function(colors){
-			if(colors.r === 255 && colors.g === 0){
+			if(colors.r === 255 && colors.g === 0 && colors.b === 0){
 				Puppets.addComponent(this.id, "b2accelerate", { speed : -5});
 			}
 			else if(colors.g ===255 && colors.r === 0){
-				Puppets.addComponent(this.id, "b2reverseGravity", {});
+				Puppets.addComponent(this.id, "b2reverseGravity", { speed : -30 });
 			}
-			else if(colors.g ===0 && colors.b === 255){
+			else if(colors.g ===0 && colors.b === 255 && colors.r === 0){
 				Puppets.addComponent(this.id, "b2accelerate", {speed : 5});
 			}	
+			else if(colors.r === 255 && colors.g === 0 && colors.b === 255){
+				Puppets.addComponent(this.id, "b2reverseGravity", { speed : 30});
+			}
 		},
 		onColorCollisionExit : function(colors){
 			Puppets.removeComponent(this.id, "b2reverseGravity");

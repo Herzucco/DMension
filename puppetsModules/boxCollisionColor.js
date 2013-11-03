@@ -50,9 +50,18 @@ define(["../loader/libraries/puppets", "./DOMmodule"], function(Puppets){
 			for(o = colorColliderBox.y >> 0; o < iHeight; o+=colorColliderBox.colorAccuracy){
 				var color = this.getColorAt({x : i , y : o}, testWidth, data);
 				if(color !== null && (color.r || color.g || color.b)){
-					colorColliderBox.colorColliding = true;
+					if(color.r !== colorColliderBox.currentColor.r || 
+						color.g !== colorColliderBox.currentColor.g || 
+						color.b !== colorColliderBox.currentColor.b){
+						colorColliderBox.onColorCollisionExit.apply({ components : Puppets.getComponents(entity)[0], id : entity}, [colorColliderBox.currentColor]);
+						colorColliderBox.colorColliding = false;
+					}
 					colorColliderBox.currentColor = color;
-					colorColliderBox.onColorCollisionEnter.apply({ components : components, id : entity}, [color]);
+
+					if(!colorColliderBox.colorColliding)
+						colorColliderBox.onColorCollisionEnter.apply({ components : components, id : entity}, [color]);
+
+					colorColliderBox.colorColliding = true;
 					return;
 				}
 			}

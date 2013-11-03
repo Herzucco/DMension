@@ -7,7 +7,9 @@ define(["../loader/libraries/puppets", "./box2dPuppet", "./boxRendering"], funct
 			"renderBox"
 		]});
 	Puppets.component("b2reverseGravity", function(data, entity){
-		return {};
+		return {
+			speed : data.speed || 0,
+		};
 	});
 	Puppets.component("b2accelerate", function(data, entity){
 		return {
@@ -17,7 +19,7 @@ define(["../loader/libraries/puppets", "./box2dPuppet", "./boxRendering"], funct
 	Puppets.system("reverseGravity", function(b2reverseGravity,b2polygon){
 		var body = b2polygon.body;
 
-		var antiGravity = {x : 0.0, y : -30*body.GetMass()};
+		var antiGravity = {x : 0.0, y : b2reverseGravity.speed*body.GetMass()};
         body.ApplyForce(antiGravity,body.GetWorldCenter());
 	}, {components : ["b2reverseGravity", "b2polygon"]});
 

@@ -14,6 +14,9 @@ define(["../../loader/libraries/puppets", "../game", "keypress"], function(Puppe
 	Keypress.combo("e", function() {
     	Game.observer.trigger("pressE");
 	});
+	Keypress.combo("r", function() {
+    	Game.observer.trigger("pressR");
+	});
 	Keypress.combo("x", function() {
     	Game.observer.trigger("pressX");
 	});

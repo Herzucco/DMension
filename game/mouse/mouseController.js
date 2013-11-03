@@ -61,6 +61,13 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 			_self.components.renderCircle.context = Game.canvasController.thirdColor.drawPaint.components.canvasContext.context;
 		}, _self);
 
+		Game.observer.on("pressR", function(){
+			var _self = this;
+
+			_self.components.renderCircle.color = "rgba(255,0,255,1)";
+			_self.components.renderCircle.context = Game.canvasController.fourthColor.drawPaint.components.canvasContext.context;
+		}, _self);
+
 		Game.observer.on("pressX", function(){
 			var _self = this;
 
