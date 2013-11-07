@@ -15,9 +15,11 @@ define(["../loader/libraries/puppets"], function(Puppets){
 		var WIDTH = 600;
 		var HEIGHT = 400;
 
+		contextStencil.stencil.globalAlpha = 0.5;
 		contextStencil.stencil.drawImage(contextStencil.buffer, cameraPosition.x, cameraPosition.y,
 										 WIDTH, HEIGHT,
 										 0, 0, WIDTH, HEIGHT);
+		contextStencil.stencil.globalAlpha = 1;
 
 
 	}, {components : ["canvasContext", "contextStencil"]})
