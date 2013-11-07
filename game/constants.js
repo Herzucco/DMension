@@ -1,6 +1,6 @@
 define(["./canvas/pixelsManager"], function(PIXELS_ARRAY){
 	return {
-		WIDTH : 5000,
+		WIDTH : 16000,
 		HEIGHT : 400,
 		SCALE : 30,
 		PIXELS_ARRAY : PIXELS_ARRAY.PIXELS_ARRAY,

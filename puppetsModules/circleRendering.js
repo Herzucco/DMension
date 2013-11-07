@@ -43,7 +43,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					var colors = this.getColors('rgba(0,0,0,0)');
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
 						colors[0], colors[1], colors[2], colors[3], 
-						5000, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian);
+						16000, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian);
 				}
 			}
 			else{
@@ -54,7 +54,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					var colors = this.getColors(color);
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
 						colors[0], colors[1], colors[2], colors[3],
-						5000, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian);
+						16000, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian);
 				}
 			}
 			context.restore();
