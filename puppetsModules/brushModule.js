@@ -15,14 +15,10 @@ define(["../loader/libraries/puppets"], function(Puppets){
 		var WIDTH = 600;
 		var HEIGHT = 400;
 
-		contextCanvas.context.globalCompositeOperation = 'destination-in';
-		contextCanvas.context.drawImage(contextStencil.buffer, cameraPosition.x, cameraPosition.y,
+		contextStencil.stencil.drawImage(contextStencil.buffer, cameraPosition.x, cameraPosition.y,
 										 WIDTH, HEIGHT,
 										 0, 0, WIDTH, HEIGHT);
 
-		contextStencil.stencil.drawImage(contextCanvas.canvas, 0,0,
-										WIDTH, HEIGHT, 0, 0,
-										WIDTH, HEIGHT);
 
 	}, {components : ["canvasContext", "contextStencil"]})
 });

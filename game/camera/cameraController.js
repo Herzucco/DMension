@@ -28,6 +28,10 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		});
 		this.entity = camera;
 		this.components = Puppets.getComponents(camera)[0];
+
+		Game.observer.on("pressY", function(){
+			this.components.position.x += 20;
+		}, this)
 	};
 
 	return new CameraController(config);

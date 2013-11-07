@@ -53,6 +53,34 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 
 		return component;
 	});
+
+	Puppets.component("b2circle", function(data, entity, undefined){
+		var component = {	fixtureDef : new Box2D.Dynamics.b2FixtureDef(), 
+							bodyDef : new Box2D.Dynamics.b2BodyDef(),
+							polygonShape : new Box2D.Collision.Shapes.b2CircleShape(
+								data.radius || 0),
+							priorityOnPosition : true,
+							world : data.world || null
+						};
+		if(data.priorityOnPosition === false)
+			component.priorityOnPosition = false;
+
+		component.bodyDef.position.Set(data.x || 0, data.y || 0);
+		if(data.dynamic)
+			component.bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+		else
+			component.bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
+
+		component.fixtureDef.shape = component.polygonShape;
+		component.fixtureDef.density = data.density || 1.0;
+        component.fixtureDef.friction = data.friction || 0.5;
+        component.fixtureDef.restitution = data.restitution || 0.2;
+		component.body = data.world.CreateBody( component.bodyDef );
+		component.body.CreateFixture( component.fixtureDef );
+		component.body.SetUserData({radius : data.radius || 0,
+									entity : entity});
+		return component;
+	});
 	Puppets.component("b2listener", function(data, entity){
 		var component = {
 			beginContact : data.beginContact || function(){},

@@ -273,6 +273,33 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 		// 		}
 		// 	}
 		// });
+		// function createJoint(b2One, b2Two)
+		// {
+	 //         var joint = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
+	 //         joint.bodyA = b2One;
+	 //         joint.bodyB = b2Two;
+	 //         joint.Initialize(b2One, b2Two, b2One.GetWorldCenter());
+	 //         joint.enableMotor = true;
+	 //         world.CreateJoint(joint);
+  //    	}
+
+		Game.observer.on("kick", function(kick){
+			Puppets.createEntity("simpleBox2dBox", {
+				renderBox : {
+					color : "blue",
+					context : mainCanvas.canvasContext.context,
+					cameraPosition : cameraPosition
+				},
+				b2polygon : {
+					world : world,
+					width : kick*50/SCALE/2,
+					dynamic : false,
+					x :  (Math.random() * ((cameraPosition.x+600) - (cameraPosition.x+300)) + (cameraPosition.x+300))/SCALE >> 0,
+					y : (Math.random() * ((cameraPosition.y+400) - cameraPosition.y) + cameraPosition.y)/SCALE >> 0,
+					height : kick*50/SCALE/2
+				}
+			});
+		});
 
 		camera.target.position = Puppets.getComponents(box)[0].position;
 	}

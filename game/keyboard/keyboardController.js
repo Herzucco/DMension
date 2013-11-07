@@ -1,4 +1,4 @@
-define(["../../loader/libraries/puppets", "../game", "keypress"], function(Puppets, Game, Keypress){
+define(["../../loader/libraries/puppets", "../game", "keypress", "dancer"], function(Puppets, Game, Keypress){
 	Keypress.combo("shift", function() {
     	Game.observer.trigger("pressShift");
 	});
@@ -23,6 +23,24 @@ define(["../../loader/libraries/puppets", "../game", "keypress"], function(Puppe
 	Keypress.combo("space", function() {
     	Game.observer.trigger("pressSpace");
 	});
+	Keypress.combo("y", function() {
+    	Game.observer.trigger("pressY");
+	});
+	Keypress.combo("p", function(){
+		window.music = new Dancer();
+		music.load({src : "assets/480253_Colloseum.mp3"});
+		window.kick = music.createKick({frequency : [-100, 300], onKick : function(kick){
+			Game.observer.trigger("kick", [kick]);
+		}});
+		kick.on();
+		music.play();
+		music.setVolume(0.2)
+	});
+	Keypress.combo("m", function(){
+		music.pause();
+	});
+
+	
 
 	return Keypress;
 });

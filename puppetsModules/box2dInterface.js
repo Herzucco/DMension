@@ -6,6 +6,20 @@ define(["../loader/libraries/puppets", "./box2dPuppet", "./boxRendering"], funct
 			"rotation",
 			"renderBox"
 		]});
+	Puppets.entity("simpleBox2dImageCircle", {components : [
+			"b2circle",
+			"size",
+			"position",
+			"rotation",
+			"renderImage"
+		]});
+	Puppets.entity("simpleBox2dCircle", {components : [
+			"b2circle",
+			"radius",
+			"position",
+			"rotation",
+			"renderCircle"
+		]});
 	Puppets.component("b2reverseGravity", function(data, entity){
 		return {
 			speed : data.speed || 0,

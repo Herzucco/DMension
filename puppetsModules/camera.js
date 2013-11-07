@@ -13,7 +13,9 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 			minX : data.minX,
 			minY : data.minY,
 			maxX : data.maxX,
-			maxY : data.maxY
+			maxY : data.maxY,
+			center : { x : 0, y : 0},
+			offset : { x : 0, y : 0}
 		}
 	});
 
@@ -31,34 +33,30 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 	]});
 
 	Puppets.system("updateCameraPosition", function(position, target, size){
-		var center = {
-			x : position.x + (size.width/2),
-			y : position.y + (size.height/2)
-		};
-		var offset = {
-			x : target.position.x - center.x,
-			y : target.position.y - center.y
-		};
+		target.center.x = position.x + (size.width/2);
+		target.center.y = position.y + (size.height/2);
+		target.offset.x = target.position.x - target.center.x;
+		target.offset.y = target.position.y - target.center.y;
 
-		if(offset.x < 0 && offset.x <= target.minRelativeX)
-			position.x += offset.x - target.minRelativeX;
-		else if(offset.x > 0 && offset.x >= target.maxRelativeX)
-			position.x += offset.x - target.maxRelativeX;
+		if(target.offset.x < 0 && target.offset.x <= target.minRelativeX)
+			position.x += (target.offset.x - target.minRelativeX) >> 0;
+		else if(target.offset.x > 0 && target.offset.x >= target.maxRelativeX)
+			position.x += (target.offset.x - target.maxRelativeX) >> 0;
 
-		if(offset.y < 0 && offset.y <= target.minRelativeY)
-			position.y += offset.y - target.minRelativeY;
-		else if(offset.y > 0 && offset.y >= target.maxRelativeY)
-			position.y += offset.y - target.maxRelativeY;
+		if(target.offset.y < 0 && target.offset.y <= target.minRelativeY)
+			position.y += (target.offset.y - target.minRelativeY) >> 0;
+		else if(target.offset.y > 0 && target.offset.y >= target.maxRelativeY)
+			position.y += (target.offset.y - target.maxRelativeY) >> 0;
 			
 		if(target.minX !== undefined && target.minX > position.x)
-			position.x = target.minX;
+			position.x = target.minX >> 0;
 		else if(target.maxX !== undefined && target.maxX < position.x)
-			position.x = target.maxX;
+			position.x = target.maxX >> 0;
 
 		if(target.minY !== undefined && target.minY > position.y)
-			position.y = target.minY;
+			position.y = target.minY >> 0;
 		else if(target.maxY !== undefined && target.maxY < position.y)
-			position.y = target.maxY;
+			position.y = target.maxY >> 0;
 
 	}, {components : ["position", "target", "size"]});
 });

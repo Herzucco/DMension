@@ -29,17 +29,17 @@ function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, 
 
 		var secondDrawPaint = CanvasCreator({
 			collection : "canvas",
-			canvas : document.getElementById("buffer2")
+			canvas : document.getElementById("buffer1")
 		});
 
 		var thirdDrawPaint = CanvasCreator({
 			collection : "canvas",
-			canvas : document.getElementById("buffer3")
+			canvas : document.getElementById("buffer1")
 		});
 
 		var fourthDrawPaint = CanvasCreator({
 			collection : "canvas",
-			canvas : document.getElementById("buffer4")
+			canvas : document.getElementById("buffer1")
 		});
 
 		firstDimension = CanvasDimensionCreator({
