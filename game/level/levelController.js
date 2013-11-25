@@ -32,9 +32,6 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 				element : document.getElementById("pixelCounter")
 			},
 		});
-		Game.observer.on("pixelsChanged", function(){
-			
-		}, Puppets.getComponents(div)[0]);
 
 		Puppets.createEntity("box", {
 			position : {
