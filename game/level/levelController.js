@@ -49,7 +49,82 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 			}
 		}, "backgrounds");
 
-		Puppets.createEntity("simpleBox2dBox", {b2polygon : {world : world,
+		Puppets.createEntity("box", {
+			position : {
+				x : 0,
+				y : 0
+			},
+			size : {
+				width : WIDTH,
+				height : HEIGHT*2
+			},
+			renderBox : {
+				color : "rgba(255,0,0,0.5)",
+				context : firstColorCanvas.canvasContext.context,
+				cameraPosition : cameraPosition
+			}
+		}, "backgrounds");
+		Puppets.createEntity("box", {
+			position : {
+				x : 0,
+				y : 0
+			},
+			size : {
+				width : WIDTH,
+				height : HEIGHT*2
+			},
+			renderBox : {
+				color : "rgba(0,255,0,0.5)",
+				context : secondColorCanvas.canvasContext.context,
+				cameraPosition : cameraPosition
+			}
+		}, "backgrounds");
+		Puppets.createEntity("box", {
+			position : {
+				x : 0,
+				y : 0
+			},
+			size : {
+				width : WIDTH,
+				height : HEIGHT*2
+			},
+			renderBox : {
+				color : "rgba(0,0,255,0.5)",
+				context : thirdColorCanvas.canvasContext.context,
+				cameraPosition : cameraPosition
+			}
+		}, "backgrounds");
+		Puppets.createEntity("box", {
+			position : {
+				x : 0,
+				y : 0
+			},
+			size : {
+				width : WIDTH,
+				height : HEIGHT*2
+			},
+			renderBox : {
+				color : "rgba(255,0,255,0.5)",
+				context : fourthColorCanvas.canvasContext.context,
+				cameraPosition : cameraPosition
+			}
+		}, "backgrounds");
+		Puppets.createEntity("box", {
+			position : {
+				x : 0,
+				y : 0
+			},
+			size : {
+				width : WIDTH,
+				height : HEIGHT*2
+			},
+			renderBox : {
+				color : "white",
+				context : firstDimensionCanvas.canvasContext.context,
+				cameraPosition : cameraPosition
+			}
+		}, "backgrounds");
+		var spikes = Puppets.createEntity("simpleBox2dBox", {b2polygon : {world : world,
 											x : 0,
 											y : (HEIGHT/SCALE)-1,
 											width : 5,
@@ -61,6 +136,13 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 												context : mainCanvas.canvasContext.context,
 												cameraPosition : cameraPosition
 											}});
+		Puppets.addComponent(spikes, "crossableBox", {});
+		Puppets.addComponent(spikes, "collisionReaction", {
+			tag : "platform",
+			onCollision : function(other){
+				other
+			}
+		})
 		Puppets.createEntity("simpleBox2dBox", {
 			renderBox : {
 				color : "blue",
@@ -140,6 +222,10 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 		testWidth : WIDTH,
 		data : PIXELS_ARRAY
 		});
+		Puppets.addComponent(box, "collisionReaction", {
+			tag : "player",
+			onCollision : function(){console.log("playa")}
+		})
 
 		Game.observer.on("pressSpace", function(){
 			var body = this.b2polygon.body;
@@ -158,6 +244,33 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 				this.b2polygon.stopped = true;
 			}
 		}, Puppets.getComponents(box)[0]);
+
+		Puppets.addComponent(box, "b2listener", {
+			world : world,
+			preSolve : function(contact, manifold){
+				var t = new Box2D.Collision.b2WorldManifold();
+				contact.GetWorldManifold(t)
+						
+				var entities = [ contact.GetFixtureA().GetBody().GetUserData().entity, contact.GetFixtureB().GetBody().GetUserData().entity ];
+				var componentsA = Puppets.getComponents(entities[0])[0];
+				var componentsB = Puppets.getComponents(entities[1])[0];
+				if(componentsA.hasOwnProperty("collisionReaction") && componentsB.hasOwnProperty("collisionReaction")){
+					if((componentsA.collisionReaction.tag == "player" || componentsA.collisionReaction.tag == "collectible") && componentsB.collisionReaction.tag == "platform"){
+						var player = componentsA;
+						var platform = componentsB;
+						var position = {x : t.m_points[1].x*SCALE >> 0, y : t.m_points[1].y*SCALE >> 0};
+					}
+					else if((componentsB.collisionReaction.tag == "player" || componentsB.collisionReaction.tag == "collectible") && componentsA.collisionReaction.tag == "platform"){
+						var player = componentsB;
+						var platform = componentsA;
+						var position = {x : t.m_points[0].x*SCALE >>0, y : t.m_points[0].y*SCALE >> 0};
+					}
+
+					player.collisionReaction.onCollision(platform);
+					platform.collisionReaction.onCollision(player);
+		 		}
+		 	}
+		})
 
 		Game.observer.on("kick", function(kick){
 			Puppets.createEntity("simpleBox2dBox", {
