@@ -5,6 +5,11 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 	Puppets.entity("b2World", {components : [
 			"world"
 		]});
+    Puppets.entity("b2listener", {
+        components : [
+            "b2listener"
+        ]
+    });
 	Puppets.component("world", function(data, entity, undefined){
 		window.SCALE = data.scale || 30;
 		var world = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(data.gravityX || 0, data.gravityY || 1), false);
