@@ -4,6 +4,8 @@ define(["./canvas/pixelsManager"], function(PIXELS_ARRAY){
 		HEIGHT : 400,
 		SCALE : 30,
 		PIXELS_ARRAY : PIXELS_ARRAY.PIXELS_ARRAY,
-		isLittleEndian : PIXELS_ARRAY.isLittleEndian
+		isLittleEndian : PIXELS_ARRAY.isLittleEndian,
+		maxPixelsArray : PIXELS_ARRAY.maxPixelsArray,
+		maxPixels : 1000
 	}
 });

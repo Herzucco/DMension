@@ -44,6 +44,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
 						colors[0], colors[1], colors[2], colors[3], 
 						16000, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian);
+					Game.observer.trigger("pixelsChanged", ["x"+position.x+ cameraPosition.x+"y"+position.y+ cameraPosition.y, true]);
 				}
 			}
 			else{
@@ -55,6 +56,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
 						colors[0], colors[1], colors[2], colors[3],
 						16000, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian);
+					Game.observer.trigger("pixelsChanged", ["x"+position.x+ cameraPosition.x+"y"+position.y+ cameraPosition.y], false);
 				}
 			}
 			context.restore();
@@ -76,7 +78,6 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 
 		setPixel : function(x, y, red, green, blue, alpha, width, data, littleEndian) {
 			data[((x | 0) + (y | 0) * width)] = red << 24 | green << 16 | blue << 8 | alpha;
-			Game.observer.trigger("pixelsChanged", [data[((x | 0) + (y | 0) * width)]]);
 		},
 
 		circle : function(x0, y0, red, green, blue,  alpha, width, data, radius, littleEndian) {
