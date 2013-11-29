@@ -39,7 +39,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 		if(data.dynamic)
 			component.bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 		else
-			component.bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
+			component.bodyDef.type = Box2D.Dynamics.b2Body.b2_kinematicBody;
 
 		component.fixtureDef.shape = component.polygonShape;
 		component.fixtureDef.density = data.density || 1.0;
