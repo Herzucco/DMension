@@ -37,15 +37,6 @@ function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, 
 
 		this.mainCanvas = mainCanvas;
 		this.firstColor = firstColor;
-
-		Game.observer.on("pixelsChanged", function(index, erase){
-			var indexArray = Game.constants.maxPixelsArray.indexOf(index)
-			if(!erase && indexArray < 0)
-				Game.constants.maxPixelsArray.push(index);
-			else if(erase && indexArray > -1)
-				Game.constants.maxPixelsArray.splice(indexArray, 1);
-		});
-
 	};
 
 	return new CanvasController(configMainCanvas, configFirstDimension);

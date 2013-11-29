@@ -8,4 +8,7 @@ define(["../loader/libraries/puppets"], function(Puppets){
 	Puppets.component("rotation", function(data, entity, undefined){
 		return {angle : data.angle || 0, x : data.x || 0, y : data.y || 0}
 	});
+    Puppets.component("velocity", function(data, entity, undefined){
+        return {x : data.x || 0, y : data.y || 0}
+    });
 });

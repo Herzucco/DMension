@@ -16,6 +16,8 @@ define(["../game"],
 			position.x = e.layerX;
 			position.y = e.layerY;
 		}
+
+        return false;
     };
 	var clickOnCanvas = function(e){
 		var mouse = Game.mouseController.components;
@@ -23,6 +25,8 @@ define(["../game"],
 
 		mouseComponent.onMouseDown.apply({components : mouse, id : Game.mouseController.entity});
 		mouseComponent.clicked = true;
+
+        return false;
 	}
 	var unClickOnCanvas = function(e){
 		var mouse = Game.mouseController.components;
@@ -33,6 +37,8 @@ define(["../game"],
 
 		mouseComponent.onMouseUp.apply({components : mouse, id : Game.mouseController.entity});
 		mouseComponent.clicked = false;
+
+        return false;
 	}
 
 	return {
