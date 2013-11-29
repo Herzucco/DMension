@@ -68,6 +68,7 @@ define(["../loader/libraries/puppets", "./DOMmodule"], function(Puppets){
 		};
 		if(colorColliderBox.colorColliding){
 			colorColliderBox.colorColliding = false;
+			colorColliderBox.currentColor = {};
 			colorColliderBox.onColorCollisionExit.apply({ components : Puppets.getComponents(entity)[0], id : entity}, [colorColliderBox.currentColor]);
 		}
 	}, {

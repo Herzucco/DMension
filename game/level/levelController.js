@@ -48,7 +48,34 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 				cameraPosition : cameraPosition
 			}
 		}, "backgrounds");
-		var spikes = Puppets.createEntity("simpleBox2dBox", {b2polygon : {world : world,
+		Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
+											x : 0,
+											y : (HEIGHT/SCALE)-10,
+											width : 5,
+											restitution : 0.2,
+											friction : 100,
+											height : 10/SCALE},
+											renderBox : {
+												color : "green",
+												context : mainCanvas.canvasContext.context,
+												cameraPosition : cameraPosition
+											},
+											movingBox : {
+												steps : [{
+													x : 400,
+													y : 0,
+													delay : 1,
+													pause : 0
+												}],
+												initStep : {
+													x : -400,
+													y : 0,
+													delay : 1,
+													pause : 0
+												},
+												precision : 10
+											}});
+		Puppets.createEntity("crossableBox", {b2polygon : {world : world,
 											x : 0,
 											y : (HEIGHT/SCALE)-1,
 											width : 5,
@@ -56,17 +83,10 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 											friction : 0,
 											height : 10/SCALE},
 											renderBox : {
-												color : "red",
+												color : "green",
 												context : mainCanvas.canvasContext.context,
 												cameraPosition : cameraPosition
 											}});
-		Puppets.addComponent(spikes, "crossableBox", {});
-		Puppets.addComponent(spikes, "collisionReaction", {
-			tag : "platform",
-			onCollision : function(other){
-				other
-			}
-		})
 		var box = Puppets.createEntity("simpleBox2dBox", {b2polygon : {world : world,
 										x :1,
 										y :1,
@@ -132,13 +152,13 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                     contact.GetWorldManifold(t)
                             
                     var entities = [ contact.GetFixtureA().GetBody().GetUserData().entity, contact.GetFixtureB().GetBody().GetUserData().entity ];
-                    var componentsA = Puppets.getComponents(entities[0])[0];
-                    var componentsB = Puppets.getComponents(entities[1])[0];
-                    if(componentsA.hasOwnProperty("collisionReaction")){
-                        componentsA.collisionReaction.onPreSolve.apply(componentsA, componentsB);
+                    var componentsA = { components : Puppets.getComponents(entities[0])[0], entity : entities[0]};
+                    var componentsB = { components : Puppets.getComponents(entities[1])[0], entity : entities[1]};
+                    if(componentsA.components.hasOwnProperty("collisionReaction")){
+                        componentsA.components.collisionReaction.onPreSolve.call(componentsA, componentsB, contact);
                     }
-                    if(componentsB.hasOwnProperty("collisionReaction")){
-                        componentsB.collisionReaction.onPreSolve.apply(componentsB, componentsA);
+                    if(componentsB.components.hasOwnProperty("collisionReaction")){
+                        componentsB.components.collisionReaction.onPreSolve.call(componentsB, componentsA, contact);
                     }
                 }
             }
