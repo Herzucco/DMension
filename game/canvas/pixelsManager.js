@@ -10,7 +10,9 @@ define([], function(){
 
 		PIXELS_ARRAY[1] = 0;
 
-		var maxPixelsArray = [];
+		var maxPixelsArray = {
+            length : 0
+        };
 
 		return { PIXELS_ARRAY : PIXELS_ARRAY, isLittleEndian : isLittleEndian, maxPixelsArray : maxPixelsArray};
 	}

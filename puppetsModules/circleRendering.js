@@ -43,11 +43,10 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					var colors = this.getColors('rgba(0,0,0,0)');
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
 						colors[0], colors[1], colors[2], colors[3], 
-						16000, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian);
-					Game.observer.trigger("pixelsChanged", ["x"+position.x+ cameraPosition.x+"y"+position.y+ cameraPosition.y, true]);
+						16000, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian, true);
 				}
 			}
-			else{
+			else if(!renderCircle.canNotPaint){
 				context.fillStyle = color;
 				context.fill();
 				if(renderCircle.PIXELS_ARRAY !== null)
@@ -55,37 +54,37 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					var colors = this.getColors(color);
 					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
 						colors[0], colors[1], colors[2], colors[3],
-						16000, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian);
-					Game.observer.trigger("pixelsChanged", ["x"+position.x+ cameraPosition.x+"y"+position.y+ cameraPosition.y], false);
+						16000, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian, false);
 				}
 			}
 			context.restore();
 		}
 	},{
 		components : ["radius", "position", "renderCircle"],
-		plot8 : function(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian) {
-		    this.line(x0 - x, x0 + x, y0 + y, red, green, blue, alpha, width, data, littleEndian);
-		    this.line(x0 - x, x0 + x, y0 - y, red, green, blue, alpha, width, data, littleEndian);
-		    this.line(x0 - y, x0 + x, y0 + x, red, green, blue, alpha, width, data, littleEndian);
-		    this.line(x0 - y, x0 + y, y0 - x, red, green, blue, alpha, width, data, littleEndian);
+		plot8 : function(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase) {
+		    this.line(x0 - x, x0 + x, y0 + y, red, green, blue, alpha, width, data, littleEndian, erase);
+		    this.line(x0 - x, x0 + x, y0 - y, red, green, blue, alpha, width, data, littleEndian, erase);
+		    this.line(x0 - y, x0 + x, y0 + x, red, green, blue, alpha, width, data, littleEndian, erase);
+		    this.line(x0 - y, x0 + y, y0 - x, red, green, blue, alpha, width, data, littleEndian, erase);
 		},
-		line : function(x0, x1, y, red, green, blue, alpha, width, data, littleEndian) {
+		line : function(x0, x1, y, red, green, blue, alpha, width, data, littleEndian, erase) {
 		    var dx = x1 - x0;
 		    for (var x = x0; x < x1; x += dx * 0.01) {
-		      this.setPixel(x, y, red, green, blue, alpha, width, data, littleEndian);
+		      this.setPixel(x, y, red, green, blue, alpha, width, data, littleEndian, erase);
 			}
 		},
 
-		setPixel : function(x, y, red, green, blue, alpha, width, data, littleEndian) {
+		setPixel : function(x, y, red, green, blue, alpha, width, data, littleEndian, erase) {
 			data[((x | 0) + (y | 0) * width)] = red << 24 | green << 16 | blue << 8 | alpha;
+            Game.observer.trigger("pixelsChanged", [((x | 0) + (y | 0) * width), erase])
 		},
 
-		circle : function(x0, y0, red, green, blue,  alpha, width, data, radius, littleEndian) {
+		circle : function(x0, y0, red, green, blue,  alpha, width, data, radius, littleEndian, erase) {
 			var rs2 = radius * radius * 4,
 			ys2m1 = rs2 - 2 * radius + 1,
 			x = 0, y = radius, xs2 = 0, ysc2;
 
-			this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian);
+			this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
 			while (x <= y) {
 				xs2 += 8 * x + 4;
 				x += 1;
@@ -96,7 +95,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 					y -= 1;
 				}
 
-				this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian);
+				this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
 			}
 		},
 

@@ -25,13 +25,22 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 		}
 	});
 
+    Puppets.component("travelling", function(data, entity){
+        return {
+            delay : data.delay || 0,
+            position : data.position || {x : 0, y: 0}
+        }
+    });
+
 	Puppets.entity("camera", {components : [
 			"size",
 			"position",
 			"target",
 			"focus"
 	]});
-
+    Puppets.system("updateTravelling", function(position, travelling){
+        
+    }, {components : ["position", "travelling"]});
 	Puppets.system("updateCameraPosition", function(position, target, size){
 		target.center.x = position.x + (size.width/2);
 		target.center.y = position.y + (size.height/2);

@@ -12,13 +12,14 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
 	};
 
 	Game.prototype.init = function(){
-		Puppets.collection(["backgrounds", "world", "canvas", "dynamics"]);
+		Puppets.collection(["backgrounds", "world", "canvas", "dynamics", "UI"]);
 
 		this.observer = new EventController();
 		this.cameraController.init();
 		this.canvasController.init();
 		this.worldController.init();
 		this.mouseController.init();
+        this.UIController.init();
 		this.levelController.init();
 	}
 	return new Game;

@@ -38,30 +38,42 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 			var _self = this;
 
 			_self.components.renderCircle.clip = !_self.components.renderCircle.clip;
+            if(_self.components.renderCircle.clip === true)
+                Game.observer.trigger("colorChanged", ["rgba(255,255,255,0.5)"]);
+            else
+                Game.observer.trigger("colorChanged", [_self.components.renderCircle.color])
 		}, _self);
 
 		Game.observer.on("pressA", function(){
 			var _self = this;
 
 			_self.components.renderCircle.color = "rgba(255,0,0,0.5)";
+            if(!_self.components.renderCircle.clip)
+                Game.observer.trigger("colorChanged", ["rgba(255,0,0,0.5)"]);
 		}, _self);
 
 		Game.observer.on("pressZ", function(){
 			var _self = this;
 
 			_self.components.renderCircle.color = "rgba(0,255,0,0.5)";
+            if(!_self.components.renderCircle.clip)
+                Game.observer.trigger("colorChanged", ["rgba(0,255,0,0.5)"]);
 		}, _self);
 
 		Game.observer.on("pressE", function(){
 			var _self = this;
 
 			_self.components.renderCircle.color = "rgba(0,0,255,0.5)";
+            if(!_self.components.renderCircle.clip)
+                Game.observer.trigger("colorChanged", ["rgba(0,0,255,0.5)"]);
 		}, _self);
 
 		Game.observer.on("pressR", function(){
 			var _self = this;
 
 			_self.components.renderCircle.color = "rgba(255,0,255,0.5)";
+            if(!_self.components.renderCircle.clip)
+                Game.observer.trigger("colorChanged", ["rgba(255,0,255,0.5)"]);
 		}, _self);
 	}
 

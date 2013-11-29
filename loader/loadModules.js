@@ -3,6 +3,7 @@ define(["../puppetsModules/box2dInterface",
     	"../puppetsModules/boxCollision",
     	"../puppetsModules/boxCollisionColor",
 		"../puppetsModules/brushModule",
+        "../puppetsModules/gaugeModule",
 		"../puppetsModules/camera",
 		"../puppetsModules/platformTypes"], function(){
 
