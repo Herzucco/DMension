@@ -29,6 +29,14 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 			lastY : 0
 		}
 	});
+	Puppets.component("rotatingBox", function(data, entity, undefined){
+		return {
+			direction : data.direction || "clockwise",
+			speed : data.speed || 1,
+			currentAngle : 0,
+			position : 0
+		}
+	});
 	Puppets.system("delaying", function(delayer, b2polygon, entity){
 		delayer.count++;
 		if(delayer.count/60 >= delayer.delay){
@@ -69,6 +77,14 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 				}
 		}
 	}, {components : ["movingBox", "b2polygon"]});
+	Puppets.system("boxRotate", function(rotatingBox, b2polygon, entity){
+		rotatingBox.position = b2polygon.body.GetPosition();
+		if (rotatingBox.direction === "counterClockwise")
+			rotatingBox.currentAngle -= (2*Math.PI)/(60*rotatingBox.speed);
+		else
+			rotatingBox.currentAngle += (2*Math.PI)/(60*rotatingBox.speed);
+		b2polygon.body.SetAngle(rotatingBox.currentAngle);
+	}, {components : ["rotatingBox", "b2polygon"]});
 	Puppets.entity("deathBox", {
 		components : [
 			"b2polygon",
@@ -166,7 +182,17 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 				enabled : false
 			}}
 		]
-	})
+	});
+	Puppets.entity("rotatingBox", {
+		components : [
+			"b2polygon",
+			"size",
+			"position",
+			"rotation",
+			"renderBox",
+			"rotatingBox"
+		]
+	});
 })
 
 

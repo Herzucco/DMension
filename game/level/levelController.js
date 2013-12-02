@@ -50,7 +50,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 		}, "backgrounds");
 		Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
 											x : 0,
-											y : (HEIGHT/SCALE)-10,
+											y : (HEIGHT/SCALE)-5,
 											width : 5,
 											restitution : 0.2,
 											friction : 100,
@@ -62,20 +62,55 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 											},
 											movingBox : {
 												steps : [{
-													x : 400,
-													y : 0,
-													delay : 1,
+													x : 0,
+													y : 50,
+													delay : 0.5,
+													pause : 0
+												},{
+													x : 0,
+													y : 50,
+													delay : 0.5,
+													pause : 0
+												},{
+													x : 0,
+													y : 50,
+													delay : 0.5,
+													pause : 0
+												},{
+													x : 0,
+													y : 50,
+													delay : 0.5,
+													pause : 0
+												},{
+													x : 0,
+													y : 50,
+													delay : 0.5,
+													pause : 0
+												},{
+													x : 0,
+													y : 50,
+													delay : 0.5,
+													pause : 0
+												},{
+													x : 0,
+													y : 50,
+													delay : 0.5,
+													pause : 0
+												},{
+													x : 0,
+													y : 50,
+													delay : 0.5,
 													pause : 0
 												}],
 												initStep : {
-													x : -400,
-													y : 0,
-													delay : 1,
-													pause : 0
+													x : 0,
+													y : -400,
+													delay : 0.1,
+													pause : 3
 												},
-												precision : 10
+												precision : 1
 											}});
-		Puppets.createEntity("crossableBox", {b2polygon : {world : world,
+		Puppets.createEntity("rotatingBox", {b2polygon : {world : world,
 											x : 0,
 											y : (HEIGHT/SCALE)-1,
 											width : 5,
@@ -86,6 +121,10 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 												color : "green",
 												context : mainCanvas.canvasContext.context,
 												cameraPosition : cameraPosition
+											},
+											rotatingBox : {
+												direction : "counterClockwise",
+												speed : 50
 											}});
 		var box = Puppets.createEntity("simpleBox2dBox", {b2polygon : {world : world,
 										x :1,
