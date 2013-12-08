@@ -11,4 +11,22 @@ define(["../loader/libraries/puppets"], function(Puppets){
     Puppets.component("velocity", function(data, entity, undefined){
         return {x : data.x || 0, y : data.y || 0}
     });
+    Puppets.component("delay", function(data){
+        return {
+            delay : data.delay || 0,
+            count : 0,
+            onEnd : data.onEnd || function(){}
+        }
+    });
+    Puppets.system("delayCount", function(delay, entity){
+        delay.count++;
+        if(delay.count/60 >= delay.delay){
+            var onEnd = delay.onEnd;
+            Puppets.removeComponent(entity, "delay");
+            onEnd.call({
+                entity : entity,
+                components : Puppets.getComponents(entity)[0]
+            });
+        }
+    }, {components : ["delay"]});
 });
