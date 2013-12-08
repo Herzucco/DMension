@@ -4,6 +4,7 @@ define(["../puppetsModules/box2dInterface",
     	"../puppetsModules/boxCollisionColor",
 		"../puppetsModules/brushModule",
         "../puppetsModules/gaugeModule",
+        "../puppetsModules/dialogueModule",
 		"../puppetsModules/camera",
 		"../puppetsModules/platformTypes"], function(){
 

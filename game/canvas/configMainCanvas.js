@@ -17,6 +17,7 @@ define(["../game"],
 			position.y = e.layerY;
 		}
 
+        e.preventDefault();
         return false;
     };
 	var clickOnCanvas = function(e){
@@ -26,6 +27,7 @@ define(["../game"],
 		mouseComponent.onMouseDown.apply({components : mouse, id : Game.mouseController.entity});
 		mouseComponent.clicked = true;
 
+        e.preventDefault();
         return false;
 	}
 	var unClickOnCanvas = function(e){
@@ -38,6 +40,7 @@ define(["../game"],
 		mouseComponent.onMouseUp.apply({components : mouse, id : Game.mouseController.entity});
 		mouseComponent.clicked = false;
 
+        e.preventDefault();
         return false;
 	}
 

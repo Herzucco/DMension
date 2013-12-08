@@ -48,7 +48,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 				cameraPosition : cameraPosition
 			}
 		}, "backgrounds");
-		Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
+		var crb = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
 											x : 0,
 											y : (HEIGHT/SCALE)-5,
 											width : 5,
@@ -164,7 +164,51 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 			onPreSolve : function(){
             }
 		})
-
+        Puppets.addComponent(box, "dialogueRole", {
+            context : mainCanvas.canvasContext.context,
+            cameraPosition : cameraPosition,
+            relativePosition : {
+                x : 0,
+                y : -20
+            },
+            font : "normal 20px Verdana",
+        });
+        Puppets.addComponent(crb, "dialogueRole", {
+            context : mainCanvas.canvasContext.context,
+            cameraPosition : cameraPosition,
+            relativePosition : {
+                x : 200,
+                y : -20
+            },
+            font : "normal 20px Verdana",
+        });
+        Puppets.createEntity("dialogueScene", {
+             dialogueScene : {
+                roles : {
+                    box : Puppets.getComponents(box)[0],
+                    tuto : Puppets.getComponents(crb)[0]
+                },
+                delay : 3,
+                text : [
+                        "tuto | Bonjour toi :)  | box | olala $1",
+                        "box | Walala, kesispass, comment tu parles ?//textColor :red, font : normal 30px Helvetica =>1 $1",
+                        "tuto | Haha, tout est possible ici :) $1",
+                        "box | M'ok. Tu veux quoi ? $1",
+                        "tuto | Je voudrais que tu comprennes ma fonction. $1",
+                        "tuto | Comme tu le vois je suis une plate-forme mouvante. $1",
+                        "box | M'ouep j'ai senti. $1",
+                        "box | Tu vas vite d'ailleurs $1",
+                        "tuto | J'aime la vitesse. $1",
+                        "box | Ah ouais not bad. $1"
+                    ],
+                didascalies : [
+                    function(){},
+                    function(previousSpeakers, speakers, roles){
+                        speakers.box.renderBox.color = "blue";
+                    },
+                ]
+                }
+        })
 		Game.observer.on("pressSpace", function(){
 			var body = this.b2polygon.body;
 
