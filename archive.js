@@ -39,3 +39,24 @@
      //         joint.enableMotor = true;
      //         world.CreateJoint(joint);
   //        }
+
+  // for(var i = 0; i < myArray.length; i+=4){
+            //     var component = {   fixtureDef : new Box2D.Dynamics.b2FixtureDef(),
+            //                     bodyDef : new Box2D.Dynamics.b2BodyDef(),
+            //                     polygonShape : new Box2D.Collision.Shapes.b2PolygonShape(),
+            //                 };
+            //     component.bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
+            //     component.fixtureDef.shape = component.polygonShape;
+            //     var vertices = [myArray[i], myArray[i+1], myArray[i+2], myArray[i+3]];
+            //     console.log(vertices);
+
+            //     for(var x = 0; x < vertices.length; x++){
+            //         vertices[x].x = vertices[x].x/SCALE;
+            //         vertices[x].y = vertices[x].y/SCALE;
+            //     }
+            //     component.fixtureDef.shape.SetAsArray(vertices, 4);
+            //     component.body = world.CreateBody( component.bodyDef );
+            //     component.body.CreateFixture( component.fixtureDef );
+            //     console.log(component);
+            //     console.log(world);
+            // }
