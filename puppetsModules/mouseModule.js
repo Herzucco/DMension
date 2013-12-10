@@ -20,6 +20,17 @@ define(["../loader/libraries/puppets", "./circleRendering"], function(Puppets){
 			clicked : false
 		}
 	});
+    Puppets.component("hover", function(data, entity, undefined){
+        return {
+            mouse : data.mouse || null,
+            onHover : data.onHover || function(){
+
+            },
+            onLeave : data.onLeave || function(){
+
+            }
+        }
+    });
 	Puppets.component("draged", function(data, entity, undefined){
 		return {
 			mouse : data.mouse || null,
@@ -36,6 +47,22 @@ define(["../loader/libraries/puppets", "./circleRendering"], function(Puppets){
 		]
 	});
 
+    Puppets.entity("button", {
+        components : [
+            "clickable",
+            "hover",
+            "renderBox",
+            "dialogueRole",
+            "position",
+            {
+                size : {
+                    width : 50,
+                    height : 50,
+                }
+            }
+        ]
+    });
+
 	Puppets.system("detectMouseDownOnBox", function(position, size, clickable, entity){
 		var mouse = clickable.mouse;
 		if (!clickable.clicked && mouse.mouse.clicked && position.x < mouse.position.x && position.x + size.width > mouse.position.x &&
@@ -45,6 +72,21 @@ define(["../loader/libraries/puppets", "./circleRendering"], function(Puppets){
 			clickable.onMouseDown.apply({components : Puppets.getComponents(entity)[0], id : entity}, [mouse]);
 		}
 	}, {components : ["position", "size", "clickable"]});
+    Puppets.system("detectMouseHoverOnBox", function(position, size, hover, entity){
+        var mouse = hover.mouse;
+        if(position.x < mouse.position.x && position.x + size.width > mouse.position.x &&
+            position.y < mouse.position.y && position.y + size.height > mouse.position.y){
+            if (!hover.hovered)
+            {
+                hover.hovered = true;
+                hover.onHover.apply({components : Puppets.getComponents(entity)[0], id : entity}, [mouse]);
+            }
+        }
+        else if(hover.hovered){
+            hover.hovered = false;
+            hover.onLeave.apply({components : Puppets.getComponents(entity)[0], id : entity}, [mouse]);
+        }
+    }, {components : ["position", "size", "hover"]});
 	Puppets.system("detectMouseUpOnBox", function(position, size, clickable, entity){
 		var mouse = clickable.mouse;
 		if (clickable.clicked && !mouse.mouse.clicked)

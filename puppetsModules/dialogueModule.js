@@ -10,8 +10,8 @@ define(["../loader/libraries/puppets"], function(Puppets){
             },
             textColor : data.textColor || "white",
             role : data.role || "",
-            talking : false,
-            text : false, 
+            talking : data.talking || false,
+            text : data.text || false, 
             context : data.context,
             cameraPosition : data.cameraPosition || {
                 x : 0,

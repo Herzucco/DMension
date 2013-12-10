@@ -21,14 +21,13 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		});
 		Puppets.addComponent(mouse, "renderCircle", {	canvas : canvas,
 														context : drawPaint, color : _self.config.color,
+                                                        clip : true,
 														cameraPosition : Game.cameraController.components.position,
 														PIXELS_ARRAY : Game.constants.PIXELS_ARRAY, isLittleEndian : Game.constants.isLittleEndian
 													},  false);
 
 		_self.entity = mouse;
 		_self.components = Puppets.getComponents(mouse)[0];
-
-		_self.setEvents();
 	}
 
 	MouseController.prototype.setEvents = function(){
