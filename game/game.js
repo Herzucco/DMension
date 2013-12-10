@@ -181,7 +181,7 @@ button3 = Puppets.createEntity("button", {
             },
             size : {
                 width : 16000,
-                height : 400*2
+                height : 16000
             },
             renderBox : {
                 color : "black",

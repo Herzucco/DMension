@@ -22,8 +22,8 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 				maxY : this.config.maxY
 			},
 			size : {
-				width : 600,
-				height : HEIGHT
+				width : this.config.width,
+				height : this.config.height,
 			}
 		});
 		this.entity = camera;
