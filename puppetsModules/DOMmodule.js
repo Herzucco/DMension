@@ -29,6 +29,7 @@ define(["../loader/libraries/puppets"], function(Puppets){
 			"DOMElement"
 		]
 	});
+    
 	Puppets.entity("canvas", {
 		components : [
 			"DOMElement",

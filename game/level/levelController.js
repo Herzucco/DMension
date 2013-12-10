@@ -33,21 +33,6 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 			},
 		});
 
-		Puppets.createEntity("box", {
-			position : {
-				x : 0,
-				y : 0
-			},
-			size : {
-				width : WIDTH,
-				height : HEIGHT*2
-			},
-			renderBox : {
-				color : "black",
-				context : mainCanvas.canvasContext.context,
-				cameraPosition : cameraPosition
-			}
-		}, "backgrounds");
 		var crb = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
 											x : 0,
 											y : (HEIGHT/SCALE)-5,
