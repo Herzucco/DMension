@@ -13,13 +13,13 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
 
 	Game.prototype.init = function(){
 		Puppets.collection(["backgrounds", "world", "canvas", "dynamics", "UI"]);
-        Puppets.systemList(["drawOnStencil", "drawGauge", "checkGauge", "dialogue",
-          "updateColliderBox", "checkCollidersBox",
-          "updateColorColliderBox", "checkColorCollision", "delayCount",
-           "updateTravelling", "updateCameraPosition", "RenderBox", "RenderCircle",
-            "detectMouseDownOnBox", "detectMouseHoverOnBox", "detectMouseUpOnBox",
-             "onDragging", "delaying", "boxMove", "boxRotate", "RenderWorldDebug",
-              "reverseGravity", "accelerateBody", "adaptBox", "drawRole"]);
+        // Puppets.systemList(["drawOnStencil", "drawGauge", "checkGauge", "dialogue",
+        //   "updateColliderBox", "checkCollidersBox",
+        //   "updateColorColliderBox", "checkColorCollision", "delayCount",
+        //    "updateTravelling", "updateCameraPosition", "RenderBox", "RenderCircle",
+        //     "detectMouseDownOnBox", "detectMouseHoverOnBox", "detectMouseUpOnBox",
+        //      "onDragging", "delaying", "boxMove", "boxRotate", "RenderWorldDebug",
+        //       "reverseGravity", "accelerateBody", "adaptBox", "drawRole"]);
 
 		this.observer = new EventController();
 		this.cameraController.init();

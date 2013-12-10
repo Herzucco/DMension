@@ -33,71 +33,9 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 			},
 		});
 
-		var crb = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
-											x : 0,
-											y : (HEIGHT/SCALE)-5,
-											width : 5,
-											restitution : 0.2,
-											friction : 100,
-											height : 10/SCALE},
-											renderBox : {
-												color : "green",
-												context : mainCanvas.canvasContext.context,
-												cameraPosition : cameraPosition
-											},
-											movingBox : {
-												steps : [{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												},{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												},{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												},{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												},{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												},{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												},{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												},{
-													x : 0,
-													y : 50,
-													delay : 0.5,
-													pause : 0
-												}],
-												initStep : {
-													x : 0,
-													y : -400,
-													delay : 0.1,
-													pause : 3
-												},
-												precision : 1
-											}});
-		Puppets.createEntity("rotatingBox", {b2polygon : {world : world,
-											x : 0,
-											y : (HEIGHT/SCALE)-1,
+		Puppets.createEntity("deathPlatform", {b2polygon : {world : world,
+											x : 5,
+											y : 5,
 											width : 5,
 											restitution : 0.2,
 											friction : 0,
@@ -106,10 +44,6 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 												color : "green",
 												context : mainCanvas.canvasContext.context,
 												cameraPosition : cameraPosition
-											},
-											rotatingBox : {
-												direction : "counterClockwise",
-												speed : 50
 											}});
 		var box = Puppets.createEntity("simpleBox2dBox", {b2polygon : {world : world,
 										x :1,
@@ -148,52 +82,36 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 			tag : "player",
 			onPreSolve : function(){
             }
-		})
-        Puppets.addComponent(box, "dialogueRole", {
-            context : mainCanvas.canvasContext.context,
-            cameraPosition : cameraPosition,
-            relativePosition : {
-                x : 0,
-                y : -20
-            },
-            font : "normal 20px Verdana",
+		});
+        Puppets.addComponent(box, "gaugeComponent", {
+            color : "rgba(0,0,0,0)",
+            strokeColor : "rgba(0,0,0,0)",
+            valueMax : Game.constants.playerMaxLife,
+            onEmpty : function(){
+                Puppets.addComponent(this.entity, "BODYTODESTROY", {});
+                for(var i in this.components){
+                    this.components[i].enabled = false;
+                };
+                Puppets.addComponent(this.entity, "delay", {
+                    delay : 3,
+                    onEnd : function(){
+                        for(var i in this.components){
+                            this.components[i].enabled = true;
+                        };
+                        this.components.gaugeComponent.currentValue = this.components.gaugeComponent.valueMax;
+                        Puppets.addComponent(this.entity, "b2polygon", {
+                            world : world,
+                            x :1,
+                            y :-10,
+                            width : 10/SCALE,
+                            dynamic : true,
+                            friction : 0,
+                            height : 10/SCALE
+                        })
+                    }
+                });
+            }
         });
-        Puppets.addComponent(crb, "dialogueRole", {
-            context : mainCanvas.canvasContext.context,
-            cameraPosition : cameraPosition,
-            relativePosition : {
-                x : 200,
-                y : -20
-            },
-            font : "normal 20px Verdana",
-        });
-        Puppets.createEntity("dialogueScene", {
-             dialogueScene : {
-                roles : {
-                    box : Puppets.getComponents(box)[0],
-                    tuto : Puppets.getComponents(crb)[0]
-                },
-                delay : 3,
-                text : [
-                        "tuto | Bonjour toi :)  | box | olala $1",
-                        "box | Walala, kesispass, comment tu parles ?//textColor :red, font : normal 30px Helvetica =>1 $1",
-                        "tuto | Haha, tout est possible ici :) $1",
-                        "box | M'ok. Tu veux quoi ? $1",
-                        "tuto | Je voudrais que tu comprennes ma fonction. $1",
-                        "tuto | Comme tu le vois je suis une plate-forme mouvante. $1",
-                        "box | M'ouep j'ai senti. $1",
-                        "box | Tu vas vite d'ailleurs $1",
-                        "tuto | J'aime la vitesse. $1",
-                        "box | Ah ouais not bad. $1"
-                    ],
-                didascalies : [
-                    function(){},
-                    function(previousSpeakers, speakers, roles){
-                        speakers.box.renderBox.color = "blue";
-                    },
-                ]
-                }
-        })
 		Game.observer.on("pressSpace", function(){
 			var body = this.b2polygon.body;
 
@@ -227,6 +145,20 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                     }
                     if(componentsB.components.hasOwnProperty("collisionReaction")){
                         componentsB.components.collisionReaction.onPreSolve.call(componentsB, componentsA, contact);
+                    }
+                },
+                beginContact : function(contact, manifold){
+                    var t = new Box2D.Collision.b2WorldManifold();
+                    contact.GetWorldManifold(t)
+                            
+                    var entities = [ contact.GetFixtureA().GetBody().GetUserData().entity, contact.GetFixtureB().GetBody().GetUserData().entity ];
+                    var componentsA = { components : Puppets.getComponents(entities[0])[0], entity : entities[0]};
+                    var componentsB = { components : Puppets.getComponents(entities[1])[0], entity : entities[1]};
+                    if(componentsA.components.hasOwnProperty("collisionReaction")){
+                        componentsA.components.collisionReaction.onBeginContact.call(componentsA, componentsB, contact);
+                    }
+                    if(componentsB.components.hasOwnProperty("collisionReaction")){
+                        componentsB.components.collisionReaction.onBeginContact.call(componentsB, componentsA, contact);
                     }
                 }
             }
