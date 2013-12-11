@@ -1,0 +1,9 @@
+Contrôles : A,Z,E,R pour changer de couleur.
+A : déplacement vers la gauche
+Z : déplacement vers la haut
+E : déplacement vers la droite
+R : déplacement vers la bas
+Shift pour passe à la gomme
+Espace pour mettre la pause
+
+Le but est d'arriver au bout du niveau, en évitant les blocs mortels.
