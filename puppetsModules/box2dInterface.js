@@ -35,11 +35,12 @@ define(["../loader/libraries/puppets", "./box2dPuppet", "./boxRendering"], funct
             entity : entity
         };
     });
-    Puppets.system("destroyBody", function(b2polygon,BODYTODESTROY, entity){
+    Puppets.system("destroyBody", function(b2polygon, BODYTODESTROY, entity){
         var body = b2polygon.body;
         var world = b2polygon.world;
 
         world.DestroyBody(body);
+        Puppets.removeComponent(entity, "BODYTODESTROY");
         Puppets.removeComponent(entity, "b2polygon");
     }, {components : ["b2polygon", "BODYTODESTROY"]});
 

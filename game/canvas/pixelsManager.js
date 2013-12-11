@@ -17,5 +17,5 @@ define([], function(){
 		return { PIXELS_ARRAY : PIXELS_ARRAY, isLittleEndian : isLittleEndian, maxPixelsArray : maxPixelsArray};
 	}
 
-	return PIXELS_ARRAY(30000000);
+	return PIXELS_ARRAY(256000000);
 });

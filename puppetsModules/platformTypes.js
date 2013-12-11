@@ -1,4 +1,4 @@
-define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Box2D, Puppets){
+define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppets"], function(Game, Box2D, Puppets){
 	Puppets.component("crossableBox", function(data, entity, undefined){
 		return {};
 	});
@@ -95,7 +95,6 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 			{"collisionReaction" : {
 				tag : "platform",
 				onPreSolve : function(other){
-					console.log("huehuehue");
 				}
 			}}
 		]
@@ -196,6 +195,25 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
                 onBeginContact : function(other, contact){
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
                         other.components.gaugeComponent.currentValue = 0;
+                    }
+                }
+            }},
+        ]
+    });
+
+    Puppets.entity("checkPoint", {
+        components : [
+            "b2polygon",
+            "size",
+            "position",
+            "rotation",
+            "renderBox",
+            {"collisionReaction" : {
+                tag : "checkPoint",
+                onPreSolve : function(other, contact){
+                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        other.components.position.lastPosition = this.components.position;
+                        contact.SetEnabled(false);
                     }
                 }
             }},

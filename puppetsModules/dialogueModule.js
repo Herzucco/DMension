@@ -170,5 +170,5 @@ define(["../loader/libraries/puppets"], function(Puppets){
 
             context.fillText(text, drawPosition.x, drawPosition.y);
         }
-    }, {components : ["dialogueRole", "position"]})
+    }, {components : ["dialogueRole", "position"], position : 30})
 });
