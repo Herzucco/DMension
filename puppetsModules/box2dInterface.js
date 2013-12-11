@@ -30,6 +30,20 @@ define(["../loader/libraries/puppets", "./box2dPuppet", "./boxRendering"], funct
 			speed : data.speed || 0
 		};
 	});
+    Puppets.component("BODYTODESTROY", function(data, entity){
+        return {
+            entity : entity
+        };
+    });
+    Puppets.system("destroyBody", function(b2polygon, BODYTODESTROY, entity){
+        var body = b2polygon.body;
+        var world = b2polygon.world;
+
+        world.DestroyBody(body);
+        Puppets.removeComponent(entity, "BODYTODESTROY");
+        Puppets.removeComponent(entity, "b2polygon");
+    }, {components : ["b2polygon", "BODYTODESTROY"]});
+
 	Puppets.system("reverseGravity", function(b2reverseGravity,b2polygon){
 		var body = b2polygon.body;
 

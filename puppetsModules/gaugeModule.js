@@ -23,35 +23,41 @@ define(["../loader/libraries/puppets"], function(Puppets){
 
     Puppets.system("drawGauge", function(position, size, gaugeComponent, entity){
        var context = gaugeComponent.context;
-       var strokeColor = gaugeComponent.strokeColor;
+       if(context !== undefined){
+            var strokeColor = gaugeComponent.strokeColor;
 
-       context.strokeStyle = strokeColor;
-       context.strokeRect(position.x, position.y, size.width, size.height);
+            context.strokeStyle = strokeColor;
+            context.strokeRect(position.x, position.y, size.width, size.height);
 
-       var color = gaugeComponent.color;
-       var height = gaugeComponent.currentValue/gaugeComponent.valueMax*size.height;
-       var positionY = position.y + (size.height - height);
+            var color = gaugeComponent.color;
+            var height = gaugeComponent.currentValue/gaugeComponent.valueMax*size.height;
+            var positionY = position.y + (size.height - height);
 
-       context.fillStyle = color;
-       context.fillRect(position.x, positionY, size.width, height);
+            context.fillStyle = color;
+            context.fillRect(position.x, positionY, size.width, height);
+       }
     }, {components : ["position", "size", "gaugeComponent"]})
     Puppets.system("checkGauge", function(gaugeComponent, entity){
+        var contextToApply = {
+            entity : entity,
+            components : Puppets.getComponents(entity)[0]
+        }
        if(gaugeComponent.currentValue >= gaugeComponent.valueMax){
             gaugeComponent.full = true;
-            gaugeComponent.onFull.call(Puppets.getComponents(entity)[0]);
+            gaugeComponent.onFull.call(contextToApply);
        }
        else if(gaugeComponent.currentValue <= gaugeComponent.valueMin){
             gaugeComponent.empty = true;
-            gaugeComponent.onEmpty.call(Puppets.getComponents(entity)[0]);
+            gaugeComponent.onEmpty.call(contextToApply);
        }
        else{
             if(gaugeComponent.full){
                 gaugeComponent.full = false;
-                gaugeComponent.onFullToStable.call(Puppets.getComponents(entity)[0]);
+                gaugeComponent.onFullToStable.call(contextToApply);
             }
             else if(gaugeComponent.empty){
                 gaugeComponent.empty = false;
-                gaugeComponent.onEmptyToStable.call(Puppets.getComponents(entity)[0]);
+                gaugeComponent.onEmptyToStable.call(contextToApply);
             }
        }
     }, {components : ["gaugeComponent"]})
