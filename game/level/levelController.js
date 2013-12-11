@@ -290,20 +290,34 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                     if(i !== "BODYTODESTROY" && i !== "b2polygon")
                         this.components[i].enabled = false;
                 };
-                Puppets.addComponent(this.entity, "delay", {
-                    delay : 3,
-                    onEnd : function(){
-                        for(var i in this.components){
-                            this.components[i].enabled = true;
+                var _self = this;
+                var fade = Puppets.createEntity("box", {
+                                                        position : {
+                                                            x : 0,
+                                                            y : 0
+                                                        },
+                                                        size : {
+                                                            width : 16000,
+                                                            height : 16000
+                                                        },
+                                                        renderBox : {
+                                                            color : "rgba(0,0,0,0)",
+                                                            context : _self.components.renderBox.context,
+                                                            cameraPosition : _self.components.renderBox.cameraPosition,
+                                                        }
+                                                    }, "UI");
+                    Puppets.addComponent(fade, "fadeInFadeOut", {onAnimationMiddle : function(){
+                        for(var i in _self.components){
+                            _self.components[i].enabled = true;
                         };
-                        this.components.gaugeComponent.currentValue = this.components.gaugeComponent.valueMax;
+                        _self.components.gaugeComponent.currentValue = _self.components.gaugeComponent.valueMax;
 
-                        if(this.components.position.lastPosition !== undefined)
-                            var newPosition = { x : this.components.position.lastPosition.x/SCALE, y : this.components.position.lastPosition.y/SCALE};
+                        if(_self.components.position.lastPosition !== undefined)
+                            var newPosition = { x : _self.components.position.lastPosition.x/SCALE, y : _self.components.position.lastPosition.y/SCALE};
                         else
                             var newPosition = {x : 3, y : 42};
 
-                        Puppets.addComponent(this.entity, "b2polygon", {
+                        Puppets.addComponent(_self.entity, "b2polygon", {
                             world : world,
                             x :newPosition.x,
                             y :newPosition.y,
@@ -312,8 +326,11 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                             friction : 0,
                             height : 10/SCALE
                         });
-                    }
-                });
+                    },
+                    time : 2,
+                    onAnimationEnd : function(){
+                        Puppets.removeEntity(this.entity);
+                    }});
             }
         });
 		Puppets.addComponent(box, "dialogueRole", {

@@ -13,14 +13,17 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
        };
     });
     Puppets.system("fadeInFadeOut", function(fadeInFadeOut, renderBox, entity){
-        //console.log(renderBox);
+        var contextToApply = {
+            entity : entity,
+            components : Puppets.getComponents(entity)[0]
+        }
         if(fadeInFadeOut.fading === "in"){
             fadeInFadeOut.currentAlpha += 1/(fadeInFadeOut.time*60);
             if(fadeInFadeOut.currentAlpha > 1){
             	fadeInFadeOut.currentAlpha = 1;
                 fadeInFadeOut.fading = "out";
                 if(!fadeInFadeOut.loop)
-                    fadeInFadeOut.onAnimationMiddle();
+                    fadeInFadeOut.onAnimationMiddle.call(contextToApply);
             }
         }
         else if (fadeInFadeOut.fading === "out"){
@@ -30,7 +33,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
                 if(fadeInFadeOut.loop)
                     fadeInFadeOut.fading = "in";
                 else
-                    fadeInFadeOut.onAnimationEnd();
+                    fadeInFadeOut.onAnimationEnd.call(contextToApply);
             }
         }
         renderBox.color = "rgba("+fadeInFadeOut.red+","+fadeInFadeOut.green+","+fadeInFadeOut.blue+","+fadeInFadeOut.currentAlpha+")";
