@@ -1,11 +1,11 @@
-define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Box2D, Puppets){
+define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppets"], function(Game, Box2D, Puppets){
 	Puppets.component("crossableBox", function(data, entity, undefined){
 		return {};
 	});
 	Puppets.component("collisionReaction", function(data, entity, undefined){
 		return {
 			tag : data.tag || "untagged",
-			onCollision : data.onCollision || function(){},
+			onBeginContact : data.onBeginContact || function(){},
 			onPreSolve : data.onPreSolve || function(){}
 		};
 	});
@@ -95,7 +95,6 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 			{"collisionReaction" : {
 				tag : "platform",
 				onPreSolve : function(other){
-					console.log("huehuehue");
 				}
 			}}
 		]
@@ -183,6 +182,43 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 			}}
 		]
 	});
+
+    Puppets.entity("deathPlatform", {
+        components : [
+            "b2polygon",
+            "size",
+            "position",
+            "rotation",
+            "renderBox",
+            {"collisionReaction" : {
+                tag : "deathPlatform",
+                onBeginContact : function(other, contact){
+                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        other.components.gaugeComponent.currentValue = 0;
+                    }
+                }
+            }},
+        ]
+    });
+
+    Puppets.entity("checkPoint", {
+        components : [
+            "b2polygon",
+            "size",
+            "position",
+            "rotation",
+            "renderBox",
+            {"collisionReaction" : {
+                tag : "checkPoint",
+                onPreSolve : function(other, contact){
+                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        other.components.position.lastPosition = this.components.position;
+                        contact.SetEnabled(false);
+                    }
+                }
+            }},
+        ]
+    });
 	Puppets.entity("rotatingBox", {
 		components : [
 			"b2polygon",

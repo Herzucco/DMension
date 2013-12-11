@@ -1,4 +1,4 @@
-define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
+define(["../loader/libraries/puppets", "./baseComponents", "./dialogueModule"], function(Puppets){
 	Puppets.component("target", function(data, entity){
 		console.log(data);
 		return {
