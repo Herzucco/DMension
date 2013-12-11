@@ -31,20 +31,91 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 			DOMElement : {
 				element : document.getElementById("pixelCounter")
 			},
-		});
-
-// Puppets.createEntity("deathPlatform", {b2polygon : {world : world,
-//                                             x : 5,
-//                                             y : 37,
-//                                             width : 5,
-//                                             restitution : 0.2,
-//                                             friction : 0,
-//                                             height : 10/SCALE},
-//                                             renderBox : {
-//                                                 color : "green",
-//                                                 context : mainCanvas.canvasContext.context,
-//                                                 cameraPosition : cameraPosition
-//                                             }});
+		});		
+		var crb = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
+											x : 6.37,
+											y : 29.85,
+											width : 2.9,
+											restitution : 0.2,
+											friction : 100,
+											height : 10/SCALE},
+											renderBox : {
+												color : "green",
+												context : mainCanvas.canvasContext.context,
+												cameraPosition : cameraPosition
+											},
+											movingBox : {
+												steps : [{
+													x : 0,
+													y : -150,
+													delay : 1,
+													pause : 2
+												},{
+													x : 0,
+													y : -142,
+													delay : 1,
+													pause : 2
+												},{
+													x : 0,
+													y : -142,
+													delay : 1,
+													pause : 2
+												},{
+													x : 0,
+													y : -300,
+													delay : 2,
+													pause : 6
+												},{
+													x : 750,
+													y : 0,
+													delay : 6,
+													pause : 1
+												},{
+													x : 0,
+													y : 150,
+													delay : 1,
+													pause : 1
+												},{
+													x : -750,
+													y : 0,
+													delay : 1,
+													pause : 1
+												}],
+												initStep : {
+													x : 0,
+													y : 584,
+													delay : 1,
+													pause : 3
+												},
+												precision : 1
+											}});
+		Puppets.createEntity("alreadyMovingBox", {b2polygon : {world : world,
+											x : 43,
+											y : 48.5,
+											width : 2.9,
+											restitution : 0.2,
+											friction : 100,
+											height : 10/SCALE},
+											renderBox : {
+												color : "green",
+												context : mainCanvas.canvasContext.context,
+												cameraPosition : cameraPosition
+											},
+											movingBox : {
+												steps : [{
+													x : -380,
+													y : 0,
+													delay : 1,
+													pause : 3
+												}],
+												initStep : {
+													x : 380,
+													y : 0,
+													delay : 1,
+													pause : 3
+												},
+												precision : 1
+											}});
         Puppets.createEntity("checkPoint", {b2polygon : {world : world,
                                             x : 11,
                                             y : 28,
@@ -55,6 +126,22 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                                             renderBox : {
                                                 cameraPosition : cameraPosition
                                             }});
+		Puppets.createEntity("rotatingBox", {b2polygon : {world : world,
+											x : 18.2,
+											y : 0,
+											width : 5,
+											restitution : 0.2,
+											friction : 0,
+											height : 10/SCALE},
+											renderBox : {
+												color : "red",
+												context : mainCanvas.canvasContext.context,
+												cameraPosition : cameraPosition
+											},
+											rotatingBox : {
+												direction : "clockwise",
+												speed : 18
+											}});
 		Puppets.createEntity("rotatingBox", {b2polygon : {world : world,
 											x : 25,
 											y : 8.4,
@@ -229,6 +316,40 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                 });
             }
         });
+		Puppets.addComponent(box, "dialogueRole", {
+            context : mainCanvas.canvasContext.context,
+            cameraPosition : cameraPosition,
+            relativePosition : {
+                x : 0,
+                y : -20
+            },
+            font : "normal 20px Verdana",
+        });
+        Puppets.createEntity("dialogueScene", {
+             dialogueScene : {
+                roles : {
+                    box : Puppets.getComponents(box)[0]
+                },
+                delay : 3,
+                text : [
+                		"box | Salut, jeune joueur!",
+                		"box | Alors comme ça on veut jouer à Cloud Soul?",
+                		"box | Pour peindre, utilise les touches A, Z, E, R.",
+                		"box | Ca te fera aller respectivement vers la gauche,",
+                		"box | le haut, la droite et le bas.",
+                		"box | Tu peux traverser les blocs verts verticalement.",
+                		"box | Essaie de peindre en violet quand tu es dessus. //textColor :purple",
+                		"box | Ah, et évite de toucher les blocs bleu ciel. //textColor:rgb(0,255,255)",
+                		"box | Cette couleur est démoniaque..."
+                    ],
+                didascalies : [
+                    function(){},
+                    function(previousSpeakers, speakers, roles){
+                        speakers.box.renderBox.color = "blue";
+                    },
+                ]
+                }
+        })
 		Game.observer.on("pressSpace", function(){
 			var body = this.b2polygon.body;
 

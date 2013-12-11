@@ -5,6 +5,7 @@ define(["../puppetsModules/box2dInterface",
 		"../puppetsModules/brushModule",
         "../puppetsModules/gaugeModule",
 		"../puppetsModules/camera",
-		"../puppetsModules/platformTypes"], function(){
+		"../puppetsModules/platformTypes",
+		"../puppetsModules/animationModules"], function(){
 
 });

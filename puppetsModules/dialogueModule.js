@@ -78,7 +78,7 @@ define(["../loader/libraries/puppets"], function(Puppets){
                 }
                 var styles = {};
                 for(var u = 0; u < textAndStyle.length; u++){
-                    var styleProperties = textAndStyle[u].split(",");
+                    var styleProperties = textAndStyle[u].split(";");
                     for(var y = 0; y < styleProperties.length; y++){
                         var styleProperty = styleProperties[y].split(":");
                         var property = styleProperty[0].replace(/ /g,'');
@@ -161,7 +161,7 @@ define(["../loader/libraries/puppets"], function(Puppets){
             var context = dialogueRole.context;
             var style = dialogueRole.text.style;
             var text = dialogueRole.text.text;
-
+            
             context.fillStyle = style.textColor || dialogueRole.textColor;
             context.font      = style.font || dialogueRole.font;
             context.baseline = style.baseline || dialogueRole.baseline;

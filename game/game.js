@@ -13,13 +13,13 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
 
 	Game.prototype.init = function(){
 		Puppets.collection(["backgrounds", "world", "canvas", "dynamics", "UI"]);
-        // Puppets.systemList(["drawOnStencil", "drawGauge", "checkGauge", "dialogue",
-        //   "updateColliderBox", "checkCollidersBox",
-        //   "updateColorColliderBox", "checkColorCollision", "delayCount",
-        //    "updateTravelling", "updateCameraPosition", "RenderBox", "RenderCircle",
-        //     "detectMouseDownOnBox", "detectMouseHoverOnBox", "detectMouseUpOnBox",
-        //      "onDragging", "delaying", "boxMove", "boxRotate", "RenderWorldDebug",
-        //       "reverseGravity", "accelerateBody", "adaptBox", "drawRole"]);
+       /* Puppets.systemList(["drawOnStencil", "drawGauge", "checkGauge", "dialogue",
+          "updateColliderBox", "checkCollidersBox",
+          "updateColorColliderBox", "checkColorCollision", "delayCount",
+           "updateTravelling", "updateCameraPosition", "RenderBox", "RenderCircle",
+            "detectMouseDownOnBox", "detectMouseHoverOnBox", "detectMouseUpOnBox",
+             "onDragging", "delaying", "boxMove", "boxRotate", "RenderWorldDebug",
+              "reverseGravity", "accelerateBody", "adaptBox", "drawRole"]);*/
 
 		this.observer = new EventController();
 		this.cameraController.init();
@@ -75,14 +75,31 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
                     
                 },
                 onMouseUp : function(){
-                    _self.mouseController.components.renderCircle.clip = false;
-                    _self.mouseController.setEvents();
-                    _self.UIController.init();
-                    _self.levelController.init();
-                    Puppets.removeEntity(title);
-                    Puppets.removeEntity(button);
-                    Puppets.removeEntity(button2);
-                    Puppets.removeEntity(button3);
+                    var fade = Puppets.createEntity("box", {
+                                                        position : {
+                                                            x : 0,
+                                                            y : 0
+                                                        },
+                                                        size : {
+                                                            width : 16000,
+                                                            height : 16000
+                                                        },
+                                                        renderBox : {
+                                                            color : "rgba(0,0,0,0)",
+                                                            context : _self.canvasController.mainCanvas.components.canvasContext.context,
+                                                            cameraPosition : _self.cameraController.components.position,
+                                                        }
+                                                    }, "UI");
+                    Puppets.addComponent(fade, "fadeInFadeOut", {onAnimationMiddle : function(){
+                        _self.mouseController.components.renderCircle.clip = false;
+                        _self.mouseController.setEvents();
+                        _self.UIController.init();
+                        _self.levelController.init();
+                        Puppets.removeEntity(title);
+                        Puppets.removeEntity(button);
+                        Puppets.removeEntity(button2);
+                        Puppets.removeEntity(button3);
+                    }});
                 }
             },
             position : {
