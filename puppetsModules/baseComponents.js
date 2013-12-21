@@ -1,4 +1,5 @@
 define(["../loader/libraries/puppets"], function(Puppets){
+    Puppets.entity("empty", {components : []});
 	Puppets.component("size", function(data, entity, undefined){
 		return {width : data.width || 0, height : data.height || 0};
 	});

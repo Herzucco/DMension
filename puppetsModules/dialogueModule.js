@@ -128,7 +128,7 @@ define(["../loader/libraries/puppets"], function(Puppets){
                             var entity = components.dialogueRole.entity;
                             Puppets.removeComponent(entity, "dialogueRole");
                         }
-                        Puppets.removeEntity(this.entity);
+                        Puppets.removeComponent(this.entity, "dialogueScene");
                         return;
                     }
 
