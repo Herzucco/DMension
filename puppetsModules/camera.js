@@ -1,6 +1,5 @@
 define(["../loader/libraries/puppets", "./baseComponents", "./dialogueModule"], function(Puppets){
 	Puppets.component("target", function(data, entity){
-		console.log(data);
 		return {
 			position : data.position || {
 				x : 0,

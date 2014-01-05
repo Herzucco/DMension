@@ -20,7 +20,6 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
 		this.worldController.init();
 		this.mouseController.init();
         this.dialogueController.init();
-        console.log(this)
         this.menuController.init();
 	}
 	return new Game;

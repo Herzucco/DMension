@@ -22,8 +22,8 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 			DOMElement : {
 				element : document.getElementById("pixelCounter")
 			},
-		});		
-		var crb = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
+		});
+		var box = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
 											x : 6.37,
 											y : 29.85,
 											width : 2.9,
@@ -80,7 +80,24 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 												},
 												precision : 1
 											}});
-		Puppets.createEntity("alreadyMovingBox", {b2polygon : {world : world,
+        Puppets.addComponent(box, "colorColliderBox", {
+                            tag : "someBox",
+                            colorAccuracy : 5, 
+                            onColorCollisionEnter : function(colors){
+                                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
+                                console.log(this.components.phase.currentPhase)
+                            },
+                            onColorCollisionExit : function(colors){
+                                this.components.phase.currentPhase = this.components.phase.defaultPhase;
+                            },
+                            testWidth : Game.constants.WIDTH,
+                            data : Game.constants.DIMENSION_PIXELS
+                        });
+        Puppets.addComponent(box, "phase", {
+                            currentPhase : "mainCanvas",
+                            defaultPhase : "mainCanvas"
+                        });
+		box = Puppets.createEntity("alreadyMovingBox", {b2polygon : {world : world,
 											x : 43,
 											y : 48.5,
 											width : 2.9,
@@ -107,6 +124,19 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 												},
 												precision : 1
 											}});
+        Puppets.addComponent(box, "colorColliderBox", {
+                            tag : "someBox",
+                            colorAccuracy : 5, 
+                            onColorCollisionEnter : function(colors){
+                                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
+                                console.log(this.components.phase.currentPhase)
+                            },
+                            onColorCollisionExit : function(colors){
+                                this.components.phase.currentPhase = this.components.phase.defaultPhase;
+                            },
+                            testWidth : Game.constants.WIDTH,
+                            data : Game.constants.DIMENSION_PIXELS
+                        });
         Puppets.createEntity("checkPoint", {b2polygon : {world : world,
                                             x : 11,
                                             y : 28,
@@ -117,123 +147,40 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                                             renderBox : {
                                                 cameraPosition : cameraPosition
                                             }});
-		Puppets.createEntity("rotatingBox", {b2polygon : {world : world,
-											x : 18.2,
-											y : 0,
-											width : 5,
+		box = Puppets.createEntity("fallingBox", {b2polygon : {world : world,
+											x : 8,
+											y : 42,
+											width : 1,
 											restitution : 0.2,
 											friction : 0,
 											height : 10/SCALE},
 											renderBox : {
 												color : "red",
-												context : mainCanvas.canvasContext.context,
+												context : Game.canvasController.otherDimension.components.canvasContext.context,
 												cameraPosition : cameraPosition
 											},
-											rotatingBox : {
-												direction : "clockwise",
-												speed : 18
-											}});
-		Puppets.createEntity("rotatingBox", {b2polygon : {world : world,
-											x : 25,
-											y : 8.4,
-											width : 5,
-											restitution : 0.2,
-											friction : 0,
-											height : 10/SCALE},
-											renderBox : {
-												color : "red",
-												context : mainCanvas.canvasContext.context,
-												cameraPosition : cameraPosition
-											},
-											rotatingBox : {
-												direction : "counterClockwise",
-												speed : 18
-											}});
-        var crb = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
-                                            x : 6.37,
-                                            y : 29.85,
-                                            width : 2.9,
-                                            restitution : 0.2,
-                                            friction : 100,
-                                            height : 10/SCALE},
-                                            renderBox : {
-                                                color : "green",
-                                                context : mainCanvas.canvasContext.context,
-                                                cameraPosition : cameraPosition
-                                            },
-                                            movingBox : {
-                                                steps : [{
-                                                    x : 0,
-                                                    y : -150,
-                                                    delay : 1,
-                                                    pause : 2
-                                                },{
-                                                    x : 0,
-                                                    y : -142,
-                                                    delay : 1,
-                                                    pause : 2
-                                                },{
-                                                    x : 0,
-                                                    y : -142,
-                                                    delay : 1,
-                                                    pause : 2
-                                                },{
-                                                    x : 0,
-                                                    y : -300,
-                                                    delay : 2,
-                                                    pause : 6
-                                                },{
-                                                    x : 750,
-                                                    y : 0,
-                                                    delay : 6,
-                                                    pause : 1
-                                                },{
-                                                    x : 0,
-                                                    y : 150,
-                                                    delay : 1,
-                                                    pause : 1
-                                                },{
-                                                    x : -750,
-                                                    y : 0,
-                                                    delay : 1,
-                                                    pause : 1
-                                                }],
-                                                initStep : {
-                                                    x : 0,
-                                                    y : 584,
-                                                    delay : 1,
-                                                    pause : 3
-                                                },
-                                                precision : 1
+                                            phase : {
+                                                defaultPhase : "otherCanvas",
+                                                currentPhase : "mainCanvas"
                                             }});
-        Puppets.createEntity("alreadyMovingBox", {b2polygon : {world : world,
-                                            x : 43,
-                                            y : 48.5,
-                                            width : 2.9,
-                                            restitution : 0.2,
-                                            friction : 100,
-                                            height : 10/SCALE},
-                                            renderBox : {
-                                                color : "green",
-                                                context : mainCanvas.canvasContext.context,
-                                                cameraPosition : cameraPosition
-                                            },
-                                            movingBox : {
-                                                steps : [{
-                                                    x : -380,
-                                                    y : 0,
-                                                    delay : 1,
-                                                    pause : 3
-                                                }],
-                                                initStep : {
-                                                    x : 380,
-                                                    y : 0,
-                                                    delay : 1,
-                                                    pause : 3
-                                                },
-                                                precision : 1
-                                            }});
-		
+
+        Puppets.addComponent(box, "colorColliderBox", {
+            tag : "someBox",
+            colorAccuracy : 5, 
+            onColorCollisionEnter : function(colors){
+                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
+                console.log(this.components)
+            },
+            onColorCollisionExit : function(colors){
+                this.components.phase.currentPhase = this.components.phase.defaultPhase;
+            },
+            testWidth : Game.constants.WIDTH,
+            data : Game.constants.DIMENSION_PIXELS
+        });
+		Puppets.addComponent(box, "phase", {
+            currentPhase : "mainCanvas",
+            defaultPhase : "otherCanvas"
+        });
 
         var image = new Image();
         image.src = "LD.png";
@@ -248,8 +195,9 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
             for(var i in parser.shapes){
                 var shape = parser.shapes[i];
                 if(shape.lowerLeft.y > shape.upperLeft.y && shape.upperRight.x > shape.upperLeft.x){
+                    var box;
                 	if (shape.color.red === 255 && shape.color.green === 0 && shape.color.blue === 0){
-    	                Puppets.createEntity("simpleBox2dBox", {
+    	                box = Puppets.createEntity("simpleBox2dBox", {
     	                    renderBox : {
     	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
     	                        context : mainCanvas.canvasContext.context,
@@ -266,7 +214,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
     	                });
                     }
                     else if (shape.color.red === 0 && shape.color.green === 255 && shape.color.blue === 0){
-                        Puppets.createEntity("crossableBox", {
+                        box = Puppets.createEntity("crossableBox", {
     	                    renderBox : {
     	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
     	                        context : mainCanvas.canvasContext.context,
@@ -283,7 +231,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
     	                });
                     }
                     else if (shape.color.red === 0 && shape.color.green === 0 && shape.color.blue === 255){
-                        Puppets.createEntity("fallingBox", {
+                        box = Puppets.createEntity("fallingBox", {
     	                    renderBox : {
     	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
     	                        context : mainCanvas.canvasContext.context,
@@ -300,7 +248,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
     	                });
                     }
                     else if (shape.color.red === 0 && shape.color.green === 255 && shape.color.blue === 255){
-                        Puppets.createEntity("deathPlatform", {
+                        box = Puppets.createEntity("deathPlatform", {
     	                    renderBox : {
     	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
     	                        context : mainCanvas.canvasContext.context,
@@ -316,10 +264,61 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
     	                    }
     	                });
                     }
+                    if(box){
+                        Puppets.addComponent(box, "phase", {
+                            currentPhase : "mainCanvas",
+                            defaultPhase : "mainCanvas"
+                        });
+                        Puppets.addComponent(box, "colorColliderBox", {
+                            tag : "someBox",
+                            colorAccuracy : 5, 
+                            onColorCollisionEnter : function(colors){
+                                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
+                            },
+                            onColorCollisionExit : function(colors){
+                                this.components.phase.currentPhase = this.components.phase.defaultPhase;
+                            },
+                            testWidth : Game.constants.WIDTH,
+                            data : Game.constants.DIMENSION_PIXELS
+                        });
+                    }
                 }
             }
         }
+        for(var i = 0; i < 100; i++){
+            Puppets.createEntity("perlinCircle", {
+            radius : {
+                radius : 2
+            },
+            renderCircle : {
+                color : "rgba(0,0,255, 1)",
+                context : mainCanvas.canvasContext.context,
+            },
+            perlinMovement : {
+                seeds : [1, Math.random()*1000, 100000],
+                increments : [0.001, 0.001, 0.001],
+                widthMap : [0, 600],
+                heightMap : [0, 400]
+            },
+            position : {
+                x : 90,
+                y : 320
+            },
+        }, "dynamics");
+        }
+        
+        function rand(min, max) {
+            return parseInt(Math.random() * (max-min+1), 10) + min;
+        }
+
+        function get_random_color() {
+            var h = rand(1, 360);
+            var s = rand(0, 100);
+            var l = rand(0, 100);
+            return 'hsl(' + h + ',' + s + '%,' + l + '%)';
+        }
 	}
 
+    
 	return new Level();
 });

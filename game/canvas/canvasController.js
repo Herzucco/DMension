@@ -1,7 +1,7 @@
 define(["../../loader/libraries/puppets", "../game", "./canvasDimensionCreator",
 		 "./canvasCreator", "../mouse/mouseController",
-		 "./configMainCanvas", "./configFirstDimension"],
-function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, configMainCanvas, configFirstDimension){
+		 "./configMainCanvas", "./configFirstDimension", "../constants"],
+function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, configMainCanvas, configFirstDimension, constants){
 	var CanvasController = function(configMainCanvas, configFirstDimension){
 		this.configMainCanvas = configMainCanvas;
 		this.configFirstDimension = configFirstDimension;
@@ -18,26 +18,69 @@ function(Puppets, Game, CanvasDimensionCreator, CanvasCreator, mouseController, 
 			}
 		});
 
-		var firstDrawPaint = CanvasCreator({
-			collection : "canvas",
-			canvas : document.getElementById("buffer1")
-		});
-
-		firstColor = CanvasDimensionCreator({
-			collection : "canvas",
-			size : {
-				width : Game.constants.WIDTH,
-				height : Game.constants.HEIGHT,
-			},
-			buffer : firstDrawPaint.components.canvasContext,
-			stencil : mainCanvas.components.canvasContext,
-			cameraPosition : Game.cameraController.components.position,
-		});
-		firstColor.drawPaint = firstDrawPaint;
-
 		this.mainCanvas = mainCanvas;
-		this.firstColor = firstColor;
+        this.buildDimensionBuffer(mainCanvas);
+        this.buildColorBuffer(mainCanvas);
 	};
+
+    CanvasController.prototype.buildColorBuffer = function(mainCanvas){
+        var canvas = document.getElementById("colorBuffer");
+        canvas.width = constants.WIDTH;
+        canvas.height = constants.HEIGHT;
+
+        var drawPaint = CanvasCreator({
+            collection : "canvas",
+            canvas : canvas
+        });
+
+        var firstColor = CanvasDimensionCreator({
+            collection : "canvas",
+            size : {
+                width : Game.constants.PAINTWIDTH,
+                height : Game.constants.PAINTHEIGHT,
+            },
+            buffer : document.getElementById("colorBuffer"),
+            stencil : mainCanvas.components.canvasContext.context,
+            cameraPosition : Game.cameraController.components.position,
+            type : "color"
+        });
+
+        firstColor.drawPaint = drawPaint;
+
+        this.firstColor = firstColor;
+    }
+
+    CanvasController.prototype.buildDimensionBuffer = function(mainCanvas){
+        var canvas = document.getElementById("dimension");
+        canvas.width = constants.WIDTH;
+        canvas.height = constants.HEIGHT;
+
+        var drawPaint = CanvasCreator({
+            collection : "canvas",
+            canvas : canvas
+        });
+
+        var dimension = CanvasDimensionCreator({
+            collection : "canvas",
+            size : {
+                width : Game.constants.PAINTWIDTH,
+                height : Game.constants.PAINTHEIGHT,
+            },
+            canvas : document.createElement("canvas"),
+            buffer : document.getElementById("dimension"),
+            stencil : mainCanvas.components.canvasContext.context,
+            cameraPosition : Game.cameraController.components.position,
+            type : "dimension"
+        });
+        
+        dimension.drawPaint = drawPaint;
+
+        this.otherDimension = dimension;
+    }
+
+    CanvasController.prototype.changePhase = function(phase){
+        this.otherDimension.components.phase.currentPhase = phase;
+    }
 
 	return new CanvasController(configMainCanvas, configFirstDimension);
 });

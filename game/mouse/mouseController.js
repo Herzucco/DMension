@@ -23,7 +23,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 														context : drawPaint, color : _self.config.color,
                                                         clip : true,
 														cameraPosition : Game.cameraController.components.position,
-														PIXELS_ARRAY : Game.constants.PIXELS_ARRAY, isLittleEndian : Game.constants.isLittleEndian
+														PIXELS_ARRAY : Game.constants.COLORS_PIXELS, isLittleEndian : Game.constants.isLittleEndian
 													},  false);
 
 		_self.entity = mouse;
@@ -46,6 +46,8 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		Game.observer.on("pressA", function(){
 			var _self = this;
 
+            _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
+            _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
 			_self.components.renderCircle.color = "rgba(255,0,0,0.5)";
             if(!_self.components.renderCircle.clip)
                 Game.observer.trigger("colorChanged", ["rgba(255,0,0,0.5)"]);
@@ -54,6 +56,8 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		Game.observer.on("pressZ", function(){
 			var _self = this;
 
+            _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
+            _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
 			_self.components.renderCircle.color = "rgba(0,255,0,0.5)";
             if(!_self.components.renderCircle.clip)
                 Game.observer.trigger("colorChanged", ["rgba(0,255,0,0.5)"]);
@@ -62,6 +66,8 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		Game.observer.on("pressE", function(){
 			var _self = this;
 
+            _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
+            _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
 			_self.components.renderCircle.color = "rgba(0,0,255,0.5)";
             if(!_self.components.renderCircle.clip)
                 Game.observer.trigger("colorChanged", ["rgba(0,0,255,0.5)"]);
@@ -70,10 +76,22 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		Game.observer.on("pressR", function(){
 			var _self = this;
 
+            _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
+            _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
 			_self.components.renderCircle.color = "rgba(255,0,255,0.5)";
             if(!_self.components.renderCircle.clip)
                 Game.observer.trigger("colorChanged", ["rgba(255,0,255,0.5)"]);
 		}, _self);
+
+        Game.observer.on("pressX", function(){
+            var _self = this;
+
+            _self.components.renderCircle.context = Game.canvasController.otherDimension.drawPaint.components.canvasContext.context;
+            _self.components.renderCircle.PIXELS_ARRAY = Game.constants.DIMENSION_PIXELS;
+            _self.components.renderCircle.color = "rgba(100,100,100,0.5)";
+            if(!_self.components.renderCircle.clip)
+                Game.observer.trigger("colorChanged", ["rgba(100,100,100,0.5)"]);
+        }, _self);
 	}
 
 	return new MouseController(config);

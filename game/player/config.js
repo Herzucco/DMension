@@ -6,7 +6,7 @@ define(["../game"], function(Game){
                 b2polygon : {
                     world : Game.worldController.world,
                     x : 3,
-                    y : 42,
+                    y : 40,
                     dynamic : true,
                     width : 10/constants.SCALE,
                     height : 10/constants.SCALE
@@ -38,7 +38,7 @@ define(["../game"], function(Game){
                         Puppets.removeComponent(this.id, "b2accelerate");   
                     },
                         testWidth : constants.WIDTH,
-                        data : constants.PIXELS_ARRAY
+                        data : constants.COLORS_PIXELS
                 },
                 gaugeComponent : {
                     valueMax : constants.playerMaxLife,

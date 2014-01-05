@@ -6,6 +6,7 @@ define(["../puppetsModules/box2dInterface",
         "../puppetsModules/gaugeModule",
 		"../puppetsModules/camera",
 		"../puppetsModules/platformTypes",
-		"../puppetsModules/animationModules"], function(){
+		"../puppetsModules/animationModules",
+        "../puppetsModules/particle"], function(){
 
 });

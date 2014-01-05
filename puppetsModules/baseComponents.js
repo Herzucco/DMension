@@ -19,6 +19,18 @@ define(["../loader/libraries/puppets"], function(Puppets){
             onEnd : data.onEnd || function(){}
         }
     });
+    Puppets.component("childEntity", function(data){
+        return {
+            parent : data.parent,
+            parentEntity : data.parentEntity
+        }
+    });
+    Puppets.component("parentEntity", function(data){
+        return {
+            child : data.child,
+            childEntity : data.childEntity
+        }
+    });
     Puppets.system("delayCount", function(delay, entity){
         delay.count++;
         if(delay.count/60 >= delay.delay){
@@ -30,4 +42,17 @@ define(["../loader/libraries/puppets"], function(Puppets){
             });
         }
     }, {components : ["delay"]});
+    Puppets.system("updatePositionParent", function(childEntity, position){
+        position.x = childEntity.parent.position.x;
+        position.y = childEntity.parent.position.y;
+    }, {components : ["childEntity", "position"]});
+    Puppets.system("updateSizeParent", function(childEntity, size){
+        size.width = childEntity.parent.size.width;
+        size.height = childEntity.parent.size.height;
+    }, {components : ["childEntity", "size"]});
+    Puppets.system("updateRotationParent", function(childEntity, rotation){
+        rotation.x = childEntity.parent.rotation.x;
+        rotation.y = childEntity.parent.rotation.y;
+        rotation.angle = childEntity.parent.rotation.angle;
+    }, {components : ["childEntity", "rotation"]});
 });

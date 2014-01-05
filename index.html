@@ -4,16 +4,24 @@
 </head>
 <body>
 	<style>
-	canvas{
+	/*canvas{
 		position : absolute;
 		left : calc(50% - 300px);
 		top : calc(50% - 400px);
-	}
+	}*/
+   /* canvas{
+        position : absolute;
+        left : calc(50% - 600px);
+        top : calc(50% - 400px);
+        width : 1200px;
+        height : 800px;
+    }*/
 	</style>
 	<div id="pixelCounter"></div>
-	<canvas id="canvas" width="600" height="400" style="border: 1px solid black;" ></canvas>
-    <!-- <canvas id="test" width="600" height="400" style="border: 1px solid black;" ></canvas> -->
-	<canvas id="buffer1" width="8000" height="8000" style="display : none" ></canvas>
+	<canvas id="canvas" style="border: 1px solid black;"></canvas>
+	<canvas id="colorBuffer" style="display : none;"></canvas>
+    <canvas id="dimension" style="display : none;"></canvas>
+
 	<script data-main="loader/config" src="libraries/require.min.js"></script>
 </body>
 </html>

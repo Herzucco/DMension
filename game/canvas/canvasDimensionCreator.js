@@ -1,5 +1,5 @@
 define(["../../loader/libraries/puppets", "./canvasCreator"], function(Puppets, CanvasCreator){
-	var CanvasDimensionCreator = function(config){
+	var CanvasDimensionCreator = function(config, type){
 		if(typeof config !== "object")
 			config = {};
 
@@ -11,12 +11,16 @@ define(["../../loader/libraries/puppets", "./canvasCreator"], function(Puppets, 
 		if(!config.hasOwnProperty("stencil"))
 			config.stencil = CanvasCreator(config);
 
-		Puppets.addComponent(canvasObject.entity, "contextStencil", {
-			buffer : config.buffer.canvas,
-			stencil : config.stencil.context,
-			cameraPosition : config.cameraPosition
-		});
-
+        Puppets.addComponent(canvasObject.entity, "contextStencil", {
+            buffer : config.buffer,
+            stencil : config.stencil,
+            cameraPosition : config.cameraPosition,
+            type : config.type
+        });
+        Puppets.addComponent(canvasObject.entity, "phase", {
+            currentPhase : "otherCanvas",
+            defaultPhase : "otherCanvas"
+        });
 		return {
 			entity : canvasObject.entity,
 			components : Puppets.getComponents(canvasObject.entity)[0]

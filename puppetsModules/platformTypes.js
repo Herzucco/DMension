@@ -85,20 +85,8 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 			rotatingBox.currentAngle += (2*Math.PI)/(60*rotatingBox.speed);
 		b2polygon.body.SetAngle(rotatingBox.currentAngle);
 	}, {components : ["rotatingBox", "b2polygon"]});
-	Puppets.entity("deathBox", {
-		components : [
-			"b2polygon",
-			"size",
-			"position",
-			"rotation",
-			"renderBox",
-			{"collisionReaction" : {
-				tag : "platform",
-				onPreSolve : function(other){
-				}
-			}}
-		]
-	});
+
+
 	Puppets.entity("crossableBox", {
 		components : [
 			"b2polygon",
@@ -197,7 +185,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                         other.components.gaugeComponent.currentValue = 0;
                     }
                 }
-            }},
+            }}
         ]
     });
 
@@ -216,7 +204,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                         contact.SetEnabled(false);
                     }
                 }
-            }},
+            }}
         ]
     });
 	Puppets.entity("rotatingBox", {

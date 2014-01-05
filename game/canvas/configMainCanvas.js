@@ -1,53 +1,48 @@
-define(["../game"],
- function(Game){
+define(["../game", "../constants"],
+ function(Game, constants){
 
 	var moveOnCanvas = function(e){
 		var mouse = Game.mouseController.components;
-		var mouseComponent = mouse.mouse;
     	var position = mouse.position;
-    	var firstDimension = Game.canvasController.firstDimension;
-    	var camera = Game.cameraController.components;
 
 		if(e.offsetX){
-			position.x = e.offsetX;
-			position.y = e.offsetY;
+			position.x = e.offsetX// >> 1;
+			position.y = e.offsetY// >> 1;
 		}
 		else if(e.layerX){
-			position.x = e.layerX;
-			position.y = e.layerY;
+			position.x = e.layerX// >> 1;
+			position.y = e.layerY// >> 1;
 		}
 
         e.preventDefault();
-        return false;
     };
 	var clickOnCanvas = function(e){
 		var mouse = Game.mouseController.components;
 		var mouseComponent = mouse.mouse;
 
-		mouseComponent.onMouseDown.apply({components : mouse, id : Game.mouseController.entity});
+		mouseComponent.onMouseDown.call({components : mouse, id : Game.mouseController.entity});
 		mouseComponent.clicked = true;
 
         e.preventDefault();
-        return false;
 	}
 	var unClickOnCanvas = function(e){
 		var mouse = Game.mouseController.components;
 		var mouseComponent = mouse.mouse;
-		var position = mouse.position;
-		var firstDimension = Game.canvasController.firstDimension;
-    	var camera = Game.cameraController.components;
 
-		mouseComponent.onMouseUp.apply({components : mouse, id : Game.mouseController.entity});
+		mouseComponent.onMouseUp.call({components : mouse, id : Game.mouseController.entity});
 		mouseComponent.clicked = false;
 
         e.preventDefault();
-        return false;
 	}
+
+    var canvas = document.getElementById("canvas");
+    canvas.width = constants.PAINTWIDTH;
+    canvas.height = constants.PAINTHEIGHT;
 
 	return {
 		mouseup : unClickOnCanvas,
 		mousedown : clickOnCanvas,
 		mousemove : moveOnCanvas,
-		canvas : document.getElementById("canvas"),
+		canvas : canvas,
 	}
 });

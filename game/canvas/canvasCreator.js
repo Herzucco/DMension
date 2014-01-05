@@ -21,8 +21,6 @@ define(["../../loader/libraries/puppets"], function(Puppets){
 				globaleCompositeOperation : config.globaleCompositeOperation
 			}
 		}, config.collection);
-		var ctx = Puppets.getComponents(canvasEntity)[0].canvasContext.context;
-		var data = Puppets.getComponents(canvasEntity)[0].canvasContext.data;
 
 		return {
 			entity : canvasEntity,

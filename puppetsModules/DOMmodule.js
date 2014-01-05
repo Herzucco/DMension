@@ -15,10 +15,9 @@ define(["../loader/libraries/puppets"], function(Puppets){
 		var component = {
 			data : data.data || { colorData : null},
 			context : data.context || null,
-			globaleCompositeOperation : data.globaleCompositeOperation || null,
 			canvas : data.canvas || null
 		};
-		if(data.hasOwnProperty("canvas"))
+		if(data.hasOwnProperty("canvas") && !data.hasOwnProperty("context"))
 			component.context = data.canvas.getContext('2d');
 
 		return component;
@@ -29,7 +28,6 @@ define(["../loader/libraries/puppets"], function(Puppets){
 			"DOMElement"
 		]
 	});
-    
 	Puppets.entity("canvas", {
 		components : [
 			"DOMElement",

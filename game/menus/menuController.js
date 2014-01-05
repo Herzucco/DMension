@@ -20,6 +20,21 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 cameraPosition : _self.cameraController.components.position,
             }
         }, "backgrounds");
+        Puppets.createEntity("box", {
+            position : {
+                x : 0,
+                y : 0
+            },
+            size : {
+                width : 1600,
+                height : 1600
+            },
+            renderBox : {
+                color : "black",
+                context : _self.canvasController.otherDimension.components.canvasContext.context,
+                cameraPosition : _self.cameraController.components.position,
+            }
+        }, "backgrounds");
         var button, button2, button3, title;
         title = Puppets.createEntity("button", {
             renderBox : {
