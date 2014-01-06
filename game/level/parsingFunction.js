@@ -72,6 +72,22 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         }
                     });
                 }
+                else if (shape.color.red === 255 && shape.color.green === 255 && shape.color.blue === 0){
+                        box = Puppets.createEntity("checkPoint", {
+                            renderBox : {
+                                cameraPosition : cameraPosition
+                            },
+                            b2polygon : {
+                                world : world,
+                                x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
+                                y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
+                                 width : (shape.upperRight.x - shape.upperLeft.x + 16)/SCALE/2,
+                                height : (shape.lowerLeft.y - shape.upperLeft.y + 16)/SCALE/2,
+                                restitution : 0.2,
+                                friction : 0,
+                            }
+                        });
+                    }
                 if(box){
                     Puppets.addComponent(box, "phase", {
                         currentPhase : phase,

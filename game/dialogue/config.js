@@ -28,7 +28,15 @@ define(["../game"], function(Game){
             delay : 3,
             text : [
                  "speaker | Attention!",
-                 "speaker | Ne touche pas ce bloc bleu ciel!"
+                 "speaker | Ne touche pas ce bloc bleu ciel!",
+                 "speaker | Oh ! Je ne t'ai pas parlé de certains détails",
+                 "speaker | Si les choses vont trop vite pour toi",
+                 "speaker | Appuie sur la touche espace $4",
+                 "speaker | Tu peux même peindre quand tu es immobile grâce à ce pouvoir //font:normal 15px Verdana $4",
+                 "speaker | Ah et aussi, sache que ta peinture est limitée en ressources //font:normal 15px Verdana $4",
+                 "speaker | Appuie sur shift, pour passer en mode gomme, et effacer ta peinture //font:normal 15px Verdana $4",
+                 "speaker | Ctrl te permet aussi de tout effacer d'un seul coup !",
+                 "speaker | Bon faut que j'arrête de parler moi."
                 ],
             didascalies : []
         },
@@ -47,8 +55,11 @@ define(["../game"], function(Game){
             text : [
                  "speaker | Qu'est ce que...?",
                  "speaker | Tu sais ce que c'est que ça?",
-                 "speaker | Ca ne m'a pas l'air dangereux.",
-                 "speaker | Essaie de le toucher?"
+                 "speaker | Ce mur n'existait pas avant.",
+                 "speaker | Fais appel à tes souvenirs.",
+                 "speaker | Appuie sur x pour passer ta peinture en mode souvenir",
+                 "speaker | Et peins ce mur pourpre.",
+
                 ],
             didascalies : []
         },
@@ -66,9 +77,10 @@ define(["../game"], function(Game){
             delay : 3,
             text : [
                  "speaker | C'est génial! Tu as traversé le mur!",
-                 "speaker | Il y a sûrement d'autres souvenirs par ici!",
-                 "speaker | Et pense à vérifier les murs suspects.",
-                 "speaker | Ca ne doit pas être le seul mur comme ça."
+                 "speaker | Il y a sûrement des souvenirs à collecter !",
+                 "speaker | Ils permettront de trouver de nouveaux passages secrets.",
+                 "speaker | Peut être existe-t-il tout un monde caché dans cette réalité",
+                 "speaker | Un monde que seuls tes souvenirs connaissent !",
                 ],
             didascalies : []
         },

@@ -33,6 +33,8 @@ define(["../../loader/libraries/puppets", "../game", "keypress", "dancer"], func
         var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
         drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
         otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
+
+        Game.observer.trigger("pixelsChanged", [0, true]);
     });
 	Keypress.combo("p", function(){
 		window.music = new Dancer();

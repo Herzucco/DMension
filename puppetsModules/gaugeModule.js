@@ -45,6 +45,11 @@ define(["../loader/libraries/puppets"], function(Puppets){
        if(gaugeComponent.currentValue >= gaugeComponent.valueMax){
             gaugeComponent.full = true;
             gaugeComponent.onFull.call(contextToApply);
+            if(gaugeComponent.empty){
+                console.log("siubve")
+                gaugeComponent.empty = false;
+                gaugeComponent.onEmptyToStable.call(contextToApply);
+            }
        }
        else if(gaugeComponent.currentValue <= gaugeComponent.valueMin){
             gaugeComponent.empty = true;

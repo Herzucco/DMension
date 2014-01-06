@@ -25,9 +25,9 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
 		});
 
 		var box = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
-											x : 6.37,
-											y : 29.85,
-											width : 2.9,
+											x : 4,
+											y : 27,
+											width : 0.7,
 											restitution : 0.2,
 											friction : 100,
 											height : 10/SCALE},
@@ -263,20 +263,50 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
             parser.compile();
             parse(parser, {x : 0, y : 0}, mainCanvas.canvasContext.context, cameraPosition, world, "mainCanvas");
         }
-
+        box = Puppets.createEntity("simpleBox2dBox", {
+            renderBox : {
+                color : "purple",
+                context : mainCanvas.canvasContext.context,
+                cameraPosition : cameraPosition
+            },
+            b2polygon : {
+                world : world,
+                width : 1,
+                height : 2,
+                dynamic : false,
+                x : 25.8,
+                y : 17,
+            }
+        });
+        Puppets.addComponent(box, "phase", {
+            currentPhase : "mainCanvas",
+            defaultPhase : "mainCanvas"
+        });
+        Puppets.addComponent(box, "colorColliderBox", {
+            tag : "someBox",
+            colorAccuracy : 5, 
+            onColorCollisionEnter : function(colors){
+                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
+            },
+            onColorCollisionExit : function(colors){
+                this.components.phase.currentPhase = this.components.phase.defaultPhase;
+            },
+            testWidth : Game.constants.WIDTH,
+            data : Game.constants.DIMENSION_PIXELS
+        });
         var memory = Puppets.createEntity("memory", {
             memoryScenery : {
                 src : "blanc.png",
-                width : 100,
-                height : 100
+                width : 1*SCALE*2,
+                height : 2*SCALE*2
             },
             size : {
-                width : 100,
-                height : 100
+                width : 1*SCALE*2,
+                height : 2*SCALE
             },
             position : {
-                x : 100,
-                y : 1200
+                x : 25.8*SCALE-25,
+                y : 17*SCALE-50
             },
             memoryData : {
                 context : mainCanvas.canvasContext.context,
