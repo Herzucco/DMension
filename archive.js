@@ -77,3 +77,36 @@
         //         ]
         //         }
         // })
+
+// for(var i = 0; i < 100; i++){
+//             Puppets.createEntity("perlinCircle", {
+//             radius : {
+//                 radius : 2
+//             },
+//             renderCircle : {
+//                 color : "rgba(0,0,255, 1)",
+//                 context : mainCanvas.canvasContext.context,
+//             },
+//             perlinMovement : {
+//                 seeds : [1, Math.random()*1000, 100000],
+//                 increments : [0.001, 0.001, 0.001],
+//                 widthMap : [0, 600],
+//                 heightMap : [0, 400]
+//             },
+//             position : {
+//                 x : 90,
+//                 y : 320
+//             },
+//         }, "dynamics");
+//         }
+        
+//         function rand(min, max) {
+//             return parseInt(Math.random() * (max-min+1), 10) + min;
+//         }
+
+//         function get_random_color() {
+//             var h = rand(1, 360);
+//             var s = rand(0, 100);
+//             var l = rand(0, 100);
+//             return 'hsl(' + h + ',' + s + '%,' + l + '%)';
+//         }
