@@ -1,4 +1,4 @@
-define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Puppets, Game, PNGParser){
+define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFunction"], function(Puppets, Game, PNGParser, parse){
 	var Level = function(config){
 		
 	}
@@ -261,147 +261,47 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                            accuracy : 1,
                         });
             parser.compile();
-            for(var i in parser.shapes){
-                var shape = parser.shapes[i];
-                if(shape.lowerLeft.y > shape.upperLeft.y && shape.upperRight.x > shape.upperLeft.x){
-                    var box;
-                	if (shape.color.red === 255 && shape.color.green === 0 && shape.color.blue === 0){
-    	                box = Puppets.createEntity("simpleBox2dBox", {
-    	                    renderBox : {
-    	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
-    	                        context : mainCanvas.canvasContext.context,
-    	                        cameraPosition : cameraPosition
-    	                    },
-    	                    b2polygon : {
-    	                        world : world,
-    	                        width : (shape.upperRight.x - shape.upperLeft.x +16)/SCALE/2,
-    	                        height : (shape.lowerLeft.y - shape.upperLeft.y +16)/SCALE/2,
-    	                        dynamic : false,
-    	                        x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
-    	                        y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
-    	                    }
-    	                });
-                    }
-                    else if (shape.color.red === 0 && shape.color.green === 255 && shape.color.blue === 0){
-                        box = Puppets.createEntity("crossableBox", {
-    	                    renderBox : {
-    	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
-    	                        context : mainCanvas.canvasContext.context,
-    	                        cameraPosition : cameraPosition
-    	                    },
-    	                    b2polygon : {
-    	                        world : world,
-    	                        width : (shape.upperRight.x - shape.upperLeft.x +16)/SCALE/2,
-    	                        height : (shape.lowerLeft.y - shape.upperLeft.y +16)/SCALE/2,
-    	                        dynamic : false,
-    	                        x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
-    	                        y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
-    	                    }
-    	                });
-                    }
-                    else if (shape.color.red === 0 && shape.color.green === 0 && shape.color.blue === 255){
-                        box = Puppets.createEntity("fallingBox", {
-    	                    renderBox : {
-    	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
-    	                        context : mainCanvas.canvasContext.context,
-    	                        cameraPosition : cameraPosition
-    	                    },
-    	                    b2polygon : {
-    	                        world : world,
-    	                        width : (shape.upperRight.x - shape.upperLeft.x +16)/SCALE/2,
-    	                        height : (shape.lowerLeft.y - shape.upperLeft.y +16)/SCALE/2,
-    	                        dynamic : false,
-    	                        x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
-    	                        y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
-    	                    }
-    	                });
-                    }
-                    else if (shape.color.red === 0 && shape.color.green === 255 && shape.color.blue === 255){
-                        box = Puppets.createEntity("deathPlatform", {
-    	                    renderBox : {
-    	                        color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
-    	                        context : mainCanvas.canvasContext.context,
-    	                        cameraPosition : cameraPosition
-    	                    },
-    	                    b2polygon : {
-    	                        world : world,
-    	                        width : (shape.upperRight.x - shape.upperLeft.x +16)/SCALE/2,
-    	                        height : (shape.lowerLeft.y - shape.upperLeft.y +16)/SCALE/2,
-    	                        dynamic : false,
-    	                        x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
-    	                        y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
-    	                    }
-    	                });
-                    }
-                    else if (shape.color.red === 255 && shape.color.green === 255 && shape.color.blue === 0){
-                        box = Puppets.createEntity("checkPoint", {
-                            renderBox : {
-                                cameraPosition : cameraPosition
-                            },
-                            b2polygon : {
-                                world : world,
-                                x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
-                                y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
-                                 width : (shape.upperRight.x - shape.upperLeft.x +16)/SCALE/2,
-                                height : (shape.lowerLeft.y - shape.upperLeft.y +16)/SCALE/2,
-                                restitution : 0.2,
-                                friction : 0,
-                            }
-                        });
-                    }
-                    if(box){
-                        Puppets.addComponent(box, "phase", {
-                            currentPhase : "mainCanvas",
-                            defaultPhase : "mainCanvas"
-                        });
-                        Puppets.addComponent(box, "colorColliderBox", {
-                            tag : "someBox",
-                            colorAccuracy : 5, 
-                            onColorCollisionEnter : function(colors){
-                                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
-                            },
-                            onColorCollisionExit : function(colors){
-                                this.components.phase.currentPhase = this.components.phase.defaultPhase;
-                            },
-                            testWidth : Game.constants.WIDTH,
-                            data : Game.constants.DIMENSION_PIXELS
-                        });
-                    }
-                }
-            }
-        }
-        for(var i = 0; i < 100; i++){
-            Puppets.createEntity("perlinCircle", {
-            radius : {
-                radius : 2
-            },
-            renderCircle : {
-                color : "rgba(0,0,255, 1)",
-                context : mainCanvas.canvasContext.context,
-            },
-            perlinMovement : {
-                seeds : [1, Math.random()*1000, 100000],
-                increments : [0.001, 0.001, 0.001],
-                widthMap : [0, 600],
-                heightMap : [0, 400]
-            },
-            position : {
-                x : 90,
-                y : 320
-            },
-        }, "dynamics");
-        }
-        
-        function rand(min, max) {
-            return parseInt(Math.random() * (max-min+1), 10) + min;
+            parse(parser, {x : 0, y : 0}, mainCanvas.canvasContext.context, cameraPosition, world, "mainCanvas");
         }
 
-        function get_random_color() {
-            var h = rand(1, 360);
-            var s = rand(0, 100);
-            var l = rand(0, 100);
-            return 'hsl(' + h + ',' + s + '%,' + l + '%)';
-        }
+        var memory = Puppets.createEntity("memory", {
+            memoryScenery : {
+                src : "blanc.png",
+                width : 100,
+                height : 100
+            },
+            size : {
+                width : 100,
+                height : 100
+            },
+            position : {
+                x : 100,
+                y : 1200
+            },
+            memoryData : {
+                context : mainCanvas.canvasContext.context,
+                cameraPosition : cameraPosition,
+                world : world,
+                phase : "mainCanvas"
+            },
+            hover : {
+                mouse : Game.mouseController.components,
+                onHovering : function(mouse){
+                    if(mouse.renderCircle.color === "rgba(100,100,100,0.5)"){
+                        if(mouse.mouse.clicked){
+                            mouse.renderCircle.enabled = true;
+                            mouse.TOACTIVE = true;
+                        } 
+                    }
+                },
+                onLeave : function(mouse){
+                    if(mouse.renderCircle.color === "rgba(100,100,100,0.5)"){
+                        mouse.renderCircle.enabled = false;
+                        mouse.TOACTIVE = false;
+                    }
+                },
+            }
+        });
 	}
 
     

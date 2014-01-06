@@ -28,7 +28,10 @@ define(["../loader/libraries/puppets", "./circleRendering"], function(Puppets){
             },
             onLeave : data.onLeave || function(){
 
-            }
+            },
+            onHovering : data.onHovering || function(){
+
+            },
         }
     });
 	Puppets.component("draged", function(data, entity, undefined){
@@ -80,6 +83,9 @@ define(["../loader/libraries/puppets", "./circleRendering"], function(Puppets){
             {
                 hover.hovered = true;
                 hover.onHover.apply({components : Puppets.getComponents(entity)[0], id : entity}, [mouse]);
+            }
+            else{
+                hover.onHovering.apply({components : Puppets.getComponents(entity)[0], id : entity}, [mouse]);
             }
         }
         else if(hover.hovered){

@@ -2,19 +2,16 @@ define(["../../loader/libraries/puppets", "../game", "keypress", "dancer"], func
 	Keypress.combo("shift", function() {
     	Game.observer.trigger("pressShift");
 	});
-	Keypress.combo("a", function() {
-    	Game.observer.trigger("pressA");
-	});
 	Keypress.combo("q", function() {
     	Game.observer.trigger("pressA");
 	});
 	Keypress.combo("z", function() {
     	Game.observer.trigger("pressZ");
 	});
-	Keypress.combo("e", function() {
+	Keypress.combo("d", function() {
     	Game.observer.trigger("pressE");
 	});
-	Keypress.combo("r", function() {
+	Keypress.combo("s", function() {
     	Game.observer.trigger("pressR");
 	});
 	Keypress.combo("x", function() {
@@ -26,6 +23,17 @@ define(["../../loader/libraries/puppets", "../game", "keypress", "dancer"], func
 	Keypress.combo("y", function() {
     	Game.observer.trigger("pressY");
 	});
+    Keypress.combo("ctrl", function() {
+        for(var i in Game.constants.maxPixelsArray){
+            Game.constants.COLORS_PIXELS[i] = 0;
+            Game.constants.DIMENSION_PIXELS[i] = 0;
+            Game.constants.maxPixelsArray[i] = false;
+        }
+        var drawPaint = Game.canvasController.firstColor.drawPaint.components.canvasContext;
+        var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
+        drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
+        otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
+    });
 	Keypress.combo("p", function(){
 		window.music = new Dancer();
 		music.load({src : "assets/480253_Colloseum.mp3"});

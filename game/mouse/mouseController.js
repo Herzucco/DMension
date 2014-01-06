@@ -36,6 +36,8 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		Game.observer.on("pressShift", function(){
 			var _self = this;
 
+             _self.components.TOACTIVE = true;
+
 			_self.components.renderCircle.clip = !_self.components.renderCircle.clip;
             if(_self.components.renderCircle.clip === true)
                 Game.observer.trigger("colorChanged", ["rgba(255,255,255,0.5)"]);
@@ -45,6 +47,10 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 
 		Game.observer.on("pressA", function(){
 			var _self = this;
+
+             _self.components.TOACTIVE = true;
+             if(_self.components.mouse.clicked)
+             _self.components.renderCircle.enabled = true;
 
             _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
             _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
@@ -56,6 +62,10 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		Game.observer.on("pressZ", function(){
 			var _self = this;
 
+             _self.components.TOACTIVE = true;
+             if(_self.components.mouse.clicked)
+             _self.components.renderCircle.enabled = true;
+
             _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
             _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
 			_self.components.renderCircle.color = "rgba(0,255,0,0.5)";
@@ -65,6 +75,10 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 
 		Game.observer.on("pressE", function(){
 			var _self = this;
+
+             _self.components.TOACTIVE = true;
+             if(_self.components.mouse.clicked)
+             _self.components.renderCircle.enabled = true;
 
             _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
             _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
@@ -76,6 +90,10 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 		Game.observer.on("pressR", function(){
 			var _self = this;
 
+            _self.components.TOACTIVE = true;
+            if(_self.components.mouse.clicked)
+            _self.components.renderCircle.enabled = true;
+
             _self.components.renderCircle.context = Game.canvasController.firstColor.drawPaint.components.canvasContext.context;
             _self.components.renderCircle.PIXELS_ARRAY = Game.constants.COLORS_PIXELS;
 			_self.components.renderCircle.color = "rgba(255,0,255,0.5)";
@@ -85,6 +103,9 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 
         Game.observer.on("pressX", function(){
             var _self = this;
+
+            _self.components.TOACTIVE = false;
+            _self.components.renderCircle.enabled = false;
 
             _self.components.renderCircle.context = Game.canvasController.otherDimension.drawPaint.components.canvasContext.context;
             _self.components.renderCircle.PIXELS_ARRAY = Game.constants.DIMENSION_PIXELS;

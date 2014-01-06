@@ -7,6 +7,7 @@ define(["../puppetsModules/box2dInterface",
 		"../puppetsModules/camera",
 		"../puppetsModules/platformTypes",
 		"../puppetsModules/animationModules",
-        "../puppetsModules/particle"], function(){
+        "../puppetsModules/particle",
+        "../puppetsModules/memories"], function(){
 
 });
