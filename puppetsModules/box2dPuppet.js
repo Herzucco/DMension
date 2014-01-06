@@ -52,9 +52,8 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 		if(component.fixedRotate)
 			component.body.SetFixedRotation(true);
 
-		component.body.SetUserData({width : data.width || 0,
-									height : data.height || 0,
-									entity : entity});
+		data.entity = entity;
+		component.body.SetUserData(data);
 
 		return component;
 	});

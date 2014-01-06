@@ -23,6 +23,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
 				element : document.getElementById("pixelCounter")
 			},
 		});
+
 		var box = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
 											x : 6.37,
 											y : 29.85,
@@ -97,16 +98,110 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                             currentPhase : "mainCanvas",
                             defaultPhase : "mainCanvas"
                         });
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 5,
+                                            y : 43,
+                                            width : 10/SCALE,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 10/SCALE,
+                                            used : false,
+                                            dialog : "dialogueOne"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 30,
+                                            y : 38,
+                                            width : 10/SCALE,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 8,
+                                            used : false,
+                                            dialog : "dialogueTwo"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 23.5,
+                                            y : 24,
+                                            width : 10/SCALE,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 4,
+                                            used : false,
+                                            dialog : "dialogueThree"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 8,
+                                            y : 28.5,
+                                            width : 2,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 10/SCALE,
+                                            used : false,
+                                            dialog : "dialogueFour"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 12,
+                                            y : 17,
+                                            width : 10/SCALE,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 2,
+                                            used : false,
+                                            dialog : "dialogueFive"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 18.3,
+                                            y : 16.5,
+                                            width : 10/SCALE,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 10/SCALE,
+                                            used : false,
+                                            dialog : "dialogueSix"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 26,
+                                            y : 17,
+                                            width : 10/SCALE,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 2,
+                                            used : false,
+                                            dialog : "dialogueSeven"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
+        Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
+                                            x : 25,
+                                            y : 2,
+                                            width : 10/SCALE,
+                                            restitution : 0.2,
+                                            friction : 100,
+                                            height : 2,
+                                            used : false,
+                                            dialog : "dialogueEight"},
+                                            renderBox : {
+                                                cameraPosition : cameraPosition
+                                        }});
 		box = Puppets.createEntity("alreadyMovingBox", {b2polygon : {world : world,
 											x : 43,
 											y : 48.5,
 											width : 2.9,
 											restitution : 0.2,
 											friction : 100,
-											height : 10/SCALE},
+											height : 10/SCALE,},
 											renderBox : {
-												color : "green",
-												context : mainCanvas.canvasContext.context,
 												cameraPosition : cameraPosition
 											},
 											movingBox : {
@@ -137,32 +232,6 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
                             testWidth : Game.constants.WIDTH,
                             data : Game.constants.DIMENSION_PIXELS
                         });
-        Puppets.createEntity("checkPoint", {b2polygon : {world : world,
-                                            x : 11,
-                                            y : 28,
-                                            width : 10/SCALE,
-                                            restitution : 0.2,
-                                            friction : 0,
-                                            height : 80/SCALE},
-                                            renderBox : {
-                                                cameraPosition : cameraPosition
-                                            }});
-		box = Puppets.createEntity("fallingBox", {b2polygon : {world : world,
-											x : 8,
-											y : 42,
-											width : 1,
-											restitution : 0.2,
-											friction : 0,
-											height : 10/SCALE},
-											renderBox : {
-												color : "red",
-												context : Game.canvasController.otherDimension.components.canvasContext.context,
-												cameraPosition : cameraPosition
-											},
-                                            phase : {
-                                                defaultPhase : "otherCanvas",
-                                                currentPhase : "mainCanvas"
-                                            }});
 
         Puppets.addComponent(box, "colorColliderBox", {
             tag : "someBox",
@@ -179,7 +248,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
         });
 		Puppets.addComponent(box, "phase", {
             currentPhase : "mainCanvas",
-            defaultPhase : "otherCanvas"
+            defaultPhase : "mainCanvas"
         });
 
         var image = new Image();
@@ -263,6 +332,22 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser"], function(Pu
     	                        y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
     	                    }
     	                });
+                    }
+                    else if (shape.color.red === 255 && shape.color.green === 255 && shape.color.blue === 0){
+                        box = Puppets.createEntity("checkPoint", {
+                            renderBox : {
+                                cameraPosition : cameraPosition
+                            },
+                            b2polygon : {
+                                world : world,
+                                x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
+                                y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
+                                 width : (shape.upperRight.x - shape.upperLeft.x +16)/SCALE/2,
+                                height : (shape.lowerLeft.y - shape.upperLeft.y +16)/SCALE/2,
+                                restitution : 0.2,
+                                friction : 0,
+                            }
+                        });
                     }
                     if(box){
                         Puppets.addComponent(box, "phase", {

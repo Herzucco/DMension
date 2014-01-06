@@ -200,23 +200,45 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                 tag : "checkPoint",
                 onPreSolve : function(other, contact){
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
-                        other.components.position.lastPosition = this.components.position;
+                        var popPosition = {x : this.components.position.x + this.components.size.width/2, y : this.components.position.y + this.components.size.height/2}
+                        other.components.position.lastPosition = popPosition;
                         contact.SetEnabled(false);
                     }
                 }
             }}
         ]
     });
-	Puppets.entity("rotatingBox", {
-		components : [
-			"b2polygon",
-			"size",
-			"position",
-			"rotation",
-			"renderBox",
-			"rotatingBox"
-		]
-	});
+    Puppets.entity("dialogTrigger", {
+        components : [
+            "b2polygon",
+            "size",
+            "position",
+            "rotation",
+            "renderBox",
+            {"collisionReaction" : {
+                tag : "checkPoint",
+                onPreSolve : function(other, contact){
+                    contact.SetEnabled(false);
+                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                    	if(!this.components.b2polygon.body.GetUserData().used){
+                        	Game.observer.trigger(this.components.b2polygon.body.GetUserData().dialog);
+                        	this.components.b2polygon.body.GetUserData().used = true;
+                        }
+                    }
+                }
+            }}
+        ]
+    });
+    Puppets.entity("rotatingBox", {
+        components : [
+            "b2polygon",
+            "size",
+            "position",
+            "rotation",
+            "renderBox",
+            "rotatingBox"
+        ]
+    });
 })
 
 

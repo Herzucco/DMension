@@ -106,7 +106,6 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         Puppets.removeEntity(button);
                         Puppets.removeEntity(button2);
                         Puppets.removeEntity(button3);
-                        _self.observer.trigger("dialogueOne");
                     }});
                 }
             },

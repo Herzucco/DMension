@@ -29,7 +29,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
         else if (fadeInFadeOut.fading === "out"){
             fadeInFadeOut.currentAlpha -= 1/(fadeInFadeOut.time*60);
             if(fadeInFadeOut.currentAlpha < 0){
-                fadeInFadeOut.currentAlpha = 0;
+                fadeInFadeOut.currentAlpha = 0.01;
                 if(fadeInFadeOut.loop)
                     fadeInFadeOut.fading = "in";
                 else
