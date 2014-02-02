@@ -72,6 +72,23 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         }
                     });
                 }
+                else if (shape.color.red === 255 && shape.color.green === 0 && shape.color.blue === 255){
+                    box = Puppets.createEntity("gaugeCollectible", {
+                        renderBox : {
+                            color : "rgba("+shape.color.red+","+shape.color.green+","+shape.color.blue+","+shape.color.alpha+")",
+                            context : context,
+                            cameraPosition : cameraPosition
+                        },
+                        b2polygon : {
+                            world : world,
+                            width : (shape.upperRight.x - shape.upperLeft.x +16)/SCALE/2,
+                            height : (shape.lowerLeft.y - shape.upperLeft.y +16)/SCALE/2,
+                            dynamic : false,
+                            x : ((shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))+relativePosition.x)/SCALE,
+                            y : ((shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))+relativePosition.y)/SCALE,
+                        }
+                    });
+                }
                 else if (shape.color.red === 255 && shape.color.green === 255 && shape.color.blue === 0){
                         box = Puppets.createEntity("checkPoint", {
                             renderBox : {

@@ -2,6 +2,9 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 	Puppets.component("crossableBox", function(data, entity, undefined){
 		return {};
 	});
+	Puppets.component("gaugeCollectible", function(data, entity, undefined){
+		return {};
+	});
 	Puppets.component("collisionReaction", function(data, entity, undefined){
 		return {
 			tag : data.tag || "untagged",
@@ -202,6 +205,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
                         var popPosition = {x : this.components.position.x + this.components.size.width/2, y : this.components.position.y + this.components.size.height/2}
                         other.components.position.lastPosition = popPosition;
+                        Game.UIController.gauge.components.gaugeComponent.valueMax = Game.constants.maxPixels-15;
                         contact.SetEnabled(false);
                     }
                 }
@@ -237,6 +241,27 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             "rotation",
             "renderBox",
             "rotatingBox"
+        ]
+    });
+    Puppets.entity("gaugeCollectible", {
+        components : [
+            "b2polygon",
+            "size",
+            "position",
+            "rotation",
+            "renderBox",
+            "gaugeCollectible",
+            {"collisionReaction" : {
+                tag : "deathPlatform",
+                onBeginContact : function(other, contact){
+                    contact.SetEnabled(false);
+                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        Game.UIController.gauge.components.gaugeComponent.valueMax += 100000;
+                        Puppets.addComponent(this.entity, "BODYTODESTROY", {});
+                        Game.observer.trigger("pixelsChanged", [0, true]);
+                    }
+                }
+            }}
         ]
     });
 })

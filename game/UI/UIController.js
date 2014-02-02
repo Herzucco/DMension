@@ -12,7 +12,7 @@ function(Puppets, Game, configColorGauge, GaugeCreator){
         var gauge = GaugeCreator(config);
 
         gauge.components.gaugeComponent.context = Game.canvasController.mainCanvas.components.canvasContext.context;
-        gauge.components.gaugeComponent.valueMax = Game.constants.maxPixels-15;
+        gauge.components.gaugeComponent.valueMax = Game.constants.maxPixels;
         gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
         gauge.components.gaugeComponent.onEmpty = function(){
             Game.mouseController.components.renderCircle.canNotPaint = true;

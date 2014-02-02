@@ -33,7 +33,7 @@ define(["../game"], function(Game){
                  "speaker | Si les choses vont trop vite pour toi",
                  "speaker | Appuie sur la touche espace $4",
                  "speaker | Tu peux même peindre quand tu es immobile grâce à ce pouvoir //font:normal 15px Verdana $4",
-                 "speaker | Ah et aussi, sache que ta peinture est limitée en ressources //font:normal 15px Verdana $4",
+                 "speaker | Ah et aussi, sache que ta peinture est limitée //font:normal 15px Verdana $4",
                  "speaker | Appuie sur shift, pour passer en mode gomme, et effacer ta peinture //font:normal 15px Verdana $4",
                  "speaker | Ctrl te permet aussi de tout effacer d'un seul coup !",
                  "speaker | Bon faut que j'arrête de parler moi."
@@ -58,7 +58,7 @@ define(["../game"], function(Game){
                  "speaker | Ce mur n'existait pas avant.",
                  "speaker | Fais appel à tes souvenirs.",
                  "speaker | Appuie sur x pour passer ta peinture en mode souvenir",
-                 "speaker | Et peins ce mur pourpre.",
+                 "speaker | Et peint ce mur pourpre.",
 
                 ],
             didascalies : []
