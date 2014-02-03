@@ -39,7 +39,11 @@ define(["../loader/libraries/puppets", "./DOMmodule"], function(Puppets){
 
 	Puppets.system("checkColorCollision", function(colorColliderBox, entity){
 		var components = Puppets.getComponents(entity)[0];
-		var cameraPosition = components.renderBox.cameraPosition || {x : 0, y : 0};
+        if(components.renderBox !== undefined)
+		    var cameraPosition = components.renderBox.cameraPosition;
+        else
+            var cameraPosition = {x : 0, y : 0};
+
 		var testWidth = colorColliderBox.testWidth;
 		var data = colorColliderBox.data;
 		var i, o, iWidth, iHeight;

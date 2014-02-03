@@ -6,12 +6,12 @@ define(["../game", "../constants"],
     	var position = mouse.position;
 
 		if(e.offsetX){
-			position.x = e.offsetX// >> 1;
-			position.y = e.offsetY// >> 1;
+			position.x = e.offsetX;
+			position.y = e.offsetY;
 		}
 		else if(e.layerX){
-			position.x = e.layerX// >> 1;
-			position.y = e.layerY// >> 1;
+			position.x = e.layerX;
+			position.y = e.layerY;
 		}
 
         e.preventDefault();

@@ -23,7 +23,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
 				element : document.getElementById("pixelCounter")
 			},
 		});
-
+        
 		var box = Puppets.createEntity("waitingMovingBox", {b2polygon : {world : world,
 											x : 4,
 											y : 27,
@@ -81,23 +81,6 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
 												},
 												precision : 1
 											}});
-        Puppets.addComponent(box, "colorColliderBox", {
-                            tag : "someBox",
-                            colorAccuracy : 5, 
-                            onColorCollisionEnter : function(colors){
-                                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
-                                console.log(this.components.phase.currentPhase)
-                            },
-                            onColorCollisionExit : function(colors){
-                                this.components.phase.currentPhase = this.components.phase.defaultPhase;
-                            },
-                            testWidth : Game.constants.WIDTH,
-                            data : Game.constants.DIMENSION_PIXELS
-                        });
-        Puppets.addComponent(box, "phase", {
-                            currentPhase : "mainCanvas",
-                            defaultPhase : "mainCanvas"
-                        });
         Puppets.createEntity("dialogTrigger", {b2polygon : {world : world,
                                             x : 5,
                                             y : 43,
@@ -219,40 +202,69 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
 												},
 												precision : 1
 											}});
-        Puppets.addComponent(box, "colorColliderBox", {
-                            tag : "someBox",
-                            colorAccuracy : 5, 
-                            onColorCollisionEnter : function(colors){
-                                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
-                                console.log(this.components.phase.currentPhase)
-                            },
-                            onColorCollisionExit : function(colors){
-                                this.components.phase.currentPhase = this.components.phase.defaultPhase;
-                            },
-                            testWidth : Game.constants.WIDTH,
-                            data : Game.constants.DIMENSION_PIXELS
-                        });
-
-        Puppets.addComponent(box, "colorColliderBox", {
-            tag : "someBox",
-            colorAccuracy : 5, 
-            onColorCollisionEnter : function(colors){
-                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
-                console.log(this.components)
-            },
-            onColorCollisionExit : function(colors){
-                this.components.phase.currentPhase = this.components.phase.defaultPhase;
-            },
-            testWidth : Game.constants.WIDTH,
-            data : Game.constants.DIMENSION_PIXELS
-        });
 		Puppets.addComponent(box, "phase", {
             currentPhase : "mainCanvas",
             defaultPhase : "mainCanvas"
         });
 
+        var img = new Image();
+        img.src = 'spritesheet_01_test.png';
+        img.onload = function(){
+            var level = Puppets.createEntity("draw", {
+                size : {width : 1600, height : 1600},
+                draw : {
+                    image : img,
+                    context : mainCanvas.canvasContext.context,
+                    cameraPosition : cameraPosition,
+                    frameSize : {
+                        width : 1600,
+                        height : 1600
+                    }
+                }
+            }, "canvas");
+            Puppets.addComponent(level, "cameraReplacer", {
+                multiply : false,
+                numberY : 8,
+                numberX : 8
+            });
+            img = new Image();
+            img.src = 'Level_1_BG.jpg';
+            img.onload = function(){
+                var bg = Puppets.createEntity("draw", {
+                    size : {width : 1600, height : 1600},
+                    draw : {
+                        image : img,
+                        context : mainCanvas.canvasContext.context,
+                        cameraPosition : cameraPosition
+                    }
+                }, "backgrounds");
+                Puppets.addComponent(bg, "cameraReplacer", {
+                    multiply : true,
+                    numberY : 0.3,
+                    numberX : 0.3
+                });
+                img = new Image();
+                img.src = 'Level_1_paralaxe_01.png';
+                img.onload = function(){
+                    bg = Puppets.createEntity("draw", {
+                        size : {width : 3200, height : 1030},
+                        draw : {
+                            image : img,
+                            context : mainCanvas.canvasContext.context,
+                            cameraPosition : cameraPosition
+                        }
+                    }, "backgrounds");
+                    Puppets.addComponent(bg, "cameraReplacer", {
+                        multiply : true,
+                        numberY : 0.5,
+                        numberX : 0.5
+                    });
+                }
+            }
+        }
+
         var image = new Image();
-        image.src = "LD.png";
+        image.src = "Level 1.png";
         image.onload = function(){
             window.parser = new PNGParser({
                            size : {width : 1600, height : 1600},
@@ -263,37 +275,37 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
             parser.compile();
             parse(parser, {x : 0, y : 0}, mainCanvas.canvasContext.context, cameraPosition, world, "mainCanvas");
         }
-        box = Puppets.createEntity("simpleBox2dBox", {
-            renderBox : {
-                color : "purple",
-                context : mainCanvas.canvasContext.context,
-                cameraPosition : cameraPosition
-            },
-            b2polygon : {
-                world : world,
-                width : 1,
-                height : 2,
-                dynamic : false,
-                x : 25.8,
-                y : 17,
-            }
-        });
-        Puppets.addComponent(box, "phase", {
-            currentPhase : "mainCanvas",
-            defaultPhase : "mainCanvas"
-        });
-        Puppets.addComponent(box, "colorColliderBox", {
-            tag : "someBox",
-            colorAccuracy : 5, 
-            onColorCollisionEnter : function(colors){
-                this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
-            },
-            onColorCollisionExit : function(colors){
-                this.components.phase.currentPhase = this.components.phase.defaultPhase;
-            },
-            testWidth : Game.constants.WIDTH,
-            data : Game.constants.DIMENSION_PIXELS
-        });
+        // box = Puppets.createEntity("simpleBox2dBox", {
+        //     renderBox : {
+        //         color : "purple",
+        //         context : mainCanvas.canvasContext.context,
+        //         cameraPosition : cameraPosition
+        //     },
+        //     b2polygon : {
+        //         world : world,
+        //         width : 1,
+        //         height : 2,
+        //         dynamic : false,
+        //         x : 25.8,
+        //         y : 17,
+        //     }
+        // });
+        // Puppets.addComponent(box, "phase", {
+        //     currentPhase : "mainCanvas",
+        //     defaultPhase : "mainCanvas"
+        // });
+        // Puppets.addComponent(box, "colorColliderBox", {
+        //     tag : "someBox",
+        //     colorAccuracy : 5, 
+        //     onColorCollisionEnter : function(colors){
+        //         this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
+        //     },
+        //     onColorCollisionExit : function(colors){
+        //         this.components.phase.currentPhase = this.components.phase.defaultPhase;
+        //     },
+        //     testWidth : Game.constants.WIDTH,
+        //     data : Game.constants.DIMENSION_PIXELS
+        // });
         var memory = Puppets.createEntity("memory", {
             memoryScenery : {
                 src : "blanc.png",

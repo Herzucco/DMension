@@ -3,8 +3,7 @@ define(["../loader/libraries/puppets", "./box2dPuppet", "./boxRendering"], funct
 			"b2polygon",
 			"size",
 			"position",
-			"rotation",
-			"renderBox"
+			"rotation"
 		]});
 	Puppets.entity("simpleBox2dImageCircle", {components : [
 			"b2circle",

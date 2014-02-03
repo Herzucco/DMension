@@ -110,18 +110,6 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         currentPhase : phase,
                         defaultPhase : phase
                     });
-                    Puppets.addComponent(box, "colorColliderBox", {
-                        tag : "someBox",
-                        colorAccuracy : 5, 
-                        onColorCollisionEnter : function(colors){
-                            this.components.phase.currentPhase = Game.canvasController.otherDimension.components.phase.currentPhase;
-                        },
-                        onColorCollisionExit : function(colors){
-                            this.components.phase.currentPhase = this.components.phase.defaultPhase;
-                        },
-                        testWidth : Game.constants.WIDTH,
-                        data : Game.constants.DIMENSION_PIXELS
-                    });
                 }
             }
         }
