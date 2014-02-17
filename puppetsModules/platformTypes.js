@@ -96,7 +96,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 			"size",
 			"position",
 			"rotation",
-			"renderBox",
 			{"collisionReaction" : {
 				tag : "platform",
 				onPreSolve : function(other, contact){
@@ -180,7 +179,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             "size",
             "position",
             "rotation",
-            "renderBox",
             {"collisionReaction" : {
                 tag : "deathPlatform",
                 onBeginContact : function(other, contact){
@@ -203,6 +201,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                 tag : "checkPoint",
                 onPreSolve : function(other, contact){
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        Game.observer.trigger('checkpoint');
                         var popPosition = {x : this.components.position.x + this.components.size.width/2, y : this.components.position.y + this.components.size.height/2}
                         other.components.position.lastPosition = popPosition;
                         Game.UIController.gauge.components.gaugeComponent.valueMax = Game.constants.maxPixels-15;
@@ -247,17 +246,18 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
         components : [
             "b2polygon",
             "size",
-            "position",
             "rotation",
-            "renderBox",
+            "position",
+            "draw",
             "gaugeCollectible",
             {"collisionReaction" : {
                 tag : "deathPlatform",
-                onBeginContact : function(other, contact){
+                onPreSolve : function(other, contact){
                     contact.SetEnabled(false);
-                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
-                        Game.UIController.gauge.components.gaugeComponent.valueMax += 100000;
-                        Puppets.addComponent(this.entity, "BODYTODESTROY", {});
+                    if(this.components.collisionReaction.enabled && other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        this.components.collisionReaction.enabled = false;
+                        Game.UIController.gauge.components.gaugeComponent.currentValue += 10000;
+                        Puppets.getComponents(this.entity)[0].draw.enabled = false;
                         Game.observer.trigger("pixelsChanged", [0, true]);
                     }
                 }

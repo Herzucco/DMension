@@ -46,7 +46,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueOne = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},
@@ -68,7 +68,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueTwo = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},
@@ -90,7 +90,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueThree = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},
@@ -112,7 +112,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueFour = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},
@@ -134,7 +134,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueFive = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},
@@ -156,7 +156,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueSix = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},
@@ -178,7 +178,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueSeven = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :100}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},
@@ -200,7 +200,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     }
 
     DialogueController.prototype.dialogueEight = function(){
-    var speaker = Puppets.createEntity("box",{position : {x :300, y :50}});
+    var speaker = Puppets.createEntity("box",{position : {x :300, y :50}}, 'canvas');
         Puppets.addComponent(speaker, "dialogueRole", {
             context : Game.canvasController.mainCanvas.components.canvasContext.context,
             cameraPosition : {x : 0, y : 0},

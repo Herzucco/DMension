@@ -11,10 +11,10 @@ define(["../game"], function(Game){
                     width : 10/constants.SCALE,
                     height : 10/constants.SCALE
                 },
-                renderBox : {
-                    color : "red",
+                draw : {
                     context : Game.canvasController.mainCanvas.components.canvasContext.context,
-                    cameraPosition : Game.cameraController.components.position
+                    cameraPosition : Game.cameraController.components.position,
+                    scale : Game.cameraController.components.focus.scale
                 },
                 colorColliderBox : {
                     tag : "player",
@@ -55,13 +55,13 @@ define(["../game"], function(Game){
                                                                     y : 0
                                                                 },
                                                                 size : {
-                                                                    width : 16000,
-                                                                    height : 16000
+                                                                    width : 1600,
+                                                                    height : 1600
                                                                 },
                                                                 renderBox : {
                                                                     color : "rgba(0,0,0,0)",
-                                                                    context : _self.components.renderBox.context,
-                                                                    cameraPosition : _self.components.renderBox.cameraPosition,
+                                                                    context : _self.components.draw.context,
+                                                                    cameraPosition : _self.components.draw.cameraPosition,
                                                                 }
                                                             }, "UI");
                         Puppets.addComponent(fade, "fadeInFadeOut", {
@@ -99,7 +99,8 @@ define(["../game"], function(Game){
                     }
                 },
             },
-            collection : "dynamics"
+            collection : "dynamics",
+            image : 'character.png'
         };
     };
 });

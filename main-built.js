@@ -1968,7 +1968,6 @@ define('../puppetsModules/gaugeModule',["../loader/libraries/puppets"], function
             gaugeComponent.full = true;
             gaugeComponent.onFull.call(contextToApply);
             if(gaugeComponent.empty){
-                console.log("siubve")
                 gaugeComponent.empty = false;
                 gaugeComponent.onEmptyToStable.call(contextToApply);
             }

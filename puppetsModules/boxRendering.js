@@ -24,10 +24,65 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
         };
     });
 
+    Puppets.component("animation", function(data, entity){
+        var component = {
+            animations : {},
+            currentAnimation : data.currentAnimation,
+            pause : data.pause || false,
+            count : 0,
+            currentFrame : data.currentFrame || 0
+        };
+        for(var i in data.animations){
+            component.animations[i] = [];
+            var basePosition = data.animations[i].start;
+            for(var o = 0; o < data.animations[i].numberOfFrames; o++){
+                if(data.animations[i].run === "horizontal"){
+                    component.animations[i].push([
+                        basePosition.x+(o*(data.animations[i].size.width-1)),
+                        basePosition.y,
+                        data.animations[i].size,
+                        data.animations[i].fps
+                    ]);
+                }else{
+                    component.animations[i].push([
+                        basePosition.x,
+                        basePosition.y+(o*(data.animations[i].size.height-1)),
+                        data.animations[i].size,
+                        data.animations[i].fps
+                    ]);
+                }
+            }
+        }
+
+        return component;
+    });
+
+    Puppets.system("animate", function(animation, draw){
+        var currentAnimation = animation.animations[animation.currentAnimation];
+        var currentFrame = currentAnimation[animation.currentFrame];
+        if(!animation.pause){
+            animation.count += currentFrame[3] / 60;
+
+            if(animation.count>=1){
+                animation.count = 0;
+                animation.currentFrame++;
+                if(currentAnimation.length <= animation.currentFrame){
+                    animation.currentFrame = 0;
+                }
+            }
+        }
+
+        draw.animationPosition.x = currentFrame[0];
+        draw.animationPosition.y = currentFrame[1];
+
+        draw.frameSize.width = currentFrame[2].width;
+        draw.frameSize.height = currentFrame[2].height;
+    },{components : ["animation", "draw"]})
+
     Puppets.component("draw", function(data, entity){
         return {context : data.context || null, image : data.image, clearBeforeRender : data.clearBeforeRender || false,
-         globalCompositeOperation : data.globalCompositeOperation || 'source-over', cameraPosition : data.cameraPosition || { x : 0, y :0},
-        frameSize : data.frameSize, animationPosition : data.animationPosition || {x : 0, y : 0}}
+        globalCompositeOperation : data.globalCompositeOperation || 'source-over', cameraPosition : data.cameraPosition || { x : 0, y :0},
+        frameSize : data.frameSize, animationPosition : data.animationPosition || {x : 0, y : 0}, scale : data.scale || {x : 1, y : 1}}
     });
 
     Puppets.system("cameraReplacer", function(cameraReplacer, draw){
@@ -53,13 +108,15 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
             var context = draw.context;
             var clearBeforeRender = draw.clearBeforeRender;
             var cameraPosition = draw.cameraPosition;
+            var scale = draw.scale;
             var rotation = Puppets.getComponents(entity)[0].rotation;
 
             context.save();
             context.globalCompositeOperation = draw.globalCompositeOperation;
             if(rotation !== undefined)
             {
-                context.translate(rotation.x - cameraPosition.x,rotation.y - cameraPosition.y);
+                context.translate((rotation.x - cameraPosition.x),(rotation.y- cameraPosition.y));
+                context.scale(scale.x, scale.y);
                 context.rotate(rotation.angle);
                 context.drawImage(draw.image, -size.width/2, -size.height/2, size.width, size.height);   
             }
@@ -68,10 +125,11 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
                     context.clearRect(position.x - cameraPosition.x, position.y - cameraPosition.y, size.width, size.height);
 
                 if(draw.frameSize !== undefined)
-                    context.drawImage(draw.image, draw.animationPosition.x, draw.animationPosition.y, draw.frameSize.width, draw.frameSize.height, position.x - cameraPosition.x, position.y - cameraPosition.y, size.width, size.height);
+                    context.drawImage(draw.image, draw.animationPosition.x, draw.animationPosition.y, draw.frameSize.width, draw.frameSize.height, (position.x - cameraPosition.x), (position.y- cameraPosition.y), size.width, size.height);
                 else
-                    context.drawImage(draw.image, position.x - cameraPosition.x, position.y - cameraPosition.y, size.width, size.height);
+                    context.drawImage(draw.image, (position.x - cameraPosition.x), (position.y - cameraPosition.y), size.width, size.height);
             }
+
             context.restore();
         }
     },{components : ["size", "position", "draw"]});

@@ -15,12 +15,16 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
 		Puppets.collection(["backgrounds", "world", "canvas", "dynamics", "UI"]);
 
 		this.observer = new EventController();
-		this.cameraController.init();
-		this.canvasController.init();
-		this.worldController.init();
-		this.mouseController.init();
-        this.dialogueController.init();
-        this.menuController.init();
+        this.observer.on('imagesLoaded', function(){
+            this.cameraController.init();
+            this.canvasController.init();
+            this.worldController.init();
+            this.mouseController.init();
+            this.dialogueController.init();
+            this.menuController.init();
+        }, this);
+
+        this.imagesController.init();
 	}
 	return new Game;
 });

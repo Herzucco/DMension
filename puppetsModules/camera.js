@@ -20,7 +20,9 @@ define(["../loader/libraries/puppets", "./baseComponents", "./dialogueModule"], 
 
 	Puppets.component("focus", function(data, entity){
 		return {
-			zoom : data.zoom || 1,
+			scale : data.scale || {x : 1, y : 1},
+            pointToFocus : data.pointToFocus || {x : 0, y : 0},
+            focusing : false,
 		}
 	});
 
@@ -37,9 +39,7 @@ define(["../loader/libraries/puppets", "./baseComponents", "./dialogueModule"], 
 			"target",
 			"focus"
 	]});
-    Puppets.system("updateTravelling", function(position, travelling){
-        
-    }, {components : ["position", "travelling"]});
+
 	Puppets.system("updateCameraPosition", function(position, target, size){
 		target.center.x = position.x + (size.width/2);
 		target.center.y = position.y + (size.height/2);
@@ -67,4 +67,9 @@ define(["../loader/libraries/puppets", "./baseComponents", "./dialogueModule"], 
 			position.y = target.maxY >> 0;
 
 	}, {components : ["position", "target", "size"]});
+
+    // Puppets.system("updateFocus", function(position, focus){
+    //     position.x = focus.pointToFocus.x;
+    //     position.y = focus.pointToFocus.y;
+    // }, {components : ["position", "focus"]});
 });

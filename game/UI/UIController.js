@@ -37,16 +37,16 @@ function(Puppets, Game, configColorGauge, GaugeCreator){
                 if(!pixelsArray[pixel]){
                     pixelsArray[pixel] = true;
                     pixelsArray.length++;
+                    this.components.gaugeComponent.currentValue--;
                 }
             }
             else{
                 if(pixelsArray[pixel] !== undefined && pixelsArray[pixel] !== false){
                     pixelsArray[pixel] = false;
                     pixelsArray.length--;
+                    this.components.gaugeComponent.currentValue++;
                 }
             }
-
-            this.components.gaugeComponent.currentValue = this.components.gaugeComponent.valueMax - pixelsArray.length;
         }, gauge);
 
         Game.observer.on("colorChanged", function(color){

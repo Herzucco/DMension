@@ -10,6 +10,14 @@ define([], function(){
 		maxY : 10000,
 		minY : 0,
 		width : 600,
-		height : 400
+		height : 400,
+        pointToFocus : {
+            x : 0,
+            y : 0
+        },
+        scale : {
+            x : 1,
+            y : 1
+        }
 	}
 });

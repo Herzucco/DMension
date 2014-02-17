@@ -24,7 +24,11 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
 			size : {
 				width : this.config.width,
 				height : this.config.height,
-			}
+			},
+            focus : {
+                scale : this.config.scale,
+                pointToFocus : this.config.pointToFocus
+            }
 		});
 		this.entity = camera;
 		this.components = Puppets.getComponents(camera)[0];

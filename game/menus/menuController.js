@@ -5,17 +5,17 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 
     MenuController.prototype.init = function(){
         var _self = Game;
-        Puppets.createEntity("box", {
+        Puppets.createEntity("draw", {
             position : {
                 x : 0,
                 y : 0
             },
             size : {
-                width : 16000,
-                height : 16000
+                width : 600,
+                height : 400
             },
-            renderBox : {
-                color : "black",
+            draw : {
+                image : Game.imagesController.images.menuBG,
                 context : _self.canvasController.mainCanvas.components.canvasContext.context,
                 cameraPosition : _self.cameraController.components.position,
             }
@@ -35,45 +35,13 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 cameraPosition : _self.cameraController.components.position,
             }
         }, "backgrounds");
-        var button, button2, button3, title;
-        title = Puppets.createEntity("button", {
-            renderBox : {
-                strokeColor : "white",
-                color : "rgba(0,0,0,0)",
-            },
-            clickable : {
-                mouse : _self.mouseController.components,
-            },
-            position : {
-                x : 250,
-                y : 30,
-            },
-            size : {
-                width : 300,
-                height : 50
-            },
-            dialogueRole : {
-                text : {
-                    style : {},
-                    text : "Cloud Soul"
-                },
-                talking : true,
-                context : _self.canvasController.mainCanvas.components.canvasContext.context,
-                relativePosition : {
-                    x : 50,
-                    y : 20
-                },
-                font : "normal 30px Verdana",
-            },
-            hover : {
-                mouse : _self.mouseController.components,
-            }
-        });
+        var button, button2, button3;
+        console.log(Game.imagesController.images);
         button = Puppets.createEntity("button", {
-            renderBox : {
-                strokeColor : "white",
-                color : "rgba(0,0,0,0)",
+            draw : {
+                image : Game.imagesController.images.simpleAventure,
                 context : _self.canvasController.mainCanvas.components.canvasContext.context,
+                cameraPosition : _self.cameraController.components.position,
             },
             clickable : {
                 mouse : _self.mouseController.components,
@@ -87,8 +55,8 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                                                             y : 0
                                                         },
                                                         size : {
-                                                            width : 16000,
-                                                            height : 16000
+                                                            width : 1600,
+                                                            height : 1600
                                                         },
                                                         renderBox : {
                                                             color : "rgba(0,0,0,0)",
@@ -102,7 +70,6 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         _self.UIController.init();
                         _self.levelController.init();
                         _self.playerController.init();
-                        Puppets.removeEntity(title);
                         Puppets.removeEntity(button);
                         Puppets.removeEntity(button2);
                         Puppets.removeEntity(button3);
@@ -110,19 +77,19 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 }
             },
             position : {
-                x : 250,
-                y : 85,
+                x : 110,
+                y : 120,
             },
             size : {
-                width : 100,
-                height : 30
+                width : 421.5,
+                height : 112
             },
             dialogueRole : {
                 text : {
                     style : {},
-                    text : "Adventure"
+                    text : ""
                 },
-                talking : true,
+                talking : false,
                 context : _self.canvasController.mainCanvas.components.canvasContext.context,
                 relativePosition : {
                     x : 50,
@@ -133,40 +100,38 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
             hover : {
                 mouse : _self.mouseController.components,
                 onHover : function(mouse){
-                    this.components.renderBox.color = "rgba(250,250,250,50)";
-                    this.components.dialogueRole.textColor = "rgb(30,30,30)";
+                    this.components.draw.image = Game.imagesController.images.hoverAventure;
                 },
                 onLeave : function(mouse){
-                    this.components.renderBox.color = "rgba(0,0,0,0)";
-                    this.components.dialogueRole.textColor = "white";
+                    this.components.draw.image = Game.imagesController.images.simpleAventure;
                 }
 
             }
         });
 
     button2 = Puppets.createEntity("button", {
-            renderBox : {
-                strokeColor : "white",
-                color : "rgba(0,0,0,0)",
+            draw : {
+                image : Game.imagesController.images.simpleMusic,
                 context : _self.canvasController.mainCanvas.components.canvasContext.context,
+                cameraPosition : _self.cameraController.components.position,
             },
             clickable : {
                 mouse : _self.mouseController.components,
             },
             position : {
-                x : 250,
-                y : 185,
+                x : -50,
+                y : 220,
             },
             size : {
-                width : 100,
-                height : 30
+                width : 421.5,
+                height : 112
             },
             dialogueRole : {
                 text : {
                     style : {},
-                    text : "Music Run"
+                    text : ""
                 },
-                talking : true,
+                talking : false,
                 context : _self.canvasController.mainCanvas.components.canvasContext.context,
                 relativePosition : {
                     x : 50,
@@ -177,40 +142,38 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
             hover : {
                 mouse : _self.mouseController.components,
                 onHover : function(mouse){
-                    this.components.renderBox.color = "rgba(250,250,250,50)";
-                    this.components.dialogueRole.textColor = "rgb(30,30,30)";
+                    this.components.draw.image = Game.imagesController.images.hoverMusic;
                 },
                 onLeave : function(mouse){
-                    this.components.renderBox.color = "rgba(0,0,0,0)";
-                    this.components.dialogueRole.textColor = "white";
+                    this.components.draw.image = Game.imagesController.images.simpleMusic;
                 }
 
             }
         });
 
 button3 = Puppets.createEntity("button", {
-            renderBox : {
-                strokeColor : "white",
-                color : "rgba(0,0,0,0)",
+            draw : {
+                image : Game.imagesController.images.simpleSettings,
                 context : _self.canvasController.mainCanvas.components.canvasContext.context,
+                cameraPosition : _self.cameraController.components.position,
             },
             clickable : {
                 mouse : _self.mouseController.components,
             },
             position : {
-                x : 250,
-                y : 285,
+                x : 240,
+                y : 300,
             },
             size : {
-                width : 100,
-                height : 30
+                width : 421.5,
+                height : 112
             },
             dialogueRole : {
                 text : {
                     style : {},
-                    text : "Settings"
+                    text : ""
                 },
-                talking : true,
+                talking : false,
                 context : _self.canvasController.mainCanvas.components.canvasContext.context,
                 relativePosition : {
                     x : 50,
@@ -221,12 +184,10 @@ button3 = Puppets.createEntity("button", {
             hover : {
                 mouse : _self.mouseController.components,
                 onHover : function(mouse){
-                    this.components.renderBox.color = "rgba(250,250,250,50)";
-                    this.components.dialogueRole.textColor = "rgb(30,30,30)";
+                    this.components.draw.image = Game.imagesController.images.hoverSettings;
                 },
                 onLeave : function(mouse){
-                    this.components.renderBox.color = "rgba(0,0,0,0)";
-                    this.components.dialogueRole.textColor = "white";
+                    this.components.draw.image = Game.imagesController.images.simpleSettings;
                 }
 
             }

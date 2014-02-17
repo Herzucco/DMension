@@ -54,7 +54,7 @@ define(["../loader/libraries/puppets", "./circleRendering"], function(Puppets){
         components : [
             "clickable",
             "hover",
-            "renderBox",
+            "draw",
             "dialogueRole",
             "position",
             {

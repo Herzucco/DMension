@@ -8,9 +8,7 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
             "size",
             "position",
             "rotation",
-            {renderBox : {
-                color : "red",
-            }},
+            "draw",
             "colorColliderBox",
             "collisionReaction",
             "gaugeComponent",
@@ -22,21 +20,28 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
     };
 
     PlayerController.prototype.init = function(){
-        var entity = Puppets.createEntity("player", config().data, config().collection);
-        var child = this.createPlayerChild(entity);
+        var self = this;
+        var image = new Image();
+        image.src = config().image;
+        image.onload = function(){
+            var data = config().data;
+            data.draw.image = image;
+            var entity = Puppets.createEntity("player", data, config().collection);
+            var child = self.createPlayerChild(entity);
 
-        var player = Puppets.getComponents(entity)[0];
+            var player = Puppets.getComponents(entity)[0];
 
-        player.parentEntity.child = Puppets.getComponents(child)[0];
-        player.parentEntity.childEntity = child;
+            player.parentEntity.child = Puppets.getComponents(child)[0];
+            player.parentEntity.childEntity = child;
 
-        this.player = {
-            entity : entity,
-            components : Puppets.getComponents(entity)[0]
-        };
-        this.setEvents(this.player);
+            self.player = {
+                entity : entity,
+                components : Puppets.getComponents(entity)[0]
+            };
+            self.setEvents(self.player);
 
-        Game.cameraController.components.target.position = this.player.components.position;
+            Game.cameraController.components.target.position = self.player.components.position;
+        }
     }
 
     PlayerController.prototype.setEvents = function(player){
