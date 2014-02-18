@@ -79,6 +79,23 @@ define(["../../loader/libraries/puppets", "../game", "./config"], function(Puppe
                         }
                         componentsB.components.collisionReaction.flag = false;
                     }
+                },
+                endContact : function(contact, manifold){
+                    var entities = [ contact.GetFixtureA().GetBody().GetUserData().entity, contact.GetFixtureB().GetBody().GetUserData().entity ];
+                    var componentsA = { components : Puppets.getComponents(entities[0])[0], entity : entities[0]};
+                    var componentsB = { components : Puppets.getComponents(entities[1])[0], entity : entities[1]};
+                    if(componentsA.components.hasOwnProperty("collisionReaction")){
+                        if(!componentsA.components.collisionReaction.flag){
+                            componentsA.components.collisionReaction.onEndContact.call(componentsA, componentsB, contact);
+                        }
+                        componentsA.components.collisionReaction.flag = false;
+                    }
+                    if(componentsB.components.hasOwnProperty("collisionReaction")){
+                        if(!componentsB.components.collisionReaction.flag){
+                            componentsB.components.collisionReaction.onEndContact.call(componentsB, componentsA, contact);
+                        }
+                        componentsB.components.collisionReaction.flag = false;
+                    }
                 }
             }
         });

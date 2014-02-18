@@ -9,7 +9,8 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 		return {
 			tag : data.tag || "untagged",
 			onBeginContact : data.onBeginContact || function(){},
-			onPreSolve : data.onPreSolve || function(){}
+			onPreSolve : data.onPreSolve || function(){},
+            onEndContact : data.onEndContact || function(){}
 		};
 	});
 	Puppets.component("delayer", function(data, entity, undefined){
@@ -200,12 +201,25 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             {"collisionReaction" : {
                 tag : "checkPoint",
                 onPreSolve : function(other, contact){
+                    contact.SetEnabled(false);
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
                         Game.observer.trigger('checkpoint');
                         var popPosition = {x : this.components.position.x + this.components.size.width/2, y : this.components.position.y + this.components.size.height/2}
                         other.components.position.lastPosition = popPosition;
-                        Game.UIController.gauge.components.gaugeComponent.valueMax = Game.constants.maxPixels-15;
-                        contact.SetEnabled(false);
+                        Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
+
+                        if(Game.constants.maxPixelsArray.length > 10000){
+                            for(var i in Game.constants.maxPixelsArray){
+                                Game.constants.COLORS_PIXELS[i] = 0;
+                                Game.constants.DIMENSION_PIXELS[i] = 0;
+                                Game.constants.maxPixelsArray[i] = false;
+                                Game.constants.maxPixelsArray.length = 0;
+                            }
+                            var drawPaint = Game.canvasController.firstColor.drawPaint.components.canvasContext;
+                            var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
+                            drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
+                            otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
+                        }
                     }
                 }
             }}

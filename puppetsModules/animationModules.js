@@ -28,6 +28,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
         }
         else if (fadeInFadeOut.fading === "out"){
             fadeInFadeOut.currentAlpha -= 1/(fadeInFadeOut.time*60);
+            fadeInFadeOut.currentAlpha = Math.floor(fadeInFadeOut.currentAlpha*1000)/1000;
             if(fadeInFadeOut.currentAlpha < 0){
                 fadeInFadeOut.currentAlpha = 0.01;
                 if(fadeInFadeOut.loop)
