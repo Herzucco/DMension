@@ -2,7 +2,7 @@ define(["../game"],
  function(Game){
     return {
         position : {
-            x : 570,
+            x : 1170,
             y : 5
         },
         size : {

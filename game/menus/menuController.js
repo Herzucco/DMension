@@ -11,8 +11,8 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 y : 0
             },
             size : {
-                width : 600,
-                height : 400
+                width : 1200,
+                height : 768
             },
             draw : {
                 image : Game.imagesController.images.menuBG,
@@ -80,8 +80,8 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 }
             },
             position : {
-                x : 110,
-                y : 120,
+                x : 450,
+                y : 310,
             },
             size : {
                 width : 421.5,
@@ -122,8 +122,8 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 mouse : _self.mouseController.components,
             },
             position : {
-                x : -50,
-                y : 220,
+                x : 140,
+                y : 500,
             },
             size : {
                 width : 421.5,
@@ -164,8 +164,8 @@ button3 = Puppets.createEntity("button", {
                 mouse : _self.mouseController.components,
             },
             position : {
-                x : 240,
-                y : 300,
+                x : 600,
+                y : 650,
             },
             size : {
                 width : 421.5,

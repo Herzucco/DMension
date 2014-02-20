@@ -208,7 +208,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                         other.components.position.lastPosition = popPosition;
                         Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
 
-                        if(Game.constants.maxPixelsArray.length > 10000){
+                        if(Game.constants.maxPixelsArray.length > 50000){
                             for(var i in Game.constants.maxPixelsArray){
                                 Game.constants.COLORS_PIXELS[i] = 0;
                                 Game.constants.DIMENSION_PIXELS[i] = 0;

@@ -120,42 +120,21 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
                                             renderBox : {
                                                 cameraPosition : cameraPosition
                                         }});
-		box = Puppets.createEntity("alreadyMovingBox", {b2polygon : {world : world,
-											x : 43,
-											y : 48.5,
-											width : 2.9,
-											restitution : 0.2,
-											friction : 100,
-											height : 10/SCALE,},
-											renderBox : {
-												cameraPosition : cameraPosition,
-                                                color : 'purple',
-                                                context : mainCanvas.canvasContext.context
-											},
-											movingBox : {
-												steps : [{
-													x : -380,
-													y : 0,
-													delay : 1,
-													pause : 3
-												}],
-												initStep : {
-													x : 380,
-													y : 0,
-													delay : 1,
-													pause : 3
-												},
-												precision : 1
-											}});
-		Puppets.addComponent(box, "phase", {
-            currentPhase : "mainCanvas",
-            defaultPhase : "mainCanvas"
-        });
+		// Puppets.addComponent(box, "phase", {
+  //           currentPhase : "mainCanvas",
+  //           defaultPhase : "mainCanvas"
+  //       });
+
+        var c = document.createElement('canvas');
+        c.width = 3200;
+        c.height = 3200;
+
+        c.getContext('2d').drawImage(Game.imagesController.images.level1, 0, 0, c.width, c.height);
 
         var level = Puppets.createEntity("draw", {
-            size : {width : 1600, height : 1600},
+            size : {width : 3200, height : 3200},
             draw : {
-                image : Game.imagesController.images.level1,
+                image : c,
                 context : mainCanvas.canvasContext.context,
                 cameraPosition : cameraPosition,
                 scale : camera.focus.scale,
@@ -167,8 +146,8 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
         }, "world");
         Puppets.addComponent(level, "cameraReplacer", {
             multiply : false,
-            numberY : 9,
-            numberX : 9
+            numberY : 13,
+            numberX : 13
         });
         // Puppets.addComponent(level, "animation", {
         //     animations : {
@@ -188,12 +167,20 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
         //     },
         //     currentAnimation : "main"
         // });
+        
+        var x = document.createElement('canvas');
+        x.width = 3200;
+        x.height = 3200;
+
+        x.getContext('2d').drawImage(Game.imagesController.images.level1BG, 0, 0, c.width, c.height);
+
         var bg = Puppets.createEntity("draw", {
-            size : {width : 1600, height : 1600},
+            size : {width : 3200, height : 3200},
             draw : {
-                image : Game.imagesController.images.level1BG,
+                image : x,
                 context : mainCanvas.canvasContext.context,
-                cameraPosition : cameraPosition
+                cameraPosition : cameraPosition,
+                scale : camera.focus.scale,
             }
         }, "backgrounds");
         Puppets.addComponent(bg, "cameraReplacer", {
@@ -203,7 +190,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
         });
 
         window.parser = new PNGParser({
-                       size : {width : 1600, height : 1600},
+                       size : {width : 3200, height : 3200},
                        image : Game.imagesController.images.level1Builder,
                        tolerance : 250,
                        accuracy : 1,

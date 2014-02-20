@@ -1,6 +1,6 @@
 define([], function(constants){
 	return {
-		radius : 20, 
+		radius : 50, 
 		circumference : 2,
 		color : "rgba(255,0,0,1)",
 		onMouseDown : function(){

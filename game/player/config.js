@@ -5,11 +5,11 @@ define(["../game"], function(Game){
             data : {
                 b2polygon : {
                     world : Game.worldController.world,
-                    x : 5,
-                    y : 43,
+                    x : 10,
+                    y : 80,
                     dynamic : true,
-                    width : 10/constants.SCALE,
-                    height : 10/constants.SCALE
+                    width : 50/constants.SCALE,
+                    height : 50/constants.SCALE
                 },
                 draw : {
                     context : Game.canvasController.mainCanvas.components.canvasContext.context,
@@ -21,13 +21,13 @@ define(["../game"], function(Game){
                     colorAccuracy : 5, 
                     onColorCollisionEnter : function(colors){
                         if(colors.r === 255 && colors.g === 0 && colors.b === 0){
-                            Puppets.addComponent(this.id, "b2accelerate", { speed : -5});
+                            Puppets.addComponent(this.id, "b2accelerate", { speed : -200});
                         }
                         else if(colors.g ===255 && colors.r === 0){
                             Puppets.addComponent(this.id, "b2reverseGravity", { speed : -30 });
                         }
                         else if(colors.g ===0 && colors.b === 255 && colors.r === 0){
-                            Puppets.addComponent(this.id, "b2accelerate", {speed : 5});
+                            Puppets.addComponent(this.id, "b2accelerate", {speed : 200});
                         }   
                         else if(colors.r === 255 && colors.g === 0 && colors.b === 255){
                             Puppets.addComponent(this.id, "b2reverseGravity", { speed : 30});
@@ -61,7 +61,6 @@ define(["../game"], function(Game){
                                                                 renderBox : {
                                                                     color : "rgba(0,0,0,0)",
                                                                     context : _self.components.draw.context,
-                                                                    cameraPosition : _self.components.draw.cameraPosition,
                                                                 }
                                                             }, "UI");
                         Puppets.addComponent(fade, "fadeInFadeOut", {
@@ -74,16 +73,16 @@ define(["../game"], function(Game){
                                 if(_self.components.position.lastPosition !== undefined)
                                     var newPosition = { x : _self.components.position.lastPosition.x/SCALE, y : _self.components.position.lastPosition.y/SCALE};
                                 else
-                                    var newPosition = {x : 3, y : 42};
+                                    var newPosition = {x : 3, y : 80};
 
                                 Puppets.addComponent(_self.entity, "b2polygon", {
                                     world : Game.worldController.world,
                                     x :newPosition.x,
                                     y :newPosition.y,
-                                    width : 10/SCALE,
+                                    width : 50/SCALE,
                                     dynamic : true,
                                     friction : 0,
-                                    height : 10/SCALE
+                                    height : 50/SCALE
                                 });
                             },
                             time : 2,

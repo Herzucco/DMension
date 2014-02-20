@@ -18,7 +18,7 @@ define([], function(){
 	}
 
 	return {
-        COLORS_PIXELS : PIXELS_ARRAY(2000*2000*4),
-        DIMENSION_PIXELS : PIXELS_ARRAY(2000*2000*4)
+        COLORS_PIXELS : PIXELS_ARRAY(3200*3200*4),
+        DIMENSION_PIXELS : PIXELS_ARRAY(3200*3200*4)
     }
 });
