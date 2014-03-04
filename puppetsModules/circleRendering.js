@@ -26,6 +26,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 			context.save();
 			context.beginPath();
 			
+
 			if(rotation !== undefined)
 			{
 				context.translate(rotation.x,rotation.y);

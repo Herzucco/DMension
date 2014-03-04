@@ -6,6 +6,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 		return {};
 	});
 	Puppets.component("collisionReaction", function(data, entity, undefined){
+		console.log(data);
 		return {
 			tag : data.tag || "untagged",
 			onBeginContact : data.onBeginContact || function(){},
@@ -176,7 +177,9 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 
     Puppets.entity("deathPlatform", {
         components : [
-            "b2polygon",
+            {"b2polygon" : {
+			sensor : true
+			}},
             "size",
             "position",
             "rotation",
@@ -184,6 +187,17 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                 tag : "deathPlatform",
                 onBeginContact : function(other, contact){
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    															cameraPosition : Game.cameraController.components.position,
+                    															count : 200,
+                    															colors : [	{r : 160, rRandomize : 30, g : 82, gRandomize : 30, b : 45, bRandomize : 30, a : 0.9, aRandomize : 0.1},
+                    																		{r : 160, rRandomize : 30, g : 82, gRandomize : 30, b : 45, bRandomize : 30, a : 0.9, aRandomize : 0.1},
+                    																		{r : 255, rRandomize : 30, g : 255, gRandomize : 30, b : 255, bRandomize : 30, a : 0.9, aRandomize : 0.1},
+                    																		{r : 102, rRandomize : 30, g : 205, gRandomize : 30, b : 170, bRandomize : 30, a : 0.9, aRandomize : 0.1}],
+                    															size : {size : 5, randomize : 0.5},
+                    															lifetime : 4,
+                    															speed : {xSpeed : 0, xRandomize : 5, ySpeed : 0, yRandomize : 5 }
+                    	});
                         other.components.gaugeComponent.currentValue = 0;
                     }
                 }
@@ -193,33 +207,41 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 
     Puppets.entity("checkPoint", {
         components : [
-            "b2polygon",
+            {"b2polygon" : {
+			sensor : true
+			}},
             "size",
             "position",
             "rotation",
             "renderBox",
             {"collisionReaction" : {
                 tag : "checkPoint",
-                onPreSolve : function(other, contact){
-                    contact.SetEnabled(false);
+                onBeginContact : function(other, contact){
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                    	Puppets.addComponent(this.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    															cameraPosition : Game.cameraController.components.position,
+                    															count : 50,
+                    															colors : [{r : 200, rRandomize : 50, g : 200, gRandomize : 50, b : 0, bRandomize : 0, a : 0.8, aRandomize : 0.1}],
+                    															size : {size : 5, randomize : 0.5},
+                    															lifetime : 4,
+                    															speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 },
+                    															relativePosition : {x : this.components.size.width/2, y : this.components.size.height}
+                    	});
                         Game.observer.trigger('checkpoint');
                         var popPosition = {x : this.components.position.x + this.components.size.width/2, y : this.components.position.y + this.components.size.height/2}
                         other.components.position.lastPosition = popPosition;
                         Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
 
-                        if(Game.constants.maxPixelsArray.length > 50000){
-                            for(var i in Game.constants.maxPixelsArray){
-                                Game.constants.COLORS_PIXELS[i] = 0;
-                                Game.constants.DIMENSION_PIXELS[i] = 0;
-                                Game.constants.maxPixelsArray[i] = false;
-                                Game.constants.maxPixelsArray.length = 0;
-                            }
-                            var drawPaint = Game.canvasController.firstColor.drawPaint.components.canvasContext;
-                            var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
-                            drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
-                            otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
+                        for(var i in Game.constants.maxPixelsArray){
+                            Game.constants.COLORS_PIXELS[i] = 0;
+                            Game.constants.DIMENSION_PIXELS[i] = 0;
+                            Game.constants.maxPixelsArray[i] = false;
+                            Game.constants.maxPixelsArray.length = 0;
                         }
+                        var drawPaint = Game.canvasController.firstColor.drawPaint.components.canvasContext;
+                        var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
+                        drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
+                        otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
                     }
                 }
             }}
@@ -227,14 +249,16 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
     });
     Puppets.entity("dialogTrigger", {
         components : [
-            "b2polygon",
+            {"b2polygon" : {
+			sensor : true
+			}},
             "size",
             "position",
             "rotation",
             "renderBox",
             {"collisionReaction" : {
                 tag : "checkPoint",
-                onPreSolve : function(other, contact){
+                onBeginContact : function(other, contact){
                     contact.SetEnabled(false);
                     if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
                     	if(!this.components.b2polygon.body.GetUserData().used){
@@ -258,7 +282,9 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
     });
     Puppets.entity("gaugeCollectible", {
         components : [
-            "b2polygon",
+            {"b2polygon" : {
+			sensor : true
+			}},
             "size",
             "rotation",
             "position",
@@ -266,9 +292,54 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             "gaugeCollectible",
             {"collisionReaction" : {
                 tag : "deathPlatform",
-                onPreSolve : function(other, contact){
+                onBeginContact : function(other, contact){
                     contact.SetEnabled(false);
                     if(this.components.collisionReaction.enabled && other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                    	console.log("chips");
+                    	switch(Game.mouseController.components.renderCircle.color){
+                    		case "rgba(255,0,0,0.5)" :
+                    			Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    																	cameraPosition : Game.cameraController.components.position,
+                    																	count : 50,
+                    																	colors : [{r : 230, rRandomize : 30, g : 0, gRandomize : 0, b : 0, bRandomize : 0, a : 0.8, aRandomize : 0.1}],
+                    																	size : {size : 5, randomize : 0.5},
+                    																	lifetime : 4,
+                    																	speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 }
+                    			});
+                    			console.log("helix");
+                    			break;
+                    		case "rgba(0,255,0,0.5)" :
+                    			Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    																	cameraPosition : Game.cameraController.components.position,
+                    																	count : 50,
+                    																	colors : [{r : 0, rRandomize : 0, g : 230, gRandomize : 30, b : 0, bRandomize : 0, a : 0.8, aRandomize : 0.1}],
+                    																	size : {size : 5, randomize : 0.5},
+                    																	lifetime : 4,
+                    																	speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 }
+                    			});
+                    			break;
+                    		case "rgba(0,0,255,0.5)" :
+                    			Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    																	cameraPosition : Game.cameraController.components.position,
+                    																	count : 50,
+                    																	colors : [{r : 0, rRandomize : 0, g : 0, gRandomize : 0, b : 230, bRandomize : 30, a : 0.8, aRandomize : 0.1}],
+                    																	size : {size : 5, randomize : 0.5},
+                    																	lifetime : 4,
+                    																	speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 }
+                    			});
+                    			break;
+                    		case "rgba(255,0,255,0.5)" :
+                    			Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    																	cameraPosition : Game.cameraController.components.position,
+                    																	count : 50,
+                    																	colors : [{r : 230, rRandomize : 30, g : 0, gRandomize : 0, b : 230, bRandomize : 30, a : 0.8, aRandomize : 0.1}],
+                    																	size : {size : 5, randomize : 0.5},
+                    																	lifetime : 4,
+                    																	speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 }
+                    			});
+                    			break;
+                    	}
+                    	
                         this.components.collisionReaction.enabled = false;
                         Game.UIController.gauge.components.gaugeComponent.currentValue += 10000;
                         Puppets.getComponents(this.entity)[0].draw.enabled = false;

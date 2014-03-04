@@ -30,6 +30,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 							polygonShape : new Box2D.Collision.Shapes.b2PolygonShape(),
 							priorityOnPosition : true,
 							fixedRotate : data.fixedRotate || false,
+							sensor : data.sensor || false,
 							world : data.world || null
 						};
 		if(data.priorityOnPosition === false)
@@ -46,6 +47,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
         component.fixtureDef.friction = data.friction || 0.5;
         component.fixtureDef.restitution = data.restitution || 0.2;
 		component.fixtureDef.shape.SetAsBox(data.width || 0,data.height || 0);
+		component.fixtureDef.isSensor = component.sensor;
 		component.body = data.world.CreateBody( component.bodyDef );
 		component.body.CreateFixture( component.fixtureDef );
 
@@ -89,11 +91,13 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 		var component = {
 			beginContact : data.beginContact || function(){},
 			preSolve : data.preSolve || function(){},
+			endContact : data.endContact || function(){},
 			world : data.world || null
 		}
 		component.listener = new Box2D.Dynamics.b2ContactListener;
 		component.listener.BeginContact = component.beginContact;
 		component.listener.PreSolve     = component.preSolve;
+		component.listener.EndContact     = component.endContact;
 		
 		if(component.world !== null)
 			component.world.SetContactListener( component.listener );

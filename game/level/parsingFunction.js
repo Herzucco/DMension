@@ -69,6 +69,12 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                             dynamic : false,
                             x : ((shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))+relativePosition.x)/SCALE,
                             y : ((shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))+relativePosition.y)/SCALE,
+                        },
+                        collisionReaction : {
+                            onEndContact : function(other, contact){ 
+                                if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player")
+                                    Puppets.removeComponent(other.entity, "particleEmitter");
+                            },
                         }
                     });
                 }
@@ -86,6 +92,12 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                             dynamic : false,
                             x : ((shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))+relativePosition.x)/SCALE,
                             y : ((shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))+relativePosition.y)/SCALE,
+                        },
+                        collisionReaction : {
+                            onEndContact : function(other, contact){ 
+                                if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player")
+                                    Puppets.removeComponent(other.entity, "particleEmitter");
+                            },
                         }
                     });
                     Game.observer.on('checkpoint', function(){
@@ -95,21 +107,27 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                     }, box)
                 }
                 else if (shape.color.red === 255 && shape.color.green === 255 && shape.color.blue === 0){
-                        box = Puppets.createEntity("checkPoint", {
-                            renderBox : {
-                                cameraPosition : cameraPosition
+                    box = Puppets.createEntity("checkPoint", {
+                        renderBox : {
+                            cameraPosition : cameraPosition
+                        },
+                        b2polygon : {
+                            world : world,
+                            x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
+                            y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
+                             width : (shape.upperRight.x - shape.upperLeft.x + 16)/SCALE/2,
+                            height : (shape.lowerLeft.y - shape.upperLeft.y + 16)/SCALE/2,
+                            restitution : 0.2,
+                            friction : 0,
+                        },
+                        collisionReaction : {
+                            onEndContact : function(other, contact){ 
+                                if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player")
+                                    Puppets.removeComponent(this.entity, "particleEmitter");
                             },
-                            b2polygon : {
-                                world : world,
-                                x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
-                                y : (shape.upperLeft.y+((shape.lowerLeft.y-shape.upperLeft.y)/2))/SCALE,
-                                 width : (shape.upperRight.x - shape.upperLeft.x + 16)/SCALE/2,
-                                height : (shape.lowerLeft.y - shape.upperLeft.y + 16)/SCALE/2,
-                                restitution : 0.2,
-                                friction : 0,
-                            }
-                        });
-                    }
+                        }
+                    });
+                }
                 if(box){
                     Puppets.addComponent(box, "phase", {
                         currentPhase : phase,

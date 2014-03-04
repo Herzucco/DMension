@@ -8,6 +8,8 @@ define(["../puppetsModules/box2dInterface",
 		"../puppetsModules/platformTypes",
 		"../puppetsModules/animationModules",
         "../puppetsModules/particle",
-        "../puppetsModules/memories"], function(){
+        "../puppetsModules/memories",
+        "../puppetsModules/soundModule",
+        "../puppetsModules/movementModule"], function(){
 
 });

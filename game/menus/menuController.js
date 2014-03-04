@@ -1,4 +1,4 @@
-define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
+define(["../../loader/libraries/puppets", "../game", "../../libraries/howler.min"], function(Puppets, Game, howler){
     var MenuController = function(config){
         //this.config = config;
     };
@@ -49,6 +49,10 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                     
                 },
                 onMouseUp : function(){
+                    /*var sound = new Howl({
+                        urls: ['assets/audio/guitar.wav']
+                    }).play();*/
+                    this.components.sound.clip.play();
                     var fade = Puppets.createEntity("box", {
                                                         position : {
                                                             x : 0,
@@ -111,6 +115,9 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
 
             }
         });
+        Puppets.addComponent(button, "sound", {
+            urls: ['assets/audio/guitar.wav']
+        })
 
     button2 = Puppets.createEntity("button", {
             draw : {
