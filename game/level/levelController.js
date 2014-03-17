@@ -56,7 +56,6 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
     function closeAll(begin, end){
         for(var i = begin; i < end; i++){
             if(i >= 0){
-                console.log(i);
                 Puppets.addComponent(i, 'BODYTODESTROY', {});
             }
         }
