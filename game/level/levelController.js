@@ -9,7 +9,6 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel, thirdLevel){
 
     }
 
-
     var canvasController,mainCanvas,vfirstColorCanvas, world, WIDTH, HEIGHT,
          camera, cameraPosition, PIXELS_ARRAY;
 
@@ -36,8 +35,8 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel, thirdLevel){
             level.toParse = [parser, level.parseConfig.position, mainCanvas.canvasContext.context, cameraPosition, world, "mainCanvas"];
         }
 
-        //this.openLevel('firstLevel');
-        this.openLevel('secondLevel');
+        this.openLevel('firstLevel');
+        //this.openLevel('secondLevel');
 	}
 
     Level.prototype.openLevel = function(name){
@@ -49,6 +48,9 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel, thirdLevel){
 
         this.beginEntities = Puppets.Entities.length;
 
+        closeAll(this.beginEntities, this.endEntities);
+
+        this.beginEntities = Puppets.Entities.length;
         level.dialogs();
         level.decor();
         level.backgrounds();
@@ -69,7 +71,6 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel, thirdLevel){
             Puppets.removeEntity(i);
         }
     }
-
 	return new Level({
         firstLevel : firstLevel,
         secondLevel : secondLevel,
