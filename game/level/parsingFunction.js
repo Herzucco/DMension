@@ -73,7 +73,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         collisionReaction : {
                             onEndContact : function(other, contact){ 
                                 if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player")
-                                    Puppets.removeComponent(other.entity, "particleEmitter");
+                                    Puppets.removeComponent(this.entity, "particleEmitter");
                             },
                         }
                     });
@@ -95,7 +95,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         },
                         collisionReaction : {
                             onEndContact : function(other, contact){ 
-                                if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player")
+                                if(other.components.collisionReaction.tag === "player")
                                     Puppets.removeComponent(other.entity, "particleEmitter");
                             },
                         }

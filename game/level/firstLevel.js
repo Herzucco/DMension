@@ -167,23 +167,23 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
             });
         },
         backgrounds : function(){
-            var c = document.createElement('canvas');
-            c.width = 3200;
-            c.height = 3200;
+            // var c = document.createElement('canvas');
+            // c.width = 28800;
+            // c.height = 3200;
 
-            c.getContext('2d').drawImage(Game.imagesController.images.level1, 0, 0, c.width, c.height);
+            // c.getContext('2d').drawImage(Game.imagesController.images.level1, 0, 0, c.width, c.height);
 
-            var level = Puppets.createEntity("draw", {
+            var level = Puppets.createEntity("specialdraw", {
                 size : {width : 3200, height : 3200},
                 draw : {
-                    image : c,
+                    image : Game.imagesController.images.level1,
                     context : mainCanvas.canvasContext.context,
                     cameraPosition : cameraPosition,
                     scale : camera.focus.scale,
-                    // frameSize : {
-                    //     width : 1600,
-                    //     height : 1600
-                    // }
+                    frameSize : {
+                        width : 3200,
+                        height : 3200
+                    }
                 }
             }, "world");
             Puppets.addComponent(level, "cameraReplacer", {
@@ -191,30 +191,30 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 numberY : 13,
                 numberX : 13
             });
-            // Puppets.addComponent(level, "animation", {
-            //     animations : {
-            //         main : {
-            //             run : "horizontal",
-            //             numberOfFrames : 10,
-            //             size : {
-            //                 width : 1600,
-            //                 height : 1600
-            //             },
-            //             start : {
-            //                 x : 0,
-            //                 y : 0
-            //             },
-            //             fps : 60
-            //         }
-            //     },
-            //     currentAnimation : "main"
-            // });
+            Puppets.addComponent(level, "animation", {
+                animations : {
+                    main : {
+                        run : "horizontal",
+                        numberOfFrames : 9,
+                        size : {
+                            width : 3200,
+                            height : 3200
+                        },
+                        start : {
+                            x : 0,
+                            y : 0
+                        },
+                        fps : 10
+                    }
+                },
+                currentAnimation : "main"
+            });
             
             var x = document.createElement('canvas');
             x.width = 3200;
             x.height = 3200;
 
-            x.getContext('2d').drawImage(Game.imagesController.images.level1BG, 0, 0, c.width, c.height);
+            x.getContext('2d').drawImage(Game.imagesController.images.level1BG, 0, 0, x.width, x.height);
 
             var bg = Puppets.createEntity("draw", {
                 size : {width : 3200, height : 3200},

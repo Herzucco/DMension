@@ -42,9 +42,11 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 				if(renderCircle.PIXELS_ARRAY !== null)
 				{
 					var colors = this.getColors('rgba(0,0,0,0)');
-					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
-						colors[0], colors[1], colors[2], colors[3], 
-						3200, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian, true);
+                    if(Math.random()*2>1){
+                        this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
+                        colors[0], colors[1], colors[2], colors[3], 
+                        3200, renderCircle.PIXELS_ARRAY,  radius.radius, renderCircle.isLittleEndian, true);
+                    }
 				}
 			}
 			else if(!renderCircle.canNotPaint){
@@ -53,9 +55,11 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 				if(renderCircle.PIXELS_ARRAY !== null)
 				{
 					var colors = this.getColors(color);
-					this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
-						colors[0], colors[1], colors[2], colors[3],
-						3200, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian, false);
+                    if(Math.random()*4>3){
+                        this.circle(position.x+ cameraPosition.x, position.y+ cameraPosition.y,
+                        colors[0], colors[1], colors[2], colors[3],
+                        3200, renderCircle.PIXELS_ARRAY, radius.radius, renderCircle.isLittleEndian, false);
+                    }
 				}
 			}
 			context.restore();
@@ -86,18 +90,20 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 			x = 0, y = radius, xs2 = 0, ysc2;
 
 			this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
-			while (x <= y) {
-				xs2 += 8 * x + 4;
-				x += 1;
+            if(Math.random()*2>1){
+    			while (x <= y) {
+    				xs2 += 8 * x + 4;
+    				x += 1;
 
-				ycs2 = rs2 - xs2;
-				if (ycs2 < ys2m1) {
-					ys2m1 = ys2m1 -= 8 * y + 4;
-					y -= 1;
-				}
+    				ycs2 = rs2 - xs2;
+    				if (ycs2 < ys2m1) {
+    					ys2m1 = ys2m1 -= 8 * y + 4;
+    					y -= 1;
+    				}
 
-				this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
-			}
+    				this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
+    			}
+            }
 		},
 
 		getColors : function(colorString){
