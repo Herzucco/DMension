@@ -14,6 +14,9 @@ define(["../../loader/libraries/puppets", "../game", "keypress", "dancer"], func
 	Keypress.combo("s", function() {
     	Game.observer.trigger("pressR");
 	});
+    Keypress.combo("t", function() {
+        Game.levelController.openLevel('firstLevel');
+    });
 	Keypress.combo("x", function() {
     	Game.observer.trigger("pressX");
 	});

@@ -1,12 +1,14 @@
 define(["../game"], function(Game){
     var constants = Game.constants;
+
+    console.log(Game.levelController)
     return function(){
         return {
             data : {
                 b2polygon : {
                     world : Game.worldController.world,
-                    x : 50,
-                    y : 94,
+                    x : Game.levelController.levelList[Game.levelController.currentLevel].playerStart.x,
+                    y : Game.levelController.levelList[Game.levelController.currentLevel].playerStart.y,
                     dynamic : true,
                     width : 50/constants.SCALE,
                     height : 50/constants.SCALE

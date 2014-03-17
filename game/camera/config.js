@@ -7,7 +7,7 @@ define([], function(){
 		minRelativeY : -10,
 		minX : 0,
 		maxX : 1950,
-		maxY : 10000,
+		maxY : 2400,
 		minY : 0,
 		width : 1200,
 		height : 768,

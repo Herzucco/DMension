@@ -15,6 +15,8 @@ define(["../game"], function(Game){
             'level2' : 'assets/spritesheet_anim_level2.png',
             'level2Builder' : 'assets/Level 2.png',
             'level2BG' : 'assets/level2_bg.png',
+            'level3' : 'assets/level-3.png',
+            'level3Builder' : 'assets/Level 3.png',
             'paintPot' : 'assets/props/pot_de_peinture_grand.png',
         },
     }

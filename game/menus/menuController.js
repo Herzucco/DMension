@@ -72,8 +72,8 @@ define(["../../loader/libraries/puppets", "../game", "../../libraries/howler.min
                         _self.mouseController.components.renderCircle.clip = false;
                         _self.mouseController.setEvents();
                         _self.UIController.init();
-                        _self.levelController.init();
                         _self.playerController.init();
+                        _self.levelController.init();
                         Puppets.removeEntity(button);
                         Puppets.removeEntity(button2);
                         Puppets.removeEntity(button3);

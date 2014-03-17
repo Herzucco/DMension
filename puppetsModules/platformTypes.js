@@ -41,6 +41,14 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 			position : 0
 		}
 	});
+    Puppets.component("levelEnd", function(data,entity,undefined){
+        return {
+            nextLevel : data.nextLevel,
+            cacahuete : data.cacahuete,
+            xSpawn : data.xSpawn,
+            ySpawn : data.ySpawn
+        }
+    });
 	Puppets.system("delaying", function(delayer, b2polygon, entity){
 		delayer.count++;
 		if(delayer.count/60 >= delayer.delay){
@@ -74,8 +82,10 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 					movingBox.lastX = b2polygon.body.GetPosition().x*SCALE;
 					movingBox.lastY = b2polygon.body.GetPosition().y*SCALE;
 					movingBox.currentStep++;
-					if(movingBox.currentStep >= movingBox.steps.length)
-						movingBox.currentStep = 0;
+					if(movingBox.currentStep+1 >= movingBox.steps.length){
+                        movingBox.currentStep = 0;
+                    }
+                        console.log(movingBox.currentStep + ">=" + movingBox.steps.length);
 					b2polygon.body.SetLinearVelocity({x : 0, y : 0});
 					movingBox.state = "waiting";
 				}
@@ -185,7 +195,8 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             {"collisionReaction" : {
                 tag : "deathPlatform",
                 onBeginContact : function(other, contact){
-                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                    
+                    /*if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
                         Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
                     															cameraPosition : Game.cameraController.components.position,
                     															count : 200,
@@ -198,7 +209,8 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                     															speed : {xSpeed : 0, xRandomize : 5, ySpeed : 0, yRandomize : 5 }
                     	});
                         other.components.gaugeComponent.currentValue = 0;
-                    }
+                    }*/
+                    console.log("dead");
                 }
             }}
         ]
@@ -294,7 +306,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                 onBeginContact : function(other, contact){
                     contact.SetEnabled(false);
                     if(this.components.collisionReaction.enabled && other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
-                    	console.log("chips");
                     	switch(Game.mouseController.components.renderCircle.color){
                     		case "rgba(255,0,0,0.5)" :
                     			Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
@@ -305,7 +316,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                     																	lifetime : 4,
                     																	speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 }
                     			});
-                    			console.log("helix");
                     			break;
                     		case "rgba(0,255,0,0.5)" :
                     			Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
@@ -348,6 +358,44 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             }}
         ]
     });
+    Puppets.entity("levelEnd",{
+        components : [
+            {"b2polygon" : {
+            sensor : true
+            }},
+            "size",
+            "rotation",
+            "position",
+            "draw",
+            "renderBox",
+            "levelEnd",
+            {"collisionReaction" : {
+                onBeginContact : function(other, contact){
+                    console.log("nextlevel")
+                    
+                    Game.observer.trigger('checkpoint');
+                    this.components.levelEnd.ySpawn = this.components.levelEnd.cacahuete;
+                    var popPosition = {x : this.components.levelEnd.xSpawn, y : this.components.levelEnd.ySpawn}
+                    console.log(this.components)
+                    other.components.position.lastPosition = popPosition;
+                    Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
+
+                    for(var i in Game.constants.maxPixelsArray){
+                        Game.constants.COLORS_PIXELS[i] = 0;
+                        Game.constants.DIMENSION_PIXELS[i] = 0;
+                        Game.constants.maxPixelsArray[i] = false;
+                        Game.constants.maxPixelsArray.length = 0;
+                    }
+                    var drawPaint = Game.canvasController.firstColor.drawPaint.components.canvasContext;
+                    var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
+                    drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
+                    otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
+
+                    other.components.gaugeComponent.currentValue = 0;
+
+                    Game.levelController.openLevel(this.components.levelEnd.nextLevel);
+                }
+            }}
+        ]
+    })
 })
-
-

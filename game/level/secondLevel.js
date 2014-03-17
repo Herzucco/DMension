@@ -32,7 +32,48 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
             
         },
         decor : function(){
-            
+            Puppets.createEntity("levelEnd", {
+                b2polygon : {world : world,
+                    x : 9,
+                    y : 1,
+                    width : 6,
+                    restitution : 0.2,
+                    friction : 100,
+                    height : 10/SCALE},
+                /*renderBox : {
+                    context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    cameraPosition : Game.cameraController.components.position,
+                    color : "red"
+                },*/
+                levelEnd : {nextLevel : "thirdLevel",
+                            xSpawn : 520,
+                            cacahuete : 3000}
+            }, "UI")
+
+            Puppets.createEntity("alreadyMovingBox", {
+                b2polygon : {world : world,
+                    x : 45,
+                    y : 15,
+                    width : 5,
+                    restitution : 0.2,
+                    friction : 1,
+                    height : 10/SCALE},
+                renderBox : {
+                    context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    cameraPosition : Game.cameraController.components.position
+                },
+                movingBox : {
+                    steps :[{x : 500, y : 0, delay : 2, pause : 1},
+                            {x : 500, y : 0, delay : 5, pause : 1},
+                            {x : 450, y : 0, delay : 3, pause : 1},
+                            {x : 0, y : 400, delay : 5, pause : 4},
+                            {x : 0, y : 275, delay : 5, pause : 4},
+                            {x : 0, y : 400, delay : 5, pause : 2},
+                            {x : -700, y : 0, delay : 2, pause : 2},
+                            {x : 0, y : -1075, delay : 1, pause : 1},
+                            {x : -750, y : 0, delay : 1, pause : 1}]
+                }
+            })
         },
         backgrounds : function(){
             // var c = document.createElement('canvas');
@@ -105,6 +146,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 numberY : 0.3,
                 numberX : 0.3
             });
-        }
+        },
+        playerStart : {x:55,y:10}
     };
 });

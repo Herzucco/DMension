@@ -125,6 +125,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                                                 renderBox : {
                                                     cameraPosition : cameraPosition
                                             }});
+            console.log(Game.playerController);
         },
         decor : function(){
             var memory = Puppets.createEntity("memory", {
@@ -165,6 +166,23 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                     },
                 }
             });
+            Puppets.createEntity("levelEnd", {
+                b2polygon : {world : world,
+                    x : 44,
+                    y : 1,
+                    width : 4,
+                    restitution : 0.2,
+                    friction : 100,
+                    height : 10/SCALE},
+                /*renderBox : {
+                    context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                    cameraPosition : Game.cameraController.components.position,
+                    color : "red"
+                },*/
+                levelEnd : {nextLevel : "secondLevel",
+                            xSpawn : 1600,
+                            cacahuete : 2800}
+            }, "UI")
         },
         backgrounds : function(){
             // var c = document.createElement('canvas');
@@ -230,6 +248,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 numberY : 0.3,
                 numberX : 0.3
             });
-        }
+        },
+        playerStart : {x:10,y:80}
     };
 });

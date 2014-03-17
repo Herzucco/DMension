@@ -1,9 +1,14 @@
 define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFunction",
-            "./firstLevel", "./secondLevel"], 
-function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
+            "./firstLevel", "./secondLevel", "./thirdLevel"], 
+function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel, thirdLevel){
 	var Level = function(config){
 		this.levelList = config;
-	}
+        this.beginEntities = -1;
+        this.endEntities = -1;
+        this.currentLevel = 'firstLevel';
+
+    }
+
 
     var canvasController,mainCanvas,vfirstColorCanvas, world, WIDTH, HEIGHT,
          camera, cameraPosition, PIXELS_ARRAY;
@@ -36,18 +41,38 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
 	}
 
     Level.prototype.openLevel = function(name){
+        console.log(Game.levelController.levelList)
         var level = this.levelList[name];
+        this.currentLevel = name;
+
+        closeAll(this.beginEntities, this.endEntities);
+
+        this.beginEntities = Puppets.Entities.length;
 
         level.dialogs();
         level.decor();
         level.backgrounds();
 
         parse.apply(null, level.toParse);
-
+        this.endEntities = Puppets.Entities.length;
         return level;
     }
+
+    function closeAll(begin, end){
+        for(var i = begin; i < end; i++){
+            if(i >= 0){
+                Puppets.addComponent(i, 'BODYTODESTROY', {});
+            }
+        }
+        Puppets.run();
+        for(var i = begin; i < end; i++){
+            Puppets.removeEntity(i);
+        }
+    }
+
 	return new Level({
-        //firstLevel : firstLevel,
-        secondLevel : secondLevel
+        firstLevel : firstLevel,
+        secondLevel : secondLevel,
+        thirdLevel : thirdLevel
     });
 });

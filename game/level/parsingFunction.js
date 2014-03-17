@@ -104,7 +104,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                         var components = Puppets.getComponents(this)[0];
                         components.collisionReaction.enabled = true;
                         components.draw.enabled = true;
-                    }, box)
+                    }, box);
                 }
                 else if (shape.color.red === 255 && shape.color.green === 255 && shape.color.blue === 0){
                     box = Puppets.createEntity("checkPoint", {
