@@ -33,8 +33,8 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
             level.toParse = [parser, level.parseConfig.position, mainCanvas.canvasContext.context, cameraPosition, world, "mainCanvas"];
         }
 
-        //this.openLevel('firstLevel');
-        this.openLevel('secondLevel');
+        this.openLevel('firstLevel');
+        //this.openLevel('secondLevel');
 	}
 
     Level.prototype.openLevel = function(name){
@@ -42,20 +42,21 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
 
         closeAll(this.beginEntities, this.endEntities);
 
-        this.beginEntities = Puppets.Entities.count();
+        this.beginEntities = Puppets.Entities.length;
         level.dialogs();
         level.decor();
         level.backgrounds();
 
         parse.apply(null, level.toParse);
 
-        this.endEntities = Puppets.Entities.count();
+        this.endEntities = Puppets.Entities.length;
         return level;
     }
 
     function closeAll(begin, end){
         for(var i = begin; i < end; i++){
             if(i >= 0){
+                console.log(i);
                 Puppets.addComponent(i, 'BODYTODESTROY', {});
             }
         }
