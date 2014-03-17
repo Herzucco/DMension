@@ -116,7 +116,8 @@ define(["../../loader/libraries/puppets", "../game", "../../libraries/howler.min
             }
         });
         Puppets.addComponent(button, "sound", {
-            urls: ['assets/audio/guitar.wav']
+            urls : ['assets/audio/guitar.wav'],
+            loop : true
         })
 
     button2 = Puppets.createEntity("button", {
