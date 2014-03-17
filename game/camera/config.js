@@ -6,7 +6,7 @@ define([], function(){
 		minRelativeX : -10,
 		minRelativeY : -10,
 		minX : 0,
-		maxX : 10000,
+		maxX : 1950,
 		maxY : 10000,
 		minY : 0,
 		width : 1200,

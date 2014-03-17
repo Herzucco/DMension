@@ -6,7 +6,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 		return {};
 	});
 	Puppets.component("collisionReaction", function(data, entity, undefined){
-		console.log(data);
 		return {
 			tag : data.tag || "untagged",
 			onBeginContact : data.onBeginContact || function(){},

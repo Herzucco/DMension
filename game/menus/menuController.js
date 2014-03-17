@@ -52,7 +52,7 @@ define(["../../loader/libraries/puppets", "../game", "../../libraries/howler.min
                     /*var sound = new Howl({
                         urls: ['assets/audio/guitar.wav']
                     }).play();*/
-                    this.components.sound.clip.play();
+                    // this.components.sound.clip.play();
                     var fade = Puppets.createEntity("box", {
                                                         position : {
                                                             x : 0,

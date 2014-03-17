@@ -9,6 +9,11 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
             "position",
             "draw"
         ]});
+    Puppets.entity("specialdraw", {components : [
+            "size",
+            "position",
+            "draw"
+        ]});
 
 	Puppets.component("renderBox", function(data, entity, undefined){
 		return {context : data.context || null, color : data.color || "black", strokeColor : data.strokeColor || "black", clearBeforeRender : data.clearBeforeRender || false,
@@ -38,7 +43,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
             for(var o = 0; o < data.animations[i].numberOfFrames; o++){
                 if(data.animations[i].run === "horizontal"){
                     component.animations[i].push([
-                        basePosition.x+(o*(data.animations[i].size.width-1)),
+                        basePosition.x+(o*(data.animations[i].size.width)),
                         basePosition.y,
                         data.animations[i].size,
                         data.animations[i].fps
@@ -46,7 +51,7 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
                 }else{
                     component.animations[i].push([
                         basePosition.x,
-                        basePosition.y+(o*(data.animations[i].size.height-1)),
+                        basePosition.y+(o*(data.animations[i].size.height)),
                         data.animations[i].size,
                         data.animations[i].fps
                     ]);
@@ -80,6 +85,12 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
     },{components : ["animation", "draw"]})
 
     Puppets.component("draw", function(data, entity){
+        return {context : data.context || null, image : data.image, clearBeforeRender : data.clearBeforeRender || false,
+        globalCompositeOperation : data.globalCompositeOperation || 'source-over', cameraPosition : data.cameraPosition || { x : 0, y :0},
+        frameSize : data.frameSize, animationPosition : data.animationPosition || {x : 0, y : 0}, scale : data.scale || {x : 1, y : 1}}
+    });
+
+    Puppets.component("specialdraw", function(data, entity){
         return {context : data.context || null, image : data.image, clearBeforeRender : data.clearBeforeRender || false,
         globalCompositeOperation : data.globalCompositeOperation || 'source-over', cameraPosition : data.cameraPosition || { x : 0, y :0},
         frameSize : data.frameSize, animationPosition : data.animationPosition || {x : 0, y : 0}, scale : data.scale || {x : 1, y : 1}}
@@ -133,6 +144,38 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
             context.restore();
         }
     },{components : ["size", "position", "draw"]});
+
+    Puppets.system("SpecialDraw", function(size, position, draw, entity){
+        if(draw.context !== null && draw.image !== null)
+        {
+            var context = draw.context;
+            var clearBeforeRender = draw.clearBeforeRender;
+            var cameraPosition = draw.cameraPosition;
+            var scale = draw.scale;
+            var rotation = Puppets.getComponents(entity)[0].rotation;
+
+            context.save();
+            context.globalCompositeOperation = draw.globalCompositeOperation;
+            if(rotation !== undefined)
+            {
+                context.translate((rotation.x - cameraPosition.x),(rotation.y- cameraPosition.y));
+                context.scale(scale.x, scale.y);
+                context.rotate(rotation.angle);
+                context.drawImage(draw.image, -size.width/2, -size.height/2, size.width, size.height);   
+            }
+            else{
+                if(clearBeforeRender)
+                    context.clearRect(position.x - cameraPosition.x, position.y - cameraPosition.y, size.width, size.height);
+
+                if(draw.frameSize !== undefined)
+                    context.drawImage(draw.image, draw.animationPosition.x, draw.animationPosition.y, draw.frameSize.width, draw.frameSize.height, (position.x - cameraPosition.x), (position.y- cameraPosition.y), size.width, size.height);
+                else
+                    context.drawImage(draw.image, (position.x - cameraPosition.x), (position.y - cameraPosition.y), size.width, size.height);
+            }
+
+            context.restore();
+        }
+    },{components : ["size", "position", "specialdraw"], delay : 60});
 
 	Puppets.system("RenderBox", function(size, position, renderBox, entity){
 		if(renderBox.context !== null)

@@ -5,8 +5,8 @@ define(["../game"], function(Game){
             data : {
                 b2polygon : {
                     world : Game.worldController.world,
-                    x : 10,
-                    y : 80,
+                    x : 50,
+                    y : 94,
                     dynamic : true,
                     width : 50/constants.SCALE,
                     height : 50/constants.SCALE

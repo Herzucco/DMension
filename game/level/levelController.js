@@ -1,5 +1,6 @@
 define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFunction",
-            "./firstLevel"], function(Puppets, Game, PNGParser, parse, firstLevel){
+            "./firstLevel", "./secondLevel"], 
+function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
 	var Level = function(config){
 		this.levelList = config;
 	}
@@ -18,6 +19,9 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
         WIDTH = Game.constants.WIDTH;
         HEIGHT = Game.constants.HEIGHT;
 
+        camera = Game.cameraController.components;
+        cameraPosition = camera.position;
+
         for(var i in this.levelList){
             var level = this.levelList[i];
 
@@ -27,7 +31,8 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
             level.toParse = [parser, level.parseConfig.position, mainCanvas.canvasContext.context, cameraPosition, world, "mainCanvas"];
         }
 
-        this.openLevel('firstLevel');
+        //this.openLevel('firstLevel');
+        this.openLevel('secondLevel');
 	}
 
     Level.prototype.openLevel = function(name){
@@ -42,6 +47,7 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
         return level;
     }
 	return new Level({
-        firstLevel : firstLevel
+        //firstLevel : firstLevel,
+        secondLevel : secondLevel
     });
 });
