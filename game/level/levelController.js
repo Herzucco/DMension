@@ -3,6 +3,8 @@ define(["../../loader/libraries/puppets", "../game", "./PNGParser", "./parsingFu
 function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
 	var Level = function(config){
 		this.levelList = config;
+        this.beginEntities = -1;
+        this.endEntities = -1;
 	}
 
     var canvasController,mainCanvas,vfirstColorCanvas, world, WIDTH, HEIGHT,
@@ -38,16 +40,32 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel){
     Level.prototype.openLevel = function(name){
         var level = this.levelList[name];
 
+        closeAll(this.beginEntities, this.endEntities);
+
+        this.beginEntities = Puppets.Entities.count();
         level.dialogs();
         level.decor();
         level.backgrounds();
 
         parse.apply(null, level.toParse);
 
+        this.endEntities = Puppets.Entities.count();
         return level;
     }
+
+    function closeAll(begin, end){
+        for(var i = begin; i < end; i++){
+            if(i >= 0){
+                Puppets.addComponent(i, 'BODYTODESTROY', {});
+            }
+        }
+        Puppets.run();
+        for(var i = begin; i < end; i++){
+            Puppets.removeEntity(i);
+        }
+    }
 	return new Level({
-        //firstLevel : firstLevel,
+        firstLevel : firstLevel,
         secondLevel : secondLevel
     });
 });
