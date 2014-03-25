@@ -196,7 +196,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                 tag : "deathPlatform",
                 onBeginContact : function(other, contact){
                     
-                    /*if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
                         Puppets.addComponent(other.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
                     															cameraPosition : Game.cameraController.components.position,
                     															count : 200,
@@ -209,7 +209,7 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                     															speed : {xSpeed : 0, xRandomize : 5, ySpeed : 0, yRandomize : 5 }
                     	});
                         other.components.gaugeComponent.currentValue = 0;
-                    }*/
+                    }
                     console.log("dead");
                 }
             }}
@@ -371,15 +371,13 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             "levelEnd",
             {"collisionReaction" : {
                 onBeginContact : function(other, contact){
-                    console.log("nextlevel")
-                    
                     Game.observer.trigger('checkpoint');
                     this.components.levelEnd.ySpawn = this.components.levelEnd.cacahuete;
                     var popPosition = {x : this.components.levelEnd.xSpawn, y : this.components.levelEnd.ySpawn}
-                    console.log(this.components)
+                    other.components.gaugeComponent.currentValue = 0;
                     other.components.position.lastPosition = popPosition;
                     Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
-
+                    Puppets.run();
                     for(var i in Game.constants.maxPixelsArray){
                         Game.constants.COLORS_PIXELS[i] = 0;
                         Game.constants.DIMENSION_PIXELS[i] = 0;
@@ -390,8 +388,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                     var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
                     drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
                     otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
-
-                    other.components.gaugeComponent.currentValue = 0;
 
                     Game.levelController.openLevel(this.components.levelEnd.nextLevel);
                 }

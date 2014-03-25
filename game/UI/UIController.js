@@ -11,24 +11,27 @@ function(Puppets, Game, configColorGauge, GaugeCreator){
     UIController.prototype.createColorGauge = function(config){
         var gauge = GaugeCreator(config);
 
+        var image = Puppets.createEntity("specialdraw", {
+            size : {width : 90, height : 150},
+            draw : {
+                image : Game.imagesController.images.gaugeLeft,
+                context : Game.canvasController.mainCanvas.components.canvasContext.context
+            },
+            position : {
+                x : gauge.components.position.x-20,
+                y : gauge.components.position.y-25,
+            }
+        }, "UI");
+
         gauge.components.gaugeComponent.context = Game.canvasController.mainCanvas.components.canvasContext.context;
         gauge.components.gaugeComponent.valueMax = Game.constants.maxPixels;
         gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
         gauge.components.gaugeComponent.onEmpty = function(){
             Game.mouseController.components.renderCircle.canNotPaint = true;
+            Game.playerController.player.components.gaugeComponent.currentValue = 0;
         }
         gauge.components.gaugeComponent.onEmptyToStable = function(){
             Game.mouseController.components.renderCircle.canNotPaint = false;
-        }
-        gauge.components.clickable.onMouseDown = function(){
-            Puppets.addComponent(this.id, "draged", {
-                mouse : Game.mouseController.components,
-                relativeX : -this.components.size.width/2,
-                relativeY : -this.components.size.height/2,
-            })
-        }
-        gauge.components.clickable.onMouseUp = function(){
-            Puppets.removeComponent(this.id, "draged")
         }
         gauge.components.clickable.mouse = Game.mouseController.components;
         Game.observer.on("pixelsChanged", function(pixel, erase){
@@ -51,6 +54,15 @@ function(Puppets, Game, configColorGauge, GaugeCreator){
 
         Game.observer.on("colorChanged", function(color){
             this.components.gaugeComponent.color = color;
+            var draw = Puppets.getComponents(image)[0].draw;
+            if(color === 'rgba(255,0,0,0.5)')
+                draw.image = Game.imagesController.images.gaugeLeft;
+            else if(color === 'rgba(0,255,0,0.5)')
+                draw.image = Game.imagesController.images.gaugeUp;
+            else if(color === 'rgba(0,0,255,0.5)')
+                draw.image = Game.imagesController.images.gaugeRight;
+            else if(color === 'rgba(255,0,255,0.5)')
+                draw.image = Game.imagesController.images.gaugeDown;
         }, gauge);
 
 

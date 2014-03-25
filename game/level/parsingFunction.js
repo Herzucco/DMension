@@ -108,9 +108,6 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                 }
                 else if (shape.color.red === 255 && shape.color.green === 255 && shape.color.blue === 0){
                     box = Puppets.createEntity("checkPoint", {
-                        renderBox : {
-                            cameraPosition : cameraPosition
-                        },
                         b2polygon : {
                             world : world,
                             x : (shape.upperLeft.x+((shape.upperRight.x-shape.upperLeft.x)/2))/SCALE,
@@ -127,6 +124,18 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                             },
                         }
                     });
+                    Puppets.createEntity("specialdraw", {
+                        size : {width : 192, height : 192},
+                        draw : {
+                            image : Game.imagesController.images.totemIdle,
+                            context : context,
+                            cameraPosition : cameraPosition,
+                        },
+                        position : {
+                            x : (shape.upperLeft.x - 96),
+                            y : (shape.lowerLeft.y-140),
+                        }
+                    }, "world");
                 }
                 if(box){
                     Puppets.addComponent(box, "phase", {

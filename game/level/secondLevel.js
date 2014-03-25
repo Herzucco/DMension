@@ -50,7 +50,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                             cacahuete : 3000}
             }, "UI")
 
-            Puppets.createEntity("alreadyMovingBox", {
+            Puppets.createEntity("waitingMovingBox", {
                 b2polygon : {world : world,
                     x : 45,
                     y : 15,

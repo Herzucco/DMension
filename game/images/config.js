@@ -18,6 +18,11 @@ define(["../game"], function(Game){
             'level3' : 'assets/level-3.png',
             'level3Builder' : 'assets/Level 3.png',
             'paintPot' : 'assets/props/pot_de_peinture_grand.png',
+            'totemIdle' : 'assets/totem_checkpoint_idle0.png',
+            'gaugeLeft' : 'assets/hud_paintgauge_left.png',
+            'gaugeRight' : 'assets/hud_paintgauge_right.png',
+            'gaugeUp' : 'assets/hud_paintgauge_up.png',
+            'gaugeDown' : 'assets/hud_paintgauge_down.png',
         },
     }
 });

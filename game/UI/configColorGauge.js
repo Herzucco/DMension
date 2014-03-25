@@ -2,12 +2,12 @@ define(["../game"],
  function(Game){
     return {
         position : {
-            x : 1170,
-            y : 5
+            x : 1120,
+            y : 40
         },
         size : {
-            width : 20,
-            height : 50,
+            width : 50,
+            height : 100,
         },
         gaugeComponent : {
             color : "red",
