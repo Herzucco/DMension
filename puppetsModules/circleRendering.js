@@ -90,20 +90,18 @@ define(["../loader/libraries/puppets", "./baseComponents"], function(Puppets){
 			x = 0, y = radius, xs2 = 0, ysc2;
 
 			this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
-            if(Math.random()*2>1){
-    			while (x <= y) {
-    				xs2 += 8 * x + 4;
-    				x += 1;
+			while (x <= y) {
+				xs2 += 8 * x + 4;
+				x += 1;
 
-    				ycs2 = rs2 - xs2;
-    				if (ycs2 < ys2m1) {
-    					ys2m1 = ys2m1 -= 8 * y + 4;
-    					y -= 1;
-    				}
+				ycs2 = rs2 - xs2;
+				if (ycs2 < ys2m1) {
+					ys2m1 = ys2m1 -= 8 * y + 4;
+					y -= 1;
+				}
 
-    				this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
-    			}
-            }
+				this.plot8(x0, y0, x, y, red, green, blue, alpha, width, data, littleEndian, erase);
+			}
 		},
 
 		getColors : function(colorString){
