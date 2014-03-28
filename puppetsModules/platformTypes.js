@@ -44,7 +44,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
     Puppets.component("levelEnd", function(data,entity,undefined){
         return {
             nextLevel : data.nextLevel,
-            cacahuete : data.cacahuete,
             xSpawn : data.xSpawn,
             ySpawn : data.ySpawn
         }
@@ -370,8 +369,10 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             {"collisionReaction" : {
                 onBeginContact : function(other, contact){
                     Game.observer.trigger('checkpoint');
-                    this.components.levelEnd.ySpawn = this.components.levelEnd.cacahuete;
-                    var popPosition = {x : this.components.levelEnd.xSpawn, y : this.components.levelEnd.ySpawn}
+                    var popPosition = {
+                        x : this.components.levelEnd.xSpawn, 
+                        y : this.components.levelEnd.ySpawn
+                    };
                     other.components.gaugeComponent.currentValue = 0;
                     other.components.position.lastPosition = popPosition;
                     Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;

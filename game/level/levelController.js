@@ -46,10 +46,6 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel, thirdLevel){
         closeAll(this.beginEntities, this.endEntities);
 
         this.beginEntities = Puppets.Entities.length;
-
-        closeAll(this.beginEntities, this.endEntities);
-
-        this.beginEntities = Puppets.Entities.length;
         level.dialogs();
         level.decor();
         level.backgrounds();
