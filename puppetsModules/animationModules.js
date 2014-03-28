@@ -54,6 +54,7 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
     })
     Puppets.system("particleEmitting", function(particleEmitter, position, entity){
         if(!particleEmitter.activated){
+            console.log("particle emitted")
             for(var j = 0; j < particleEmitter.count; j++){
                 particleEmitter.size.size = particleEmitter.size.size + (Math.random()*particleEmitter.size.randomize*2)-particleEmitter.size.randomize;
                 var randomizedColorsTab = [];
