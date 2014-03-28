@@ -8,6 +8,7 @@
 		position : absolute;
 		left : calc(50% - 600px);
 		top : calc(50% - 400px);
+        cursor: none;
 	}
     /*canvas{
         position : absolute;
@@ -21,7 +22,10 @@
 	<canvas id="canvas" style="border: 1px solid black;"></canvas>
 	<canvas id="colorBuffer" style="display : none;"></canvas>
     <canvas id="dimension" style="display : none;"></canvas>
-
+    <script type="text/javascript">
+        window.requireNode = window.require;
+        window.require = undefined; 
+    </script>
 	<script data-main="loader/config" src="libraries/require.min.js"></script>
     <script src="libraries/leap.js"></script>
     <script>
