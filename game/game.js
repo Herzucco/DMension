@@ -19,6 +19,19 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
             this.worldController.init();
             this.dialogueController.init();
             this.menuController.init();
+            var cursor = Puppets.createEntity('cursor', {
+                draged : {
+                    mouse : this.mouseController.components
+                },
+                size : {
+                    width : 10,
+                    height : 10
+                },
+                renderBox : {
+                    color : 'red',
+                    context : this.canvasController.mainCanvas.components.canvasContext.context
+                }
+            }, 'UI');
         }, this);
 
         this.cameraController.init();

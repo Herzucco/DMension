@@ -50,6 +50,15 @@ define(["../loader/libraries/puppets", "./circleRendering"], function(Puppets){
 		]
 	});
 
+    Puppets.entity("cursor", {
+        components : [
+            "position",
+            "size",
+            "draged",
+            "renderBox"
+        ]
+    });
+
     Puppets.entity("button", {
         components : [
             "clickable",

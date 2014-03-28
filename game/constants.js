@@ -9,7 +9,7 @@ define(["./canvas/pixelsManager"], function(PIXELS_ARRAY){
         DIMENSION_PIXELS : PIXELS_ARRAY.DIMENSION_PIXELS.PIXELS_ARRAY,
 		isLittleEndian : PIXELS_ARRAY.COLORS_PIXELS.isLittleEndian,
 		maxPixelsArray : PIXELS_ARRAY.COLORS_PIXELS.maxPixelsArray,
-		maxPixels : 300000,
+		maxPixels : 300000000,
         playerMaxLife : 1,
 	}
 });

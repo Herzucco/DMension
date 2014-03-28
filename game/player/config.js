@@ -24,12 +24,14 @@ define(["../game"], function(Game){
                     onColorCollisionEnter : function(colors){
                         if(colors.r === 255 && colors.g === 0 && colors.b === 0){
                             Puppets.addComponent(this.id, "b2accelerate", { speed : -200});
+                            Puppets.addComponent(this.id, "b2reverseGravity", { speed : -10 });
                         }
                         else if(colors.g ===255 && colors.r === 0){
                             Puppets.addComponent(this.id, "b2reverseGravity", { speed : -30 });
                         }
                         else if(colors.g ===0 && colors.b === 255 && colors.r === 0){
                             Puppets.addComponent(this.id, "b2accelerate", {speed : 200});
+                            Puppets.addComponent(this.id, "b2reverseGravity", { speed : -10 });
                         }   
                         else if(colors.r === 255 && colors.g === 0 && colors.b === 255){
                             Puppets.addComponent(this.id, "b2reverseGravity", { speed : 30});
