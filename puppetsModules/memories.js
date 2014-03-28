@@ -29,7 +29,6 @@ define(["../loader/libraries/puppets", "../game/level/PNGParser", "../game/level
     Puppets.system("memoryScenery", function(position, memoryData, memoryScenery){
         if(memoryScenery.parser !== undefined){
             memoryScenery.enabled = false;
-            console.log(memoryScenery.parser)
             parse(memoryScenery.parser, position, memoryData.context, memoryData.cameraPosition, memoryData.world, memoryData.phase);
         } 
     }, {components : ["position", "memoryData", "memoryScenery"]});

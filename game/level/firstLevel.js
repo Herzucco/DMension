@@ -125,7 +125,6 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                                                 renderBox : {
                                                     cameraPosition : cameraPosition
                                             }});
-            console.log(Game.playerController);
         },
         decor : function(){
             var memory = Puppets.createEntity("memory", {

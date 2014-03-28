@@ -36,7 +36,6 @@ define(["../../loader/libraries/puppets", "../game", "../../libraries/howler.min
             }
         }, "backgrounds");
         var button, button2, button3;
-        console.log(Game.imagesController.images);
         button = Puppets.createEntity("button", {
             draw : {
                 image : Game.imagesController.images.simpleAventure,

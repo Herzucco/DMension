@@ -40,7 +40,6 @@ function(Puppets, Game, PNGParser, parse, firstLevel, secondLevel, thirdLevel){
 	}
 
     Level.prototype.openLevel = function(name){
-        console.log(Game.levelController.levelList)
         var level = this.levelList[name];
         this.currentLevel = name;
 

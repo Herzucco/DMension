@@ -85,7 +85,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 					if(movingBox.currentStep+1 >= movingBox.steps.length){
                         movingBox.currentStep = 0;
                     }
-                        console.log(movingBox.currentStep + ">=" + movingBox.steps.length);
 					b2polygon.body.SetLinearVelocity({x : 0, y : 0});
 					movingBox.state = "waiting";
 				}
@@ -210,7 +209,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                     	});
                         other.components.gaugeComponent.currentValue = 0;
                     }
-                    console.log("dead");
                 }
             }}
         ]

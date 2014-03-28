@@ -1,7 +1,5 @@
 define(["../game"], function(Game){
     var constants = Game.constants;
-
-    console.log(Game.levelController)
     return function(){
         return {
             data : {
@@ -48,7 +46,6 @@ define(["../game"], function(Game){
                     valueMax : constants.playerMaxLife,
                     onEmpty : function(){
                         Puppets.addComponent(this.entity, "BODYTODESTROY", {});
-                        console.log(this.components.particleEmitter);
                         for(var i in this.components){
                             if(i !== "BODYTODESTROY" && i !== "b2polygon" && i !== "particleEmitter"  && i !== "position")
                                 this.components[i].enabled = false;

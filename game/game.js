@@ -47,7 +47,6 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
         this.observer.on('imageLoaded', function(){
             count++;
             var percentage = count/maxImages*550;
-            console.log(percentage);
             var context = this.canvasController.mainCanvas.components.canvasContext.context;
             context.fillStyle = 'black';
             context.fillRect(0, 0, 1600, 1600);
