@@ -14,7 +14,7 @@ define(["../game"],
             strokeColor : "white",
         },
         clickable : {
-            onMouseDown : function(){console.log("click on gauge")}
+            onMouseDown : function(){}
         }
     }
 });

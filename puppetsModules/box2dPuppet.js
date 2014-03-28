@@ -107,11 +107,15 @@ define(["../loader/libraries/box2d", "../loader/libraries/puppets"], function(Bo
 
 	Puppets.system("RenderWorldDebug", function(world){
 		world = world.world;
-		world.Step(
-             1 / 60   //frame-rate
-          ,  1       //velocity iterations
-          ,  1       //position iterations
-      	);
+        try{
+            world.Step(
+                 1 / 60   //frame-rate
+              ,  1       //velocity iterations
+              ,  1       //position iterations
+            );
+        }catch(e){
+
+        }
         //world.DrawDebugData();
         world.ClearForces();
 	}, {components : ["world"]});

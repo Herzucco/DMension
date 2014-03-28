@@ -125,7 +125,6 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                                                 renderBox : {
                                                     cameraPosition : cameraPosition
                                             }});
-            console.log(Game.playerController);
         },
         decor : function(){
             var memory = Puppets.createEntity("memory", {
@@ -174,14 +173,14 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                     restitution : 0.2,
                     friction : 100,
                     height : 10/SCALE},
-                /*renderBox : {
+                renderBox : {
                     context : Game.canvasController.mainCanvas.components.canvasContext.context,
                     cameraPosition : Game.cameraController.components.position,
                     color : "red"
-                },*/
+                },
                 levelEnd : {nextLevel : "secondLevel",
                             xSpawn : 1600,
-                            cacahuete : 2800}
+                            ySpawn : 2800}
             }, "UI")
         },
         backgrounds : function(){

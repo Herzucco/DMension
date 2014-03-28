@@ -11,7 +11,6 @@ define(["./loader/libraries/puppets",
 
 	var init = function(){
 		Game.init();
-		console.log(Game);
 		window.Game = Game;
 	};
 	var update = function()

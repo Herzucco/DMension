@@ -44,7 +44,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
     Puppets.component("levelEnd", function(data,entity,undefined){
         return {
             nextLevel : data.nextLevel,
-            cacahuete : data.cacahuete,
             xSpawn : data.xSpawn,
             ySpawn : data.ySpawn
         }
@@ -85,7 +84,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 					if(movingBox.currentStep+1 >= movingBox.steps.length){
                         movingBox.currentStep = 0;
                     }
-                        console.log(movingBox.currentStep + ">=" + movingBox.steps.length);
 					b2polygon.body.SetLinearVelocity({x : 0, y : 0});
 					movingBox.state = "waiting";
 				}
@@ -238,7 +236,6 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
                     	});
                         other.components.gaugeComponent.currentValue = 0;
                     }
-                    console.log("dead");
                 }
             }}
         ]
@@ -404,8 +401,10 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             {"collisionReaction" : {
                 onBeginContact : function(other, contact){
                     Game.observer.trigger('checkpoint');
-                    this.components.levelEnd.ySpawn = this.components.levelEnd.cacahuete;
-                    var popPosition = {x : this.components.levelEnd.xSpawn, y : this.components.levelEnd.ySpawn}
+                    var popPosition = {
+                        x : this.components.levelEnd.xSpawn, 
+                        y : this.components.levelEnd.ySpawn
+                    };
                     other.components.gaugeComponent.currentValue = 0;
                     other.components.position.lastPosition = popPosition;
                     Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;

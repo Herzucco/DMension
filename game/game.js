@@ -63,15 +63,16 @@ define(["./constants", "../loader/libraries/puppets", "./event"], function(const
         this.imagesController.init();
 
         var maxTiles;
+        var tilesCount = 0;
         this.observer.on('tileInit', function(counter){
-            maxTiles = counter
+            maxTiles = counter;
+            tilesCount = 0;
         })
 
-        var tilesCount = 0;
+        
         this.observer.on('tileLoaded', function(){
             tilesCount++;
             var percentage = tilesCount/maxTiles*550;
-            //console.log(percentage);
             var context = this.canvasController.mainCanvas.components.canvasContext.context;
             context.fillStyle = 'black';
             context.fillRect(0, 0, 1600, 1600);
