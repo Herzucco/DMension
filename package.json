@@ -1,0 +1,32 @@
+{
+  "name": "MozillaJam",
+  "version": "0.0.0",
+  "description": "A game for the Mozilla Game Jam",
+  "main": "index.html",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "start": "nodewebkit"
+  },
+  "author": "Adrien Carta-Thibault Eynard",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "gulp": "~3.5.6",
+    "browserify": "~3.33.0",
+    "gulp-browserify": "~0.5.0",
+    "gulp-rename": "~1.2.0",
+    "gulp-exec": "~1.0.4",
+    "nodewebkit": "^0.9.2"
+  },
+  "window": {
+    "toolbar": false,
+    "resizable": true,
+    "fullscreen": false,
+    "width": 1280,
+    "height": 768
+  },
+  "scripts": {
+    "start": "nodewebkit"
+  }
+}

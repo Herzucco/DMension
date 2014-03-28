@@ -159,7 +159,23 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 			"position",
 			"rotation",
 			"renderBox",
-			"movingBox"
+			"movingBox",
+            {"collisionReaction" : {
+                tag : "platform",
+                onPreSolve : function(other, contact){
+                    if(other.components.collisionReaction.tag !== undefined && other.components.collisionReaction.tag !== "platform") {
+                        if(other.components.b2polygon.body.GetLinearVelocity().y < -1){
+                            contact.SetEnabled(false);
+                        }
+                        else if(other.components.collisionReaction.tag === "player"){
+                            var currentColor = other.components.colorColliderBox.currentColor;
+                            if(currentColor.r === 255 && currentColor.g === 0 && currentColor.b === 255){
+                                contact.SetEnabled(false);
+                            }
+                        }
+                    }
+                }
+            }}
 		]
 	});
 	Puppets.entity("waitingMovingBox", {
@@ -176,7 +192,19 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
 						this.components.b2polygon.body.started = true;
 						this.components.movingBox.enabled = true;
 					}
+                    if(other.components.collisionReaction.tag !== undefined && other.components.collisionReaction.tag !== "platform") {
+                        if(other.components.b2polygon.body.GetLinearVelocity().y < -1){
+                            contact.SetEnabled(false);
+                        }
+                        else if(other.components.collisionReaction.tag === "player"){
+                            var currentColor = other.components.colorColliderBox.currentColor;
+                            if(currentColor.r === 255 && currentColor.g === 0 && currentColor.b === 255){
+                                contact.SetEnabled(false);
+                            }
+                        }
+                    }
 				}
+
 			}},
 			{"movingBox" : {
 				enabled : false
@@ -228,31 +256,35 @@ define(["../game/game", "../loader/libraries/box2d", "../loader/libraries/puppet
             {"collisionReaction" : {
                 tag : "checkPoint",
                 onBeginContact : function(other, contact){
-                    if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
-                    	Puppets.addComponent(this.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
-                    															cameraPosition : Game.cameraController.components.position,
-                    															count : 50,
-                    															colors : [{r : 200, rRandomize : 50, g : 200, gRandomize : 50, b : 0, bRandomize : 0, a : 0.8, aRandomize : 0.1}],
-                    															size : {size : 5, randomize : 0.5},
-                    															lifetime : 4,
-                    															speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 },
-                    															relativePosition : {x : this.components.size.width/2, y : this.components.size.height}
-                    	});
-                        Game.observer.trigger('checkpoint');
-                        var popPosition = {x : this.components.position.x + this.components.size.width/2, y : this.components.position.y + this.components.size.height/2}
-                        other.components.position.lastPosition = popPosition;
-                        Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
+                    if(!this.components.b2polygon.activated){
+                        this.components.b2polygon.activated = true
+                        if(other.components.collisionReaction.enabled && other.components.collisionReaction.tag === "player"){
+                        	Puppets.addComponent(this.entity, "particleEmitter", {	context : Game.canvasController.mainCanvas.components.canvasContext.context,
+                        															cameraPosition : Game.cameraController.components.position,
+                        															count : 50,
+                        															colors : [{r : 200, rRandomize : 50, g : 200, gRandomize : 50, b : 0, bRandomize : 0, a : 0.8, aRandomize : 0.1}],
+                        															size : {size : 5, randomize : 0.5},
+                        															lifetime : 4,
+                        															speed : {xSpeed : 0, xRandomize : 1, ySpeed : -3, yRandomize : 0.5 },
+                        															relativePosition : {x : this.components.size.width/2, y : this.components.size.height}
+                        	});
+                            Puppets.getComponents(this.components.b2polygon.display)[0].draw.image = Game.imagesController.images.totemActive;
+                            Game.observer.trigger('checkpoint');
+                            var popPosition = {x : this.components.position.x + this.components.size.width/2, y : this.components.position.y + this.components.size.height/2}
+                            other.components.position.lastPosition = popPosition;
+                            Game.UIController.gauge.components.gaugeComponent.currentValue = Game.constants.maxPixels;
 
-                        for(var i in Game.constants.maxPixelsArray){
-                            Game.constants.COLORS_PIXELS[i] = 0;
-                            Game.constants.DIMENSION_PIXELS[i] = 0;
-                            Game.constants.maxPixelsArray[i] = false;
-                            Game.constants.maxPixelsArray.length = 0;
+                            for(var i in Game.constants.maxPixelsArray){
+                                Game.constants.COLORS_PIXELS[i] = 0;
+                                Game.constants.DIMENSION_PIXELS[i] = 0;
+                                Game.constants.maxPixelsArray[i] = false;
+                                Game.constants.maxPixelsArray.length = 0;
+                            }
+                            var drawPaint = Game.canvasController.firstColor.drawPaint.components.canvasContext;
+                            var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
+                            drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
+                            otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
                         }
-                        var drawPaint = Game.canvasController.firstColor.drawPaint.components.canvasContext;
-                        var otherColor = Game.canvasController.otherDimension.drawPaint.components.canvasContext;
-                        drawPaint.context.clearRect(0,0,drawPaint.canvas.width, drawPaint.canvas.height);
-                        otherColor.context.clearRect(0,0,otherColor.canvas.width, otherColor.canvas.height);
                     }
                 }
             }}

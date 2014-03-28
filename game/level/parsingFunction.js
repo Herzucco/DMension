@@ -1,5 +1,7 @@
 define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
     function parse(parser, relativePosition, context, cameraPosition, world, phase){
+        var length = Object.keys(parser.shapes).length;
+        Game.observer.trigger('tileInit', [length])
         for(var i in parser.shapes){
             var shape = parser.shapes[i];
             if(shape.lowerLeft.y > shape.upperLeft.y && shape.upperRight.x > shape.upperLeft.x){
@@ -124,7 +126,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                             },
                         }
                     });
-                    Puppets.createEntity("specialdraw", {
+                    var display = Puppets.createEntity("specialdraw", {
                         size : {width : 192, height : 192},
                         draw : {
                             image : Game.imagesController.images.totemIdle,
@@ -136,6 +138,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                             y : (shape.lowerLeft.y-140),
                         }
                     }, "world");
+                    Puppets.getComponents(box)[0].b2polygon.display = display;
                 }
                 if(box){
                     Puppets.addComponent(box, "phase", {
@@ -144,6 +147,7 @@ define(["../../loader/libraries/puppets", "../game"], function(Puppets, Game){
                     });
                 }
             }
+            Game.observer.trigger('tileLoaded');
         }
     }
 

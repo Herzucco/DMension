@@ -89,6 +89,7 @@ define(["../game"], function(Game){
                                     friction : 0,
                                     height : 50/SCALE
                                 });
+                                Puppets.removeComponent(_self.entity, 'particleEmitter')
                             },
                             time : 2,
                             onAnimationEnd : function(){
